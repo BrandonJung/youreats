@@ -1,8 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import HomePage from './src/pages/HomePage';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Stack = creatNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
