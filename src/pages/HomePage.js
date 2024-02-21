@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { TestRestaurants } from '../dummyData';
 import RestaurantCard from '../components/RestaurantCard';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 const HomePage = ({ navigation }) => {
   const [showOptions, setShowOptions] = useState(false);
@@ -27,14 +28,17 @@ const HomePage = ({ navigation }) => {
       />
       <View>
         {showOptions ? (
-          <View style={styles.addButtonOptionContainer}>
+          <Animated.View
+            entering={FadeIn}
+            exiting={FadeOut}
+            style={styles.addButtonOptionContainer}>
             <TouchableOpacity style={styles.addButtonOption} onPress={() => {}}>
               <Text>Add Restaurant</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.addButtonOption} onPress={() => {}}>
               <Text>Add Food</Text>
             </TouchableOpacity>
-          </View>
+          </Animated.View>
         ) : null}
         <TouchableOpacity
           style={styles.addButton}
