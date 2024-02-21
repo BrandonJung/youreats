@@ -1,10 +1,23 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { FlatList, View } from 'react-native';
+import { TestRestaurants } from '../dummyData';
+import RestaurantCard from '../components/RestaurantCard';
 
 const HomePage = ({ navigation }) => {
   return (
     <View>
-      <Text>HomePage</Text>
+      <FlatList
+        data={TestRestaurants}
+        renderItem={({ item, index }) => {
+          return (
+            <RestaurantCard
+              foodList={item.foodList}
+              name={item.name}
+              navigation={navigation}
+            />
+          );
+        }}
+      />
     </View>
   );
 };
