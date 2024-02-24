@@ -38,7 +38,10 @@ const App = () => {
         <Stack.Screen
           name='FoodPage'
           component={FoodPage}
-          options={({ navigation, route }) => ({ headerShown: true })}
+          options={({ navigation, route }) => ({
+            headerShown: true,
+            title: route.params.restaurantName,
+          })}
         />
       </Stack.Navigator>
     </NavigationContainer>

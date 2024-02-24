@@ -1,21 +1,57 @@
-import React, { useState } from 'react';
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { TestRestaurants } from '../dummyData';
+import React, { useEffect, useState } from 'react';
+import { Alert, FlatList, View } from 'react-native';
 import RestaurantCard from '../components/RestaurantCard';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import {
+  GetFromStorage,
+  RemoveFromStorage,
+  StoreData,
+} from '../constants/const_functions';
+import _ from 'lodash';
+import OptionsPopup from '../components/OptionsPopup';
+import OptionsButton from '../components/OptionsButton';
 
 const HomePage = ({ navigation }) => {
   const [showOptions, setShowOptions] = useState(false);
+  const [restaurantList, setRestaurantList] = useState([]);
+
+  const retrieveRestaurantList = async () => {
+    const restaurantRes = await GetFromStorage('restaurant-list');
+    if (restaurantRes) {
+      setRestaurantList(restaurantRes);
+    }
+  };
+
+  useEffect(() => {
+    retrieveRestaurantList();
+  }, []);
+
+  const addNewRestaurant = (restaurantName) => {
+    if (!restaurantName) {
+      Alert.alert('Missing restaurant name');
+      return;
+    }
+    let restaurantListClone = _.cloneDeep(restaurantList);
+    const newIndex = restaurantListClone.length;
+    const newRestaurantObject = {
+      id: newIndex,
+      key: `rest_${newIndex}`,
+      name: restaurantName,
+      foodList: [],
+    };
+    restaurantListClone[newIndex] = newRestaurantObject;
+    setRestaurantList(restaurantListClone);
+    StoreData('restaurant-list', restaurantListClone);
+  };
+
+  const resetRestaurants = async () => {
+    const deleteRestaurants = await RemoveFromStorage('restaurant-list');
+    setRestaurantList([]);
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <FlatList
-        data={TestRestaurants}
+        data={restaurantList}
         renderItem={({ item, index }) => {
           return (
             <RestaurantCard
@@ -28,50 +64,20 @@ const HomePage = ({ navigation }) => {
       />
       <View>
         {showOptions ? (
-          <Animated.View
-            entering={FadeIn}
-            exiting={FadeOut}
-            style={styles.addButtonOptionContainer}>
-            <TouchableOpacity style={styles.addButtonOption} onPress={() => {}}>
-              <Text>Add Restaurant</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.addButtonOption} onPress={() => {}}>
-              <Text>Add Food</Text>
-            </TouchableOpacity>
-          </Animated.View>
+          <OptionsPopup
+            showOptions={showOptions}
+            setShowOptions={setShowOptions}
+            addNewRestaurant={addNewRestaurant}
+            resetRestaurants={resetRestaurants}
+          />
         ) : null}
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => setShowOptions(!showOptions)}>
-          <Text style={{ fontSize: 20 }}>+</Text>
-        </TouchableOpacity>
+        <OptionsButton
+          showOptions={showOptions}
+          setShowOptions={setShowOptions}
+        />
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  addButton: {
-    position: 'absolute',
-    bottom: 16,
-    right: 16,
-    backgroundColor: 'lightblue',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  addButtonOptionContainer: {
-    position: 'absolute',
-    bottom: 36,
-    right: 36,
-    backgroundColor: 'lightblue',
-    paddingBottom: 20,
-    padding: 6,
-    borderRadius: 6,
-  },
-  addButtonOption: { padding: 6 },
-});
 
 export default HomePage;
