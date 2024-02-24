@@ -5,7 +5,10 @@ const RestaurantCard = ({ foodList, name, bgColor, navigation }) => {
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate('FoodPage', { foodList, restaurantName: name })
+        navigation.navigate('RestaurantPage', {
+          foodList,
+          restaurantName: name,
+        })
       }
       style={{ padding: 6 }}>
       <Text>{name}</Text>

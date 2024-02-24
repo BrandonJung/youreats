@@ -3,22 +3,44 @@ import React from 'react';
 import HomePage from './src/pages/HomePage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import FoodPage from './src/pages/FoodPage';
+import ViewRestaurantPage from './src/pages/ViewRestaurantPage';
+import EditRestaurantPage from './src/pages/EditRestaurantPage';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+const BottomTabs = createBottomTabNavigator();
+const TopTabs = createMaterialTopTabNavigator();
 
-const TabNavigator = () => {
+const HomeTabs = () => {
   return (
-    <Tab.Navigator
+    <BottomTabs.Navigator
       initialRouteName='HomePage'
       screenOptions={{ headerShown: true }}>
-      <Tab.Screen
+      <BottomTabs.Screen
         name='HomePage'
         component={HomePage}
         options={({ navigation, route }) => ({ title: 'Home' })}
       />
-    </Tab.Navigator>
+    </BottomTabs.Navigator>
+  );
+};
+
+const RestaurantTabs = () => {
+  return (
+    <TopTabs.Navigator
+      initialRouteName='ViewRestaurantPage'
+      screenOptions={{ headerShown: false }}>
+      <TopTabs.Screen
+        name='ViewRestaurantPage'
+        component={ViewRestaurantPage}
+        options={({ navigation, route }) => ({ title: 'View' })}
+      />
+      <TopTabs.Screen
+        name='EditRestaurantPage'
+        component={EditRestaurantPage}
+        options={({ navigation, route }) => ({ title: 'Edit' })}
+      />
+    </TopTabs.Navigator>
   );
 };
 
@@ -26,18 +48,18 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='TabNavigator'
+        initialRouteName='HomeTabs'
         screenOptions={({ navigation, route }) => ({
           headerBackTitle: 'Back',
         })}>
         <Stack.Screen
-          name='TabNavigator'
-          component={TabNavigator}
+          name='HomeTabs'
+          component={HomeTabs}
           options={({ navigation, route }) => ({ headerShown: false })}
         />
         <Stack.Screen
-          name='FoodPage'
-          component={FoodPage}
+          name='RestaurantPage'
+          component={RestaurantTabs}
           options={({ navigation, route }) => ({
             headerShown: true,
             title: route.params.restaurantName,
