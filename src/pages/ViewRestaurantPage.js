@@ -1,11 +1,19 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Image, ScrollView } from 'react-native';
 
-const ViewRestaurantPage = ({ foodList }) => {
+const imageSize = 200;
+
+const ViewRestaurantPage = ({ restaurant }) => {
   return (
-    <View>
-      <Text>ViewRestaurantPage</Text>
-    </View>
+    <ScrollView>
+      {restaurant.imageURL ? (
+        <Image
+          source={{ uri: restaurant.imageURL }}
+          height={200}
+          resizeMode='cover'
+        />
+      ) : null}
+    </ScrollView>
   );
 };
 
