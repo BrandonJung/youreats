@@ -13,7 +13,7 @@ const RestaurantProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    StoreData('restaurants-list', restaurantsData);
+    StoreData('restaurant-list', restaurantsData);
   }, [restaurantsData]);
 
   const retrieveData = async () => {
