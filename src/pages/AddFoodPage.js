@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Alert, ScrollView, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, ScrollView, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import { GetFromStorage, StoreData } from '../constants/const_functions';
 import FoodInputTitle from '../components/FoodInputTitle';
 import FoodTextInput from '../components/FoodTextInput';
 import StarRating from '../components/StarRating';

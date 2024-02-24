@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Alert, FlatList, View } from 'react-native';
 import RestaurantCard from '../components/RestaurantCard';
-import {
-  GetFromStorage,
-  RemoveFromStorage,
-  StoreData,
-} from '../constants/const_functions';
+import { RemoveFromStorage, StoreData } from '../constants/const_functions';
 import _ from 'lodash';
 import OptionsPopup from '../components/OptionsPopup';
 import OptionsButton from '../components/OptionsButton';

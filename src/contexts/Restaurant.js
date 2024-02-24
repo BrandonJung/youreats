@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { GetFromStorage } from '../constants/const_functions';
+import { GetFromStorage, StoreData } from '../constants/const_functions';
 
 // Create the RestaurantContext with the data type specified
 // and a empty object
@@ -13,7 +13,7 @@ const RestaurantProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log('Delete this, updated restaurant list: ', restaurantsData);
+    StoreData('restaurants-list', restaurantsData);
   }, [restaurantsData]);
 
   const retrieveData = async () => {
