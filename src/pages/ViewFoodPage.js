@@ -3,7 +3,6 @@ import { FlatList, View, Text } from 'react-native';
 
 const ViewFoodPage = ({ restaurant }) => {
   const foodList = restaurant.foodList;
-  console.log('asdf', foodList);
   return (
     <View>
       <FlatList
