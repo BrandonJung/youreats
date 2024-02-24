@@ -62,7 +62,7 @@ const App = () => {
           component={RestaurantTabs}
           options={({ navigation, route }) => ({
             headerShown: true,
-            title: route.params.restaurantName,
+            title: route.params.restaurant.name,
           })}
         />
       </Stack.Navigator>

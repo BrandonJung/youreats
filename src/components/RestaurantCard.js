@@ -1,17 +1,16 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
-const RestaurantCard = ({ foodList, name, bgColor, navigation }) => {
+const RestaurantCard = ({ restaurant, navigation }) => {
   return (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate('RestaurantPage', {
-          foodList,
-          restaurantName: name,
+          restaurant: restaurant,
         })
       }
       style={{ padding: 6 }}>
-      <Text>{name}</Text>
+      <Text>{restaurant.name}</Text>
     </TouchableOpacity>
   );
 };

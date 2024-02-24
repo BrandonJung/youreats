@@ -3,6 +3,7 @@ export const TestRestaurants = [
     id: 0,
     key: 'rest_0',
     name: "Trevor's Restaurant",
+    imageURL: '',
     foodList: [
       {
         id: 0,
