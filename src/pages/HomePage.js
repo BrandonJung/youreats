@@ -9,28 +9,19 @@ import {
 import _ from 'lodash';
 import OptionsPopup from '../components/OptionsPopup';
 import OptionsButton from '../components/OptionsButton';
+import { useRestaurant } from '../contexts/Restaurant';
 
 const HomePage = ({ navigation }) => {
   const [showOptions, setShowOptions] = useState(false);
-  const [restaurantList, setRestaurantList] = useState([]);
 
-  const retrieveRestaurantList = async () => {
-    const restaurantRes = await GetFromStorage('restaurant-list');
-    if (restaurantRes) {
-      setRestaurantList(restaurantRes);
-    }
-  };
-
-  useEffect(() => {
-    retrieveRestaurantList();
-  }, []);
+  const { restaurantsData, setRestaurantsData } = useRestaurant();
 
   const addNewRestaurant = (restaurantName) => {
     if (!restaurantName) {
       Alert.alert('Missing restaurant name');
       return;
     }
-    let restaurantListClone = _.cloneDeep(restaurantList);
+    let restaurantListClone = _.cloneDeep(restaurantsData);
     const newIndex = restaurantListClone.length;
     const newRestaurantObject = {
       id: newIndex,
@@ -40,19 +31,19 @@ const HomePage = ({ navigation }) => {
       foodList: [],
     };
     restaurantListClone[newIndex] = newRestaurantObject;
-    setRestaurantList(restaurantListClone);
+    setRestaurantsData(restaurantListClone);
     StoreData('restaurant-list', restaurantListClone);
   };
 
   const resetRestaurants = async () => {
     const deleteRestaurants = await RemoveFromStorage('restaurant-list');
-    setRestaurantList([]);
+    setRestaurantsData([]);
   };
 
   return (
     <View style={{ flex: 1 }}>
       <FlatList
-        data={restaurantList}
+        data={restaurantsData}
         renderItem={({ item, index }) => {
           return <RestaurantCard restaurant={item} navigation={navigation} />;
         }}
@@ -64,6 +55,7 @@ const HomePage = ({ navigation }) => {
             setShowOptions={setShowOptions}
             addNewRestaurant={addNewRestaurant}
             resetRestaurants={resetRestaurants}
+            navigation={navigation}
           />
         ) : null}
         <OptionsButton

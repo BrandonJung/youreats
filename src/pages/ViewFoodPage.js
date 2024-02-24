@@ -1,9 +1,7 @@
 import React from 'react';
 import { Image, ScrollView } from 'react-native';
 
-const imageSize = 200;
-
-const ViewRestaurantPage = ({ restaurant }) => {
+const ViewFoodPage = ({ restaurant }) => {
   return (
     <ScrollView>
       {restaurant.imageURL ? (
@@ -17,4 +15,4 @@ const ViewRestaurantPage = ({ restaurant }) => {
   );
 };
 
-export default ViewRestaurantPage;
+export default ViewFoodPage;

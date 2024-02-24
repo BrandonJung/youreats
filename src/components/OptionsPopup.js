@@ -7,6 +7,7 @@ const OptionsPopup = ({
   setShowOptions,
   addNewRestaurant,
   resetRestaurants,
+  navigation,
 }) => {
   return (
     <Animated.View
@@ -33,7 +34,12 @@ const OptionsPopup = ({
         }}>
         <Text>Add Restaurant</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.addButtonOption} onPress={() => {}}>
+      <TouchableOpacity
+        style={styles.addButtonOption}
+        onPress={() => {
+          setShowOptions(!showOptions);
+          navigation.navigate('AddFoodPage');
+        }}>
         <Text>Add Food</Text>
       </TouchableOpacity>
       <TouchableOpacity
