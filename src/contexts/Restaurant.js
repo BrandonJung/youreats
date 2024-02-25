@@ -23,20 +23,44 @@ const RestaurantProvider = ({ children }) => {
       restaurantListClone,
       (r) => r.key === restaurantKey,
     );
-    const restaurantFoodList =
-      restaurantListClone[restaurantFoodListIndex].foodList;
-    const foodListIndex = restaurantFoodList.length;
-    const newFoodObject = {
-      id: foodListIndex,
-      key: `food_${foodListIndex}`,
-      name: foodName,
-      eater: eaterName,
-      stars: rating,
-      note: notes,
-    };
-    restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex] =
-      newFoodObject;
-    setRestaurantsData(restaurantListClone);
+    const restaurantFoodList = restaurantListClone[restaurantFoodListIndex].foodList;
+    let foodListIndex = restaurantFoodList.length;
+    // Check if already exiting food name
+    const foodAlreadyExistsIndex = _.findIndex(
+      restaurantFoodList,
+      (foodItem) => foodItem.name === foodName,
+    );
+    if (foodAlreadyExistsIndex > -1) {
+      foodListIndex = foodAlreadyExistsIndex;
+      if (eaterName) {
+        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].eater.push(
+          eaterName,
+        );
+      }
+      if (rating) {
+        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].stars.push(
+          rating,
+        );
+      }
+      if (notes) {
+        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note.push(
+          notes,
+        );
+      }
+      setRestaurantsData(restaurantListClone);
+    } else {
+      const newFoodObject = {
+        id: foodListIndex,
+        key: `food_${foodListIndex}`,
+        name: foodName,
+        eater: [eaterName],
+        stars: [rating],
+        note: [notes],
+      };
+      restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex] =
+        newFoodObject;
+      setRestaurantsData(restaurantListClone);
+    }
   };
 
   const retrieveData = async () => {

@@ -6,7 +6,7 @@
   "jsxSingleQuote": true,
   "quoteProps": "as-needed",
   "semi": true,
-  "printWidth": 80,
+  "printWidth": 90,
   "useTabs": false,
   "tabWidth": 2,
   "trailingComma": "all"
