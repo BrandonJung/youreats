@@ -58,11 +58,20 @@ const ViewPeoplePage = ({ navigation, restaurant }) => {
                         ) : null}
                       </View>
                       {item.note?.length ? (
-                        <View style={{ marginTop: 10, marginLeft: 10 }}>
+                        <View style={{ marginTop: 10, marginLeft: 0 }}>
                           <Text style={{ marginBottom: 4 }}>Notes:</Text>
                           {item.note.map((note) => {
                             if (note.foodName === foodItem) {
-                              return <Text style={{ color: 'grey' }}>{note.note}</Text>;
+                              return (
+                                <Text
+                                  style={{
+                                    color: 'grey',
+                                    marginLeft: 10,
+                                    marginBottom: 4,
+                                  }}>
+                                  - {note.note}
+                                </Text>
+                              );
                             }
                           })}
                         </View>
