@@ -18,6 +18,7 @@ const HomeTabs = () => {
   return (
     <BottomTabs.Navigator
       initialRouteName='HomePage'
+      shifting={false}
       screenOptions={{ headerShown: true }}>
       <BottomTabs.Screen
         name='HomePage'
