@@ -34,12 +34,16 @@ const ViewPeoplePage = ({ navigation, restaurant }) => {
                   padding: 10,
                 }}>
                 {item.eatenFoods.map((foodItem, index) => {
+                  const filteredRatingArray = item.ratings?.filter(
+                    (r) => r.foodName === foodItem,
+                  );
+                  const averateRating = calculateAverageRating(filteredRatingArray);
                   return (
                     <View style={{ marginBottom: 10 }}>
                       <View
                         style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{ fontWeight: '600' }}>{foodItem}</Text>
-                        {item.ratings?.length ? (
+                        {!isNaN(averateRating) ? (
                           <View
                             style={{
                               flexDirection: 'row',
@@ -51,9 +55,7 @@ const ViewPeoplePage = ({ navigation, restaurant }) => {
                               width={starSize}
                               height={starSize}
                             />
-                            <Text style={{ marginLeft: 4 }}>
-                              {calculateAverageRating(item.ratings)}
-                            </Text>
+                            <Text style={{ marginLeft: 4 }}>{averateRating}</Text>
                           </View>
                         ) : null}
                       </View>
