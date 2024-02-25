@@ -51,14 +51,20 @@ const RestaurantProvider = ({ children }) => {
       }
       setRestaurantsData(restaurantListClone);
     } else {
-      const newFoodObject = {
+      let newFoodObject = {
         id: foodListIndex,
         key: `food_${foodListIndex}`,
         name: foodName,
         eater: [eaterName],
-        stars: [rating],
-        note: [note],
       };
+      if (rating) {
+        const ratingObject = eaterName ? { name: eaterName, rating } : { rating };
+        newFoodObject.stars = [ratingObject];
+      }
+      if (note) {
+        const notesObject = eaterName ? { name: eaterName, note } : { note };
+        newFoodObject.note = [notesObject];
+      }
       restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex] =
         newFoodObject;
       setRestaurantsData(restaurantListClone);
