@@ -7,6 +7,7 @@ import StarRating from '../components/StarRating';
 import { Button } from 'react-native-paper';
 import _ from 'lodash';
 import { useRestaurant } from '../contexts/Restaurant';
+import { BUILD_TYPE } from '../../settings-app';
 
 const ADD_FOOD_STEPS = {
   INIT: 0,
@@ -97,7 +98,9 @@ const AddFoodPage = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    handleAddFoodStep(addFoodStep);
+    if (BUILD_TYPE !== 'dev') {
+      handleAddFoodStep(addFoodStep);
+    }
   }, [addFoodStep]);
 
   const Dropdown = () => {
@@ -116,25 +119,19 @@ const AddFoodPage = ({ navigation, route }) => {
       style={{ marginHorizontal: 16 }}>
       {restaurantDropdownList ? (
         <View>
-          <FoodInputTitle title={'Food name'} />
+          <FoodInputTitle title={'Food name'} required />
           <FoodTextInput
             placeholderText={'Enter food name'}
             handleOnChange={setFoodName}
             passedValue={foodName}
           />
-          <FoodInputTitle title={'Eater name'} />
+          <FoodInputTitle title={'Eater name'} required />
           <FoodTextInput
             placeholderText={'Enter eater name'}
             handleOnChange={setEaterName}
             passedValue={eaterName}
           />
-          <FoodInputTitle title={'Notes'} />
-          <FoodTextInput
-            placeholderText={'Enter notes'}
-            handleOnChange={setNote}
-            passedValue={note}
-          />
-          <FoodInputTitle title={'Restaurant'} />
+          <FoodInputTitle title={'Restaurant'} required />
           <View
             style={{
               backgroundColor: '#FFFFFF',
@@ -146,12 +143,18 @@ const AddFoodPage = ({ navigation, route }) => {
             }}>
             <Dropdown />
           </View>
+          <FoodInputTitle title={'Notes'} />
+          <FoodTextInput
+            placeholderText={'Enter notes'}
+            handleOnChange={setNote}
+            passedValue={note}
+          />
           <FoodInputTitle title={'Rating'} />
           <StarRating rating={rating} setRating={setRating} />
         </View>
       ) : null}
       <Button
-        style={{ marginBottom: 24, backgroundColor: 'lightblue' }}
+        style={{ marginBottom: 24, backgroundColor: 'lightblue', borderRadius: 6 }}
         onPress={() => SubmitFood()}>
         Add Food
       </Button>

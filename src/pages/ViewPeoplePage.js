@@ -13,9 +13,10 @@ const ViewPeoplePage = ({ navigation, restaurant }) => {
   const foodList = restaurant.foodList;
   const peopleArray = transformFoodListToPeople(foodList);
   return (
-    <View>
+    <View style={{ height: '100%' }}>
       <FlatList
         data={peopleArray}
+        style={{ flex: 1 }}
         renderItem={({ item }) => {
           return (
             <View
