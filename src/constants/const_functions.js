@@ -66,21 +66,24 @@ export const transformFoodListToPeople = (foodList) => {
       let personNotesArray = [];
       if (foodItem.stars) {
         personStarsArray = foodItem.stars.filter(
-          (rating) => rating.name.toLowerCase() === name.toLowerCase(),
+          (rating) => rating.name?.toLowerCase() === name.toLowerCase(),
         );
         personStarsArray.map((r) => (r.foodName = foodItem.name));
       }
       if (foodItem.note) {
         personNotesArray = foodItem.note.filter(
-          (note) => note.name.toLowerCase() === name.toLowerCase(),
+          (note) => note.name?.toLowerCase() === name.toLowerCase(),
         );
+        personNotesArray.map((n) => (n.foodName = foodItem.name));
       }
       if (peopleRes[name]) {
         if (!peopleRes[name].eatenFoods.includes(foodItem.name)) {
           peopleRes[name].eatenFoods.push(foodItem.name);
         }
-        peopleRes[name].ratings.concat(personStarsArray);
-        peopleRes[name].note.concat(personNotesArray);
+        const newRatingsArray = peopleRes[name].ratings.concat(personStarsArray);
+        const newNotesArray = peopleRes[name].note.concat(personNotesArray);
+        peopleRes[name].ratings = newRatingsArray;
+        peopleRes[name].note = newNotesArray;
       } else {
         peopleRes[name] = {
           eatenFoods: [foodItem.name],

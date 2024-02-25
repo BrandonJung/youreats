@@ -32,22 +32,40 @@ const RestaurantProvider = ({ children }) => {
     );
     if (foodAlreadyExistsIndex > -1) {
       foodListIndex = foodAlreadyExistsIndex;
-      if (eaterName) {
+      const eaterArray =
+        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].eater;
+      const starsArray =
+        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].stars;
+      const notesArray =
+        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note;
+      if (eaterName && !eaterArray.includes(eaterName)) {
         restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].eater.push(
           eaterName,
         );
       }
       if (rating) {
         const ratingObject = eaterName ? { name: eaterName, rating } : { rating };
-        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].stars.push(
-          ratingObject,
-        );
+        if (starsArray) {
+          restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].stars.push(
+            ratingObject,
+          );
+        } else {
+          restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].stars = [
+            ratingObject,
+          ];
+        }
       }
       if (note) {
         const notesObject = eaterName ? { name: eaterName, note } : { note };
-        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note.push(
-          notesObject,
-        );
+        if (notesArray) {
+          restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note.push(
+            notesObject,
+          );
+        } else {
+          restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note = [
+            notesObject,
+          ];
+        }
       }
       setRestaurantsData(restaurantListClone);
     } else {

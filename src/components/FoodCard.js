@@ -48,14 +48,18 @@ const FoodCard = ({ navigation, foodItem }) => {
 
       <View style={{ padding: 6 }}>
         <Text style={{ fontWeight: '600' }}>{name}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 6 }}>
-          <SvgWithCssUri
-            uri='https://youreats.s3.amazonaws.com/icons/star.svg'
-            width={starSize}
-            height={starSize}
-          />
-          <Text style={{ marginLeft: 4 }}>{averageRating}</Text>
-        </View>
+        {averageRating ? (
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 6 }}>
+            <SvgWithCssUri
+              uri='https://youreats.s3.amazonaws.com/icons/star.svg'
+              width={starSize}
+              height={starSize}
+            />
+            <Text style={{ marginLeft: 4 }}>{averageRating}</Text>
+          </View>
+        ) : (
+          <View style={{ height: starSize + 6, width: starSize }} />
+        )}
       </View>
     </TouchableOpacity>
   );
