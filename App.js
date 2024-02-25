@@ -1,9 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
 import HomePage from './src/pages/HomePage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ViewFoodPage from './src/pages/ViewFoodPage';
-import EditRestaurantPage from './src/pages/EditRestaurantPage';
+import EditPage from './src/pages/EditPage';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import ViewPeoplePage from './src/pages/ViewPeoplePage';
@@ -39,24 +39,27 @@ const HomeTabs = () => {
 };
 
 const RestaurantTabs = ({ navigation, route }) => {
+  // const [tabIndex, setTabIndex] = useState(null);
   return (
     <TopTabs.Navigator
       initialRouteName='ViewFoodPage'
-      screenOptions={{ headerShown: false }}>
+      screenOptions={{ headerShown: false }}
+      // screenListeners={{ state: (e) => setTabIndex(e.data.state.index) }}
+    >
       <TopTabs.Screen
         name='ViewFoodPage'
         options={({ navigation, route }) => ({ title: 'Food' })}>
-        {() => <ViewFoodPage restaurant={route.params?.restaurant} />}
+        {() => (
+          <ViewFoodPage
+            navigation={navigation}
+            restaurant={route.params?.restaurant}
+          />
+        )}
       </TopTabs.Screen>
       <TopTabs.Screen
         name='ViewPeoplePage'
         options={({ navigation, route }) => ({ title: 'People' })}>
         {() => <ViewPeoplePage restaurant={route.params?.restaurant} />}
-      </TopTabs.Screen>
-      <TopTabs.Screen
-        name='EditRestaurantPage'
-        options={({ navigation, route }) => ({ title: 'Edit' })}>
-        {() => <EditRestaurantPage restaurant={route.params?.restaurant} />}
       </TopTabs.Screen>
     </TopTabs.Navigator>
   );
