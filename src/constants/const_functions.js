@@ -32,3 +32,11 @@ export const GetFromStorage = async (key) => {
     console.log('Error getting data', e);
   }
 };
+
+export const calculateAverageRating = (starsArray) => {
+  if (!starsArray) return false;
+  const average =
+    starsArray.reduce((a, b) => a + (b.rating ? b.rating : b), 0) /
+    (starsArray.length || 0);
+  return average;
+};

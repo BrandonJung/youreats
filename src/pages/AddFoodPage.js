@@ -23,7 +23,7 @@ const AddFoodPage = ({ navigation, route }) => {
   const [foodName, setFoodName] = useState(null);
   const [eaterName, setEaterName] = useState(null);
   const [rating, setRating] = useState(0);
-  const [notes, setNotes] = useState('');
+  const [note, setNote] = useState('');
   const [restaurant, setRestaurant] = useState(null);
 
   const { restaurantsData, setRestaurantsData, addFoodItem } = useRestaurant();
@@ -56,7 +56,7 @@ const AddFoodPage = ({ navigation, route }) => {
       Alert.alert('Missing restaurant');
       return;
     }
-    addFoodItem(foodName, eaterName, rating, notes, restaurant);
+    addFoodItem(foodName, eaterName, rating, note, restaurant);
     navigation.pop();
   };
 
@@ -86,23 +86,9 @@ const AddFoodPage = ({ navigation, route }) => {
 
   const handleAddFoodStep = (step) => {
     if (step === ADD_FOOD_STEPS.INIT) {
-      return AlertPrompt(
-        'Enter Food Name',
-        '',
-        'Cancel',
-        {},
-        'Submit',
-        setFoodName,
-      );
+      return AlertPrompt('Enter Food Name', '', 'Cancel', {}, 'Submit', setFoodName);
     } else if (step === ADD_FOOD_STEPS.NAME_STEP) {
-      return AlertPrompt(
-        'Enter Eater Name',
-        '',
-        'Cancel',
-        {},
-        'Submit',
-        setEaterName,
-      );
+      return AlertPrompt('Enter Eater Name', '', 'Cancel', {}, 'Submit', setEaterName);
     } else if (step === ADD_FOOD_STEPS.EATER_STEP) {
     } else if (step === ADD_FOOD_STEPS.RANKING_STEP) {
     } else if (step === ADD_FOOD_STEPS.NOTES_STEP) {
@@ -145,8 +131,8 @@ const AddFoodPage = ({ navigation, route }) => {
           <FoodInputTitle title={'Notes'} />
           <FoodTextInput
             placeholderText={'Enter notes'}
-            handleOnChange={setNotes}
-            passedValue={notes}
+            handleOnChange={setNote}
+            passedValue={note}
           />
           <FoodInputTitle title={'Restaurant'} />
           <View

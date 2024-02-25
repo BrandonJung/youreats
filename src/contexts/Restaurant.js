@@ -17,7 +17,7 @@ const RestaurantProvider = ({ children }) => {
     StoreData('restaurant-list', restaurantsData);
   }, [restaurantsData]);
 
-  const addFoodItem = (foodName, eaterName, rating, notes, restaurantKey) => {
+  const addFoodItem = (foodName, eaterName, rating, note, restaurantKey) => {
     let restaurantListClone = _.cloneDeep(restaurantsData);
     const restaurantFoodListIndex = _.findIndex(
       restaurantListClone,
@@ -38,13 +38,15 @@ const RestaurantProvider = ({ children }) => {
         );
       }
       if (rating) {
+        const ratingObject = eaterName ? { name: eaterName, rating } : { rating };
         restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].stars.push(
-          rating,
+          ratingObject,
         );
       }
-      if (notes) {
+      if (note) {
+        const notesObject = eaterName ? { name: eaterName, note } : { note };
         restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note.push(
-          notes,
+          notesObject,
         );
       }
       setRestaurantsData(restaurantListClone);
@@ -55,7 +57,7 @@ const RestaurantProvider = ({ children }) => {
         name: foodName,
         eater: [eaterName],
         stars: [rating],
-        note: [notes],
+        note: [note],
       };
       restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex] =
         newFoodObject;

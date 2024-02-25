@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity, Image, View } from 'react-native';
 import { SvgWithCssUri } from 'react-native-svg/css';
+import { calculateAverageRating } from '../constants/const_functions';
 
 const imageSizeWidth = 160;
 const imageSizeHeight = 120;
@@ -9,7 +10,7 @@ const starSize = 12;
 
 const FoodCard = ({ navigation, foodItem }) => {
   const { name, eater, note, stars, imageURL } = foodItem;
-  const averageRating = stars.reduce((a, b) => a + b, 0) / (stars.length || 0);
+  const averageRating = calculateAverageRating(stars);
   return (
     <TouchableOpacity style={{ backgroundColor: '#FFFFFF', borderRadius: radiusNumber }}>
       {imageURL ? (
