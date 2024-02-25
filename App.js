@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import HomePage from './src/pages/HomePage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ViewFoodPage from './src/pages/ViewFoodPage';
-import EditPage from './src/pages/EditPage';
+import EditRestaurantPage from './src/pages/EditRestaurantPage';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import ViewPeoplePage from './src/pages/ViewPeoplePage';
@@ -19,6 +19,7 @@ const HomeTabs = () => {
     <BottomTabs.Navigator
       initialRouteName='HomePage'
       shifting={false}
+      barStyle={{ backgroundColor: '#FFFFFF' }}
       screenOptions={{ headerShown: true }}>
       <BottomTabs.Screen
         name='HomePage'
@@ -61,6 +62,11 @@ const RestaurantTabs = ({ navigation, route }) => {
         name='ViewPeoplePage'
         options={({ navigation, route }) => ({ title: 'People' })}>
         {() => <ViewPeoplePage restaurant={route.params?.restaurant} />}
+      </TopTabs.Screen>
+      <TopTabs.Screen
+        name='EditRestaurantPage'
+        options={({ navigation, route }) => ({ title: 'Restaurant' })}>
+        {() => <EditRestaurantPage restaurant={route.params?.restaurant} />}
       </TopTabs.Screen>
     </TopTabs.Navigator>
   );
