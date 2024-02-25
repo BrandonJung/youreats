@@ -1,6 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FlatList, Text, View } from 'react-native';
-import { transformFoodListToPeople } from '../constants/const_functions';
+import {
+  calculateAverageRating,
+  transformFoodListToPeople,
+} from '../constants/const_functions';
+import { SvgWithCssUri } from 'react-native-svg/css';
+import { Divider } from 'react-native-paper';
+
+const starSize = 12;
 
 const ViewPeoplePage = ({ navigation, restaurant }) => {
   const foodList = restaurant.foodList;
@@ -9,31 +16,63 @@ const ViewPeoplePage = ({ navigation, restaurant }) => {
     <View>
       <FlatList
         data={peopleArray}
-        renderItem={({ item, index }) => {
+        renderItem={({ item }) => {
           return (
-            <View style={{ marginTop: 10, marginHorizontal: 20 }}>
-              <Text style={{ fontSize: 16, fontWeight: '600' }}>{item.eaterName}</Text>
-              <View>
-                {item.eatenFoods.map((foodItem) => {
+            <View
+              style={{
+                marginTop: 10,
+                marginHorizontal: 20,
+              }}>
+              <Text style={{ fontWeight: '600', fontSize: 16, marginBottom: 4 }}>
+                {item.eaterName}
+              </Text>
+              <View
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: 6,
+                  padding: 10,
+                }}>
+                {item.eatenFoods.map((foodItem, index) => {
                   return (
-                    <Text key={`${item.eaterName}_${foodItem}_${index}`}>
-                      Name: {foodItem}
-                    </Text>
+                    <View style={{ marginBottom: 10 }}>
+                      <View
+                        style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ fontWeight: '600' }}>{foodItem}</Text>
+                        {item.ratings?.length ? (
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                            }}>
+                            <SvgWithCssUri
+                              uri='https://youreats.s3.amazonaws.com/icons/star.svg'
+                              width={starSize}
+                              height={starSize}
+                            />
+                            <Text style={{ marginLeft: 4 }}>
+                              {calculateAverageRating(item.ratings)}
+                            </Text>
+                          </View>
+                        ) : null}
+                      </View>
+                      {item.note?.length ? (
+                        <View style={{ marginTop: 10, marginLeft: 10 }}>
+                          <Text style={{ marginBottom: 4 }}>Notes:</Text>
+                          {item.note.map((note) => {
+                            if (note.foodName === foodItem) {
+                              return <Text style={{ color: 'grey' }}>{note.note}</Text>;
+                            }
+                          })}
+                        </View>
+                      ) : null}
+                      {index !== item.eatenFoods.length - 1 ? (
+                        <Divider style={{ marginTop: 10 }} />
+                      ) : null}
+                    </View>
                   );
                 })}
               </View>
-              {item.note ? (
-                <View>
-                  {item.note.map((note) => {
-                    const noteText = note.note;
-                    return (
-                      <Text key={`${item.eaterName}_${noteText}_${index}`}>
-                        Note: {noteText}
-                      </Text>
-                    );
-                  })}
-                </View>
-              ) : null}
             </View>
           );
         }}

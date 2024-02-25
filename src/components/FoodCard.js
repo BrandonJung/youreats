@@ -12,7 +12,8 @@ const FoodCard = ({ navigation, foodItem }) => {
   const { name, eater, note, stars, imageURL } = foodItem;
   const averageRating = calculateAverageRating(stars);
   return (
-    <TouchableOpacity style={{ backgroundColor: '#FFFFFF', borderRadius: radiusNumber }}>
+    <TouchableOpacity
+      style={{ backgroundColor: '#FFFFFF', borderRadius: radiusNumber, marginTop: 20 }}>
       {imageURL ? (
         <Image
           width={imageSizeWidth}
@@ -58,7 +59,7 @@ const FoodCard = ({ navigation, foodItem }) => {
             <Text style={{ marginLeft: 4 }}>{averageRating}</Text>
           </View>
         ) : (
-          <View style={{ height: starSize + 6, width: starSize }} />
+          <View style={{ height: starSize, width: starSize }} />
         )}
       </View>
     </TouchableOpacity>

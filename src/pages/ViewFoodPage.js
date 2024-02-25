@@ -5,13 +5,13 @@ import FoodCard from '../components/FoodCard';
 const ViewFoodPage = ({ navigation, restaurant }) => {
   const foodList = restaurant.foodList;
   return (
-    <View style={{ paddingTop: 20 }}>
+    <View>
       <FlatList
         data={foodList}
-        horizontal
-        contentContainerStyle={{
-          justifyContent: 'space-evenly',
+        numColumns={2}
+        columnWrapperStyle={{
           flex: 1,
+          justifyContent: 'space-evenly',
         }}
         renderItem={({ item }) => {
           return <FoodCard navigation={navigation} foodItem={item} />;
