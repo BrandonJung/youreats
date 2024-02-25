@@ -10,7 +10,6 @@ const starSize = 12;
 const FoodCard = ({ navigation, foodItem }) => {
   const { name, eater, note, stars, imageURL } = foodItem;
   const averageRating = stars.reduce((a, b) => a + b, 0) / (stars.length || 0);
-  console.log('asdf', foodItem, averageRating);
   return (
     <TouchableOpacity style={{ backgroundColor: '#FFFFFF', borderRadius: radiusNumber }}>
       {imageURL ? (
