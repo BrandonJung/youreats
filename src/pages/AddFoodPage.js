@@ -26,7 +26,7 @@ const AddFoodPage = ({ navigation, route }) => {
   const [notes, setNotes] = useState('');
   const [restaurant, setRestaurant] = useState(null);
 
-  const { restaurantsData, setRestaurantsData } = useRestaurant();
+  const { restaurantsData, setRestaurantsData, addFoodItem } = useRestaurant();
 
   const retrieveData = async () => {
     if (restaurantsData) {
@@ -56,25 +56,7 @@ const AddFoodPage = ({ navigation, route }) => {
       Alert.alert('Missing restaurant');
       return;
     }
-    let restaurantListClone = _.cloneDeep(restaurantsData);
-    const restaurantFoodListIndex = _.findIndex(
-      restaurantListClone,
-      (r) => r.key === restaurant,
-    );
-    const restaurantFoodList =
-      restaurantListClone[restaurantFoodListIndex].foodList;
-    const foodListIndex = restaurantFoodList.length;
-    const newFoodObject = {
-      id: foodListIndex,
-      key: `food_${foodListIndex}`,
-      name: foodName,
-      eater: eaterName,
-      stars: rating,
-      note: notes,
-    };
-    restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex] =
-      newFoodObject;
-    setRestaurantsData(restaurantListClone);
+    addFoodItem(foodName, eaterName, rating, notes, restaurant);
     navigation.pop();
   };
 
@@ -122,7 +104,6 @@ const AddFoodPage = ({ navigation, route }) => {
         setEaterName,
       );
     } else if (step === ADD_FOOD_STEPS.EATER_STEP) {
-      return AlertPrompt('Enter Notes', '', 'Cancel', {}, 'Submit', setNotes);
     } else if (step === ADD_FOOD_STEPS.RANKING_STEP) {
     } else if (step === ADD_FOOD_STEPS.NOTES_STEP) {
     } else if (step === ADD_FOOD_STEPS.RESTAURANT_STEP) {
