@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, FlatList, View } from 'react-native';
+import { Alert, FlatList, Text, View } from 'react-native';
 import RestaurantCard from '../components/RestaurantCard';
 import { RemoveFromStorage, StoreData } from '../constants/const_functions';
 import _ from 'lodash';
@@ -38,12 +38,16 @@ const HomePage = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <FlatList
-        data={restaurantsData}
-        renderItem={({ item, index }) => {
-          return <RestaurantCard restaurant={item} navigation={navigation} />;
-        }}
-      />
+      {restaurantsData?.length > 0 ? (
+        <FlatList
+          data={restaurantsData}
+          renderItem={({ item, index }) => {
+            return <RestaurantCard restaurant={item} navigation={navigation} />;
+          }}
+        />
+      ) : (
+        <Text>Add a restaurant to start!</Text>
+      )}
       <View>
         {showOptions ? (
           <OptionsPopup
@@ -54,10 +58,7 @@ const HomePage = ({ navigation }) => {
             navigation={navigation}
           />
         ) : null}
-        <OptionsButton
-          showOptions={showOptions}
-          setShowOptions={setShowOptions}
-        />
+        <OptionsButton showOptions={showOptions} setShowOptions={setShowOptions} />
       </View>
     </View>
   );

@@ -39,7 +39,7 @@ const ViewPeoplePage = ({ navigation, restaurant }) => {
                   );
                   const averateRating = calculateAverageRating(filteredRatingArray);
                   return (
-                    <View style={{ marginBottom: 10 }}>
+                    <View key={`${foodItem}_${index}`} style={{ marginBottom: 10 }}>
                       <View
                         style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{ fontWeight: '600' }}>{foodItem}</Text>

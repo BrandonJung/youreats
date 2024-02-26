@@ -52,10 +52,7 @@ const RestaurantTabs = ({ navigation, route }) => {
         name='ViewFoodPage'
         options={({ navigation, route }) => ({ title: 'Food' })}>
         {() => (
-          <ViewFoodPage
-            navigation={navigation}
-            restaurant={route.params?.restaurant}
-          />
+          <ViewFoodPage navigation={navigation} restaurant={route.params?.restaurant} />
         )}
       </TopTabs.Screen>
       <TopTabs.Screen
@@ -84,7 +81,10 @@ const App = () => {
           <Stack.Screen
             name='Home'
             component={HomeTabs}
-            options={({ navigation, route }) => ({ headerShown: true })}
+            options={({ navigation, route }) => ({
+              headerShown: true,
+              title: 'Good Morning',
+            })}
           />
           <Stack.Screen
             name='RestaurantPage'
