@@ -9,7 +9,13 @@ const RestaurantCard = ({ restaurant, navigation }) => {
           restaurant: restaurant,
         })
       }
-      style={{ padding: 6 }}>
+      style={{
+        padding: 10,
+        backgroundColor: '#FFFFFF',
+        marginTop: 16,
+        marginHorizontal: 20,
+        borderRadius: 6,
+      }}>
       <Text>{restaurant.name}</Text>
     </TouchableOpacity>
   );
