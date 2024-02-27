@@ -17,7 +17,16 @@ const RestaurantProvider = ({ children }) => {
     StoreData('restaurant-list', restaurantsData);
   }, [restaurantsData]);
 
-  const addFoodItem = (foodName, eaterName, rating, note, restaurantKey) => {
+  const AddRestaurantPhoto = (passedPhotoURL, restaurantKey) => {
+    let restaurantsDataClone = _.cloneDeep(restaurantsData);
+    const restaurantIndex = _.findIndex(restaurantsDataClone, (r) => r.key === restaurantKey, 0);
+    if (restaurantIndex > -1) {
+      restaurantsDataClone[restaurantIndex].photoURL = passedPhotoURL;
+      setRestaurantsData(restaurantsDataClone);
+    }
+  };
+
+  const AddFoodItem = (foodName, eaterName, rating, note, restaurantKey) => {
     let restaurantListClone = _.cloneDeep(restaurantsData);
     const restaurantFoodListIndex = _.findIndex(
       restaurantListClone,
@@ -32,16 +41,11 @@ const RestaurantProvider = ({ children }) => {
     );
     if (foodAlreadyExistsIndex > -1) {
       foodListIndex = foodAlreadyExistsIndex;
-      const eaterArray =
-        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].eater;
-      const starsArray =
-        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].stars;
-      const notesArray =
-        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note;
+      const eaterArray = restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].eater;
+      const starsArray = restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].stars;
+      const notesArray = restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note;
       if (eaterName && !eaterArray.includes(eaterName)) {
-        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].eater.push(
-          eaterName,
-        );
+        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].eater.push(eaterName);
       }
       if (rating) {
         const ratingObject = eaterName ? { name: eaterName, rating } : { rating };
@@ -62,9 +66,7 @@ const RestaurantProvider = ({ children }) => {
             notesObject,
           );
         } else {
-          restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note = [
-            notesObject,
-          ];
+          restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note = [notesObject];
         }
       }
       setRestaurantsData(restaurantListClone);
@@ -83,8 +85,7 @@ const RestaurantProvider = ({ children }) => {
         const notesObject = eaterName ? { name: eaterName, note } : { note };
         newFoodObject.note = [notesObject];
       }
-      restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex] =
-        newFoodObject;
+      restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex] = newFoodObject;
       setRestaurantsData(restaurantListClone);
     }
   };
@@ -103,7 +104,8 @@ const RestaurantProvider = ({ children }) => {
       value={{
         restaurantsData,
         setRestaurantsData,
-        addFoodItem,
+        AddFoodItem,
+        AddRestaurantPhoto,
       }}>
       {children}
     </RestaurantContext.Provider>

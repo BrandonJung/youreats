@@ -27,7 +27,7 @@ const AddFoodPage = ({ navigation, route }) => {
   const [note, setNote] = useState('');
   const [restaurant, setRestaurant] = useState(null);
 
-  const { restaurantsData, setRestaurantsData, addFoodItem } = useRestaurant();
+  const { restaurantsData, setRestaurantsData, AddFoodItem } = useRestaurant();
 
   const retrieveData = async () => {
     if (restaurantsData) {
@@ -57,7 +57,7 @@ const AddFoodPage = ({ navigation, route }) => {
       Alert.alert('Missing restaurant');
       return;
     }
-    addFoodItem(foodName, eaterName, rating, note, restaurant);
+    AddFoodItem(foodName, eaterName, rating, note, restaurant);
     navigation.pop();
   };
 
