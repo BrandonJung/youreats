@@ -46,7 +46,7 @@ const HomePage = ({ navigation }) => {
           }}
         />
       ) : (
-        <Text>Add a restaurant to start!</Text>
+        <Text style={{ flex: 1 }}>Add a restaurant to start!</Text>
       )}
       <View>
         {showOptions ? (
@@ -55,6 +55,7 @@ const HomePage = ({ navigation }) => {
             setShowOptions={setShowOptions}
             addNewRestaurant={addNewRestaurant}
             resetRestaurants={resetRestaurants}
+            showAddFood={restaurantsData?.length > 0}
             navigation={navigation}
           />
         ) : null}

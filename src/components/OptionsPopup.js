@@ -7,6 +7,7 @@ const OptionsPopup = ({
   setShowOptions,
   addNewRestaurant,
   resetRestaurants,
+  showAddFood,
   navigation,
 }) => {
   return (
@@ -34,14 +35,16 @@ const OptionsPopup = ({
         }}>
         <Text>Add Restaurant</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.addButtonOption}
-        onPress={() => {
-          setShowOptions(!showOptions);
-          navigation.navigate('AddFoodPage');
-        }}>
-        <Text>Add Food</Text>
-      </TouchableOpacity>
+      {showAddFood ? (
+        <TouchableOpacity
+          style={styles.addButtonOption}
+          onPress={() => {
+            setShowOptions(!showOptions);
+            navigation.navigate('AddFoodPage');
+          }}>
+          <Text>Add Food</Text>
+        </TouchableOpacity>
+      ) : null}
       <TouchableOpacity
         style={styles.addButtonOption}
         onPress={() => {
