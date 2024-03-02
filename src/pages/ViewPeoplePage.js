@@ -33,33 +33,33 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
                 style={{
                   backgroundColor: '#FFFFFF',
                   borderRadius: 6,
-                  padding: 10,
+                  paddingHorizontal: 10,
+                  paddingTop: 10,
                 }}>
                 {item.eatenFoods.map((foodItem, index) => {
                   const filteredRatingArray = item.ratings?.filter((r) => r.foodName === foodItem);
                   const averageRating = calculateAverageRating(filteredRatingArray);
+                  const notesArray = item.notes?.filter((note) => note.foodName === foodItem);
                   return (
                     <View key={`${foodItem}_${index}`} style={{ marginBottom: 10 }}>
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{ fontWeight: '600' }}>{foodItem}</Text>
                         {!isNaN(averageRating) ? <RatingStarText rating={averageRating} /> : null}
                       </View>
-                      {item.notes?.length ? (
+                      {notesArray?.length > 0 ? (
                         <View style={{ marginTop: 10 }}>
                           <Text style={{ marginBottom: 4 }}>Notes:</Text>
-                          {item.notes.map((note) => {
-                            if (note.foodName === foodItem) {
-                              return (
-                                <Text
-                                  style={{
-                                    color: 'grey',
-                                    marginLeft: 10,
-                                    marginBottom: 4,
-                                  }}>
-                                  - {note.note}
-                                </Text>
-                              );
-                            }
+                          {notesArray.map((note) => {
+                            return (
+                              <Text
+                                style={{
+                                  color: 'grey',
+                                  marginLeft: 10,
+                                  marginBottom: 4,
+                                }}>
+                                - {note.note}
+                              </Text>
+                            );
                           })}
                         </View>
                       ) : null}
