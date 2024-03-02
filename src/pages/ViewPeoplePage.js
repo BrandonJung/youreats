@@ -87,9 +87,10 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
                       {notesArray?.length > 0 ? (
                         <View style={{ marginTop: 10 }}>
                           <Text style={{ marginBottom: 4 }}>Notes:</Text>
-                          {notesArray.map((note) => {
+                          {notesArray.map((note, index) => {
                             return (
                               <Text
+                                key={`${note.name}_${index}`}
                                 style={{
                                   color: 'grey',
                                   marginLeft: 10,

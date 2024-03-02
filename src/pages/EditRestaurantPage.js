@@ -98,8 +98,8 @@ const EditRestaurantPage = ({ navigation, restaurantKey }) => {
             </TouchableOpacity>
           )}
         </View>
-        <View style={{ paddingLeft: 20 }}>
-          <View style={{ maxWidth: imageSize }}>
+        <View style={{ paddingLeft: 20, flexDirection: 'row' }}>
+          <View>
             {restaurantImage ? <ItemImage imageURL={restaurantImage} /> : <ImagePlaceholder />}
             <TouchableOpacity
               onPress={() => {
@@ -111,6 +111,7 @@ const EditRestaurantPage = ({ navigation, restaurantKey }) => {
               </Text>
             </TouchableOpacity>
           </View>
+          <View style={{ flex: 1, marginLeft: 10 }}></View>
         </View>
       </View>
     </ScrollView>
