@@ -1,9 +1,6 @@
 import React from 'react';
 import { FlatList, Text, View } from 'react-native';
-import {
-  calculateAverageRating,
-  transformFoodListToPeople,
-} from '../constants/const_functions';
+import { calculateAverageRating, transformFoodListToPeople } from '../constants/const_functions';
 import { SvgWithCssUri } from 'react-native-svg/css';
 import { Divider } from 'react-native-paper';
 
@@ -34,14 +31,11 @@ const ViewPeoplePage = ({ navigation, restaurant }) => {
                   padding: 10,
                 }}>
                 {item.eatenFoods.map((foodItem, index) => {
-                  const filteredRatingArray = item.ratings?.filter(
-                    (r) => r.foodName === foodItem,
-                  );
+                  const filteredRatingArray = item.ratings?.filter((r) => r.foodName === foodItem);
                   const averateRating = calculateAverageRating(filteredRatingArray);
                   return (
                     <View key={`${foodItem}_${index}`} style={{ marginBottom: 10 }}>
-                      <View
-                        style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{ fontWeight: '600' }}>{foodItem}</Text>
                         {!isNaN(averateRating) ? (
                           <View

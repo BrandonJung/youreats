@@ -48,12 +48,8 @@ const RestaurantTabs = ({ navigation, route }) => {
       screenOptions={{ headerShown: false }}
       // screenListeners={{ state: (e) => setTabIndex(e.data.state.index) }}
     >
-      <TopTabs.Screen
-        name='ViewFoodPage'
-        options={({ navigation, route }) => ({ title: 'Food' })}>
-        {() => (
-          <ViewFoodPage navigation={navigation} restaurant={route.params?.restaurant} />
-        )}
+      <TopTabs.Screen name='ViewFoodPage' options={({ navigation, route }) => ({ title: 'Food' })}>
+        {() => <ViewFoodPage navigation={navigation} restaurant={route.params?.restaurant} />}
       </TopTabs.Screen>
       <TopTabs.Screen
         name='ViewPeoplePage'
