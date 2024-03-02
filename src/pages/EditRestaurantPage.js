@@ -32,6 +32,7 @@ const EditRestaurantPage = ({ navigation, restaurantKey }) => {
 
   const handleUpdateName = () => {
     const fieldKey = 'name';
+    navigation.setOptions({ title: newNameText });
     setRestaurantName(newNameText);
     updateRestaurantField(fieldKey, newNameText, restaurant.key);
     inputRef?.current?.blur();

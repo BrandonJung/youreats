@@ -56,12 +56,16 @@ const RestaurantTabs = ({ navigation, route }) => {
       <TopTabs.Screen
         name='ViewPeoplePage'
         options={({ navigation, route }) => ({ title: 'People' })}>
-        {() => <ViewPeoplePage restaurantKey={route.params?.restaurantKey} />}
+        {() => (
+          <ViewPeoplePage navigation={navigation} restaurantKey={route.params?.restaurantKey} />
+        )}
       </TopTabs.Screen>
       <TopTabs.Screen
         name='EditRestaurantPage'
         options={({ navigation, route }) => ({ title: 'Restaurant' })}>
-        {() => <EditRestaurantPage restaurantKey={route.params?.restaurantKey} />}
+        {() => (
+          <EditRestaurantPage navigation={navigation} restaurantKey={route.params?.restaurantKey} />
+        )}
       </TopTabs.Screen>
     </TopTabs.Navigator>
   );
