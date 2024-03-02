@@ -26,13 +26,13 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
     }
     const peopleArrayClone = _.cloneDeep(peopleArray);
     const retPeopleArray = [];
-    for (let person of peopleArrayClone) {
+    for (const person of peopleArrayClone) {
       if (person.eaterName.toLowerCase().includes(passedSearchValue.toLowerCase())) {
         retPeopleArray.push(person);
         continue;
       }
       const eatenFoodsArray = person.eatenFoods;
-      for (let food of eatenFoodsArray) {
+      for (const food of eatenFoodsArray) {
         if (food.toLowerCase().includes(passedSearchValue.toLowerCase())) {
           retPeopleArray.push(person);
           break;

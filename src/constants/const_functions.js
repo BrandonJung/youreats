@@ -47,7 +47,7 @@ export const calculateAverageRating = (ratingsArray) => {
 export const transformFoodListToPeople = (foodList) => {
   const transformPeopleRes = (passedPeopleRes) => {
     const retArray = [];
-    for (let key in passedPeopleRes) {
+    for (const key in passedPeopleRes) {
       const retObject = {
         eaterName: key,
         eatenFoods: passedPeopleRes[key].eatenFoods,
@@ -59,9 +59,9 @@ export const transformFoodListToPeople = (foodList) => {
     return retArray;
   };
   if (!foodList) return null;
-  let peopleRes = {};
-  for (let foodItem of foodList) {
-    for (let name of foodItem.eater) {
+  const peopleRes = {};
+  for (const foodItem of foodList) {
+    for (const name of foodItem.eater) {
       let personRatingsArray = [];
       let personNotesArray = [];
       if (foodItem.ratings) {

@@ -18,16 +18,16 @@ const RestaurantProvider = ({ children }) => {
   }, [restaurantsData]);
 
   const updateFoodListItemField = (foodItemIndex, fieldKey, fieldValue, restaurantKey) => {
-    let restaurantsDataClone = _.cloneDeep(restaurantsData);
+    const restaurantsDataClone = _.cloneDeep(restaurantsData);
     const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
     if (restaurantIndex > -1) {
-      let foodItemList = restaurantsDataClone[restaurantIndex].foodList;
-      let foodItem = foodItemList[foodItemIndex];
+      const foodItemList = restaurantsDataClone[restaurantIndex].foodList;
+      const foodItem = foodItemList[foodItemIndex];
     }
   };
 
   const updateRestaurantField = (fieldKey, fieldValue, restaurantKey) => {
-    let restaurantsDataClone = _.cloneDeep(restaurantsData);
+    const restaurantsDataClone = _.cloneDeep(restaurantsData);
     const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
     if (restaurantIndex > -1) {
       restaurantsDataClone[restaurantIndex][`${fieldKey}`] = fieldValue;
@@ -36,19 +36,20 @@ const RestaurantProvider = ({ children }) => {
   };
 
   const updateFoodItemField = (fieldKey, fieldValue, foodItemKey, restaurantKey) => {
-    let restaurantsDataClone = _.cloneDeep(restaurantsData);
+    const restaurantsDataClone = _.cloneDeep(restaurantsData);
     const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
     const foodList = restaurantsDataClone[restaurantIndex].foodList;
     const foodListIndex = _.findIndex(foodList, (foodItem) => foodItem.key === foodItemKey);
     if (foodListIndex > -1) {
       foodList[foodListIndex][`${fieldKey}`] = fieldValue;
+      console.log('asdf2', foodList);
       restaurantsDataClone[restaurantIndex].foodList = foodList;
       setRestaurantsData(restaurantsDataClone);
     }
   };
 
   const AddFoodItem = (foodName, eaterName, rating, note, restaurantKey) => {
-    let restaurantsDataClone = _.cloneDeep(restaurantsData);
+    const restaurantsDataClone = _.cloneDeep(restaurantsData);
     const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
     const restaurantFoodList = restaurantsDataClone[restaurantIndex].foodList;
     let foodListIndex = restaurantFoodList.length;
@@ -83,7 +84,7 @@ const RestaurantProvider = ({ children }) => {
       }
       setRestaurantsData(restaurantsDataClone);
     } else {
-      let newFoodObject = {
+      const newFoodObject = {
         id: foodListIndex,
         key: `food_${foodListIndex}`,
         name: foodName,
