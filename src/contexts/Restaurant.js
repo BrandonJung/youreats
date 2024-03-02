@@ -23,7 +23,6 @@ const RestaurantProvider = ({ children }) => {
     if (restaurantIndex > -1) {
       let foodItemList = restaurantsDataClone[restaurantIndex].foodList;
       let foodItem = foodItemList[foodItemIndex];
-      console.log('asdf', foodItem);
     }
   };
 
