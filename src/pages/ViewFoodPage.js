@@ -9,19 +9,17 @@ const ViewFoodPage = ({ navigation, restaurantKey }) => {
   const restaurant = findRestaurant(restaurantsData, restaurantKey);
   const foodList = restaurant.foodList;
   return (
-    <View>
-      <FlatList
-        data={foodList}
-        numColumns={2}
-        columnWrapperStyle={{
-          flex: 1,
-          justifyContent: 'space-evenly',
-        }}
-        renderItem={({ item }) => {
-          return <FoodCard navigation={navigation} foodItem={item} restaurantKey={restaurantKey} />;
-        }}
-      />
-    </View>
+    <FlatList
+      data={foodList}
+      numColumns={2}
+      columnWrapperStyle={{
+        flex: 1,
+        justifyContent: 'space-evenly',
+      }}
+      renderItem={({ item }) => {
+        return <FoodCard navigation={navigation} foodItem={item} restaurantKey={restaurantKey} />;
+      }}
+    />
   );
 };
 
