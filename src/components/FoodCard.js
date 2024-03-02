@@ -23,7 +23,7 @@ const FoodCard = ({ navigation, foodItem, restaurantKey }) => {
       )}
 
       <View style={{ padding: 6 }}>
-        <Text style={{ fontWeight: '600' }}>{name}</Text>
+        <Text style={{ fontWeight: '600', maxWidth: 160 }}>{name}</Text>
         {averageRating ? (
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 6 }}>
             <SvgWithCssUri

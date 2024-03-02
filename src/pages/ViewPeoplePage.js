@@ -5,11 +5,9 @@ import {
   findRestaurant,
   transformFoodListToPeople,
 } from '../constants/const_functions';
-import { SvgWithCssUri } from 'react-native-svg/css';
 import { Divider } from 'react-native-paper';
 import { useRestaurant } from '../contexts/Restaurant';
-
-const starSize = 12;
+import RatingStarText from '../components/RatingStarText';
 
 const ViewPeoplePage = ({ navigation, restaurantKey }) => {
   const { restaurantsData } = useRestaurant();
@@ -39,26 +37,12 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
                 }}>
                 {item.eatenFoods.map((foodItem, index) => {
                   const filteredRatingArray = item.ratings?.filter((r) => r.foodName === foodItem);
-                  const averateRating = calculateAverageRating(filteredRatingArray);
+                  const averageRating = calculateAverageRating(filteredRatingArray);
                   return (
                     <View key={`${foodItem}_${index}`} style={{ marginBottom: 10 }}>
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{ fontWeight: '600' }}>{foodItem}</Text>
-                        {!isNaN(averateRating) ? (
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <SvgWithCssUri
-                              uri='https://youreats.s3.amazonaws.com/icons/star.svg'
-                              width={starSize}
-                              height={starSize}
-                            />
-                            <Text style={{ marginLeft: 4 }}>{averateRating}</Text>
-                          </View>
-                        ) : null}
+                        {!isNaN(averageRating) ? <RatingStarText rating={averageRating} /> : null}
                       </View>
                       {item.notes?.length ? (
                         <View style={{ marginTop: 10, marginLeft: 0 }}>
