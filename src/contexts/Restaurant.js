@@ -17,15 +17,6 @@ const RestaurantProvider = ({ children }) => {
     StoreData('restaurant-list', restaurantsData);
   }, [restaurantsData]);
 
-  const updateFoodListItemField = (foodItemIndex, fieldKey, fieldValue, restaurantKey) => {
-    const restaurantsDataClone = _.cloneDeep(restaurantsData);
-    const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
-    if (restaurantIndex > -1) {
-      const foodItemList = restaurantsDataClone[restaurantIndex].foodList;
-      const foodItem = foodItemList[foodItemIndex];
-    }
-  };
-
   const updateRestaurantField = (fieldKey, fieldValue, restaurantKey) => {
     const restaurantsDataClone = _.cloneDeep(restaurantsData);
     const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
@@ -42,7 +33,6 @@ const RestaurantProvider = ({ children }) => {
     const foodListIndex = _.findIndex(foodList, (foodItem) => foodItem.key === foodItemKey);
     if (foodListIndex > -1) {
       foodList[foodListIndex][`${fieldKey}`] = fieldValue;
-      console.log('asdf2', foodList);
       restaurantsDataClone[restaurantIndex].foodList = foodList;
       setRestaurantsData(restaurantsDataClone);
     }
@@ -120,7 +110,6 @@ const RestaurantProvider = ({ children }) => {
         AddFoodItem,
         updateRestaurantField,
         updateFoodItemField,
-        updateFoodListItemField,
       }}>
       {children}
     </RestaurantContext.Provider>

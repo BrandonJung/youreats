@@ -21,7 +21,7 @@ const EditFoodPage = ({ navigation, route }) => {
   const [ratings, setRatings] = useState(foodItem.ratings ?? 0);
   const averageRating = calculateAverageRating(ratings);
 
-  const { updateFoodItemField, updateFoodListItemField } = useRestaurant();
+  const { updateFoodItemField } = useRestaurant();
 
   const uploadPhoto = async () => {
     const fieldKey = 'imageURL';
