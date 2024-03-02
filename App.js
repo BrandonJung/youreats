@@ -77,7 +77,7 @@ const App = () => {
           })}>
           <Stack.Screen
             name='Home'
-            component={HomeTabs}
+            component={HomePage}
             options={({ navigation, route }) => ({
               headerShown: true,
               title: 'Good Morning',

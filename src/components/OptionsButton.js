@@ -3,9 +3,7 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 const OptionsButton = ({ setShowOptions, showOptions }) => {
   return (
-    <TouchableOpacity
-      style={styles.addButton}
-      onPress={() => setShowOptions(!showOptions)}>
+    <TouchableOpacity style={styles.addButton} onPress={() => setShowOptions(!showOptions)}>
       <Text style={{ fontSize: 20 }}>+</Text>
     </TouchableOpacity>
   );
@@ -14,12 +12,15 @@ const OptionsButton = ({ setShowOptions, showOptions }) => {
 const styles = StyleSheet.create({
   addButton: {
     position: 'absolute',
-    bottom: 16,
-    right: 16,
+    // With bottom nav
+    // bottom: 16,
+    // right: 16,
+    bottom: 45,
+    right: 40,
     backgroundColor: 'lightblue',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 50,
+    height: 50,
+    borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
   },

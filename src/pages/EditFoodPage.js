@@ -9,9 +9,10 @@ const radiusNumber = 6;
 const iconImageSize = 30;
 
 const EditFoodPage = ({ navigation, route }) => {
-  const { foodItem, restaurantKey, foodName, setFoodName } = route.params;
+  const { foodItem, restaurantKey } = route.params;
   const inputRef = useRef();
   const [inputFocussed, setInputFocussed] = useState(false);
+  const [foodName, setFoodName] = useState(foodItem.name ?? null);
   const [newNameText, setNewNameText] = useState(foodItem.name ?? null);
   const [foodItemImage, setFoodItemImage] = useState(foodItem.imageURL ?? null);
 
