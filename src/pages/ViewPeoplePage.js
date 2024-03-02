@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import {
   calculateAverageRating,
   findRestaurant,
@@ -8,11 +8,8 @@ import {
 import { Divider } from 'react-native-paper';
 import { useRestaurant } from '../contexts/Restaurant';
 import RatingStarText from '../components/RatingStarText';
-import { SvgWithCssUri } from 'react-native-svg/css';
 import _ from 'lodash';
 import SearchBar from '../components/SearchBar';
-
-const searchIconSize = 20;
 
 const ViewPeoplePage = ({ navigation, restaurantKey }) => {
   const { restaurantsData } = useRestaurant();
