@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     // bottom: 36,
     // right: 36,
     bottom: 70,
-    right: 60,
+    right: 50,
     backgroundColor: 'lightblue',
     paddingBottom: 20,
     padding: 6,

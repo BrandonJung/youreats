@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     // bottom: 16,
     // right: 16,
     bottom: 45,
-    right: 40,
+    right: 30,
     backgroundColor: 'lightblue',
     width: 50,
     height: 50,
