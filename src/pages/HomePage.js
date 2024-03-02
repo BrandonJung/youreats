@@ -18,6 +18,12 @@ const HomePage = ({ navigation }) => {
       return;
     }
     let restaurantListClone = _.cloneDeep(restaurantsData);
+    for (let restaurant of restaurantListClone) {
+      if (restaurant.name.toLowerCase() === restaurantName.toLowerCase()) {
+        Alert.alert('Restaurant name already exists');
+        return;
+      }
+    }
     const newIndex = restaurantListClone.length;
     const newRestaurantObject = {
       id: newIndex,
