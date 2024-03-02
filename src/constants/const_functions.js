@@ -64,8 +64,8 @@ export const transformFoodListToPeople = (foodList) => {
     for (let name of foodItem.eater) {
       let personRatingsArray = [];
       let personNotesArray = [];
-      if (foodItem.rating) {
-        personRatingsArray = foodItem.rating.filter(
+      if (foodItem.ratings) {
+        personRatingsArray = foodItem.ratings.filter(
           (rating) => rating.name?.toLowerCase() === name.toLowerCase(),
         );
         personRatingsArray.map((r) => (r.foodName = foodItem.name));

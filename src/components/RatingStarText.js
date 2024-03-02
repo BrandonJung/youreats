@@ -10,12 +10,12 @@ const RatingStarText = ({ rating, starSize = 12 }) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
+      <Text style={{ marginRight: 4 }}>{rating}</Text>
       <SvgWithCssUri
         uri='https://youreats.s3.amazonaws.com/icons/star.svg'
         width={starSize}
         height={starSize}
       />
-      <Text style={{ marginLeft: 4 }}>{rating}</Text>
     </View>
   );
 };
