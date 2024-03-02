@@ -26,7 +26,7 @@ const HomeTabs = () => {
         component={HomePage}
         options={({ navigation, route }) => ({ title: 'Home' })}
       />
-      <BottomTabs.Screen
+      {/* <BottomTabs.Screen
         name='CameraPage'
         component={HomePage}
         options={({ navigation, route }) => ({ title: 'Camera' })}
@@ -35,7 +35,7 @@ const HomeTabs = () => {
         name='Account'
         component={HomePage}
         options={({ navigation, route }) => ({ title: 'Account' })}
-      />
+      /> */}
     </BottomTabs.Navigator>
   );
 };

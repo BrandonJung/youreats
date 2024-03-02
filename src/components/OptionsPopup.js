@@ -11,10 +11,7 @@ const OptionsPopup = ({
   navigation,
 }) => {
   return (
-    <Animated.View
-      entering={FadeIn}
-      exiting={FadeOut}
-      style={styles.addButtonOptionContainer}>
+    <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.addButtonOptionContainer}>
       <TouchableOpacity
         style={styles.addButtonOption}
         onPress={() => {
@@ -45,7 +42,7 @@ const OptionsPopup = ({
           <Text>Add Food</Text>
         </TouchableOpacity>
       ) : null}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.addButtonOption}
         onPress={() => {
           Alert.alert('Are you sure you want to delete restaurants', '', [
@@ -64,7 +61,7 @@ const OptionsPopup = ({
           ]);
         }}>
         <Text>Delete Restaurants</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </Animated.View>
   );
 };
