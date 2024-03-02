@@ -38,7 +38,7 @@ export const calculateAverageRating = (ratingsArray) => {
   if (ratingsArray) {
     const average =
       ratingsArray.reduce((a, b) => a + (b.rating ? b.rating : b), 0) / (ratingsArray.length || 0);
-    return average;
+    return average.toFixed(1);
   } else {
     return false;
   }

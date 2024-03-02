@@ -45,7 +45,7 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
                         {!isNaN(averageRating) ? <RatingStarText rating={averageRating} /> : null}
                       </View>
                       {item.notes?.length ? (
-                        <View style={{ marginTop: 10, marginLeft: 0 }}>
+                        <View style={{ marginTop: 10 }}>
                           <Text style={{ marginBottom: 4 }}>Notes:</Text>
                           {item.notes.map((note) => {
                             if (note.foodName === foodItem) {
@@ -64,7 +64,7 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
                         </View>
                       ) : null}
                       {index !== item.eatenFoods.length - 1 ? (
-                        <Divider style={{ marginTop: 10 }} />
+                        <Divider style={{ marginTop: 14 }} />
                       ) : null}
                     </View>
                   );
