@@ -8,11 +8,22 @@ import _ from 'lodash';
 
 const ViewFoodPage = ({ navigation, restaurantKey }) => {
   const { restaurantsData } = useRestaurant();
-  const restaurant = findRestaurant(restaurantsData, restaurantKey);
-  const masterFoodList = restaurant.foodList;
+  const [masterFoodList, setMasterFoodList] = useState(null);
   const [foodList, setFoodList] = useState(masterFoodList);
-
   const [searchValue, setSearchValue] = useState('');
+
+  const retrieveData = (passedRestaurantData) => {
+    const restaurant = findRestaurant(passedRestaurantData, restaurantKey);
+    setMasterFoodList(restaurant.foodList);
+  };
+
+  useEffect(() => {
+    setFoodList(masterFoodList);
+  }, [masterFoodList]);
+
+  useEffect(() => {
+    retrieveData(restaurantsData);
+  }, [restaurantsData]);
 
   const handleSearch = (passedSearchValue) => {
     if (passedSearchValue === null || passedSearchValue === '') {
@@ -48,6 +59,7 @@ const ViewFoodPage = ({ navigation, restaurantKey }) => {
         renderItem={({ item }) => {
           return <FoodCard navigation={navigation} foodItem={item} restaurantKey={restaurantKey} />;
         }}
+        keyExtractor={(item) => item.key}
       />
     </View>
   );
