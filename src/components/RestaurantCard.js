@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { SvgWithCssUri } from 'react-native-svg/css';
+import ItemImage from './ItemImage';
 
 const imageSizeWidth = 160;
 const imageSizeHeight = 120;
@@ -22,18 +23,7 @@ const RestaurantCard = ({ restaurant, navigation }) => {
         marginTop: 20,
       }}>
       {imageURL ? (
-        <Image
-          width={imageSizeWidth}
-          height={imageSizeHeight}
-          source={{
-            uri: imageURL,
-          }}
-          style={{
-            borderTopLeftRadius: radiusNumber,
-            borderTopRightRadius: radiusNumber,
-          }}
-          resizeMode='cover'
-        />
+        <ItemImage imageURL={imageURL} imageHeight={120} imageWidth={160} onlyTopRounded={true} />
       ) : (
         <View
           style={{

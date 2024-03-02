@@ -4,6 +4,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { useRestaurant } from '../contexts/Restaurant';
 import { SvgWithCssUri } from 'react-native-svg/css';
 import { findRestaurant } from '../constants/const_functions';
+import ItemImage from '../components/ItemImage';
 
 const imageSize = 140;
 const radiusNumber = 6;
@@ -47,6 +48,7 @@ const EditRestaurantPage = ({ navigation, restaurantKey }) => {
         <View
           style={{
             marginTop: 10,
+            marginBottom: 10,
             marginLeft: 10,
             flexDirection: 'row',
             alignItems: 'center',
@@ -98,20 +100,7 @@ const EditRestaurantPage = ({ navigation, restaurantKey }) => {
         </View>
         <View style={{ paddingLeft: 20 }}>
           <View style={{ maxWidth: imageSize }}>
-            {restaurantImage ? (
-              <Image
-                width={imageSize}
-                height={imageSize}
-                source={{
-                  uri: restaurantImage,
-                }}
-                style={{
-                  marginTop: 10,
-                  borderRadius: radiusNumber,
-                }}
-                resizeMode='cover'
-              />
-            ) : null}
+            {restaurantImage ? <ItemImage imageURL={restaurantImage} /> : null}
             <TouchableOpacity
               onPress={() => {
                 uploadPhoto();

@@ -1,8 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { ScrollView, TouchableOpacity, View, Text, TextInput } from 'react-native';
+import { ScrollView, TouchableOpacity, View, Text, TextInput, Image } from 'react-native';
 import { SvgWithCssUri } from 'react-native-svg/css';
 import ImagePlaceholder from '../components/ImagePlaceholder';
 import { useRestaurant } from '../contexts/Restaurant';
+import { launchImageLibrary } from 'react-native-image-picker';
+import ItemImage from '../components/ItemImage';
 
 const imageSize = 140;
 const radiusNumber = 6;
@@ -18,7 +20,12 @@ const EditFoodPage = ({ navigation, route }) => {
 
   const { updateFoodItemField } = useRestaurant();
 
-  const uploadPhoto = () => {};
+  const uploadPhoto = async () => {
+    const fieldKey = 'imageURL';
+    const photoResult = await launchImageLibrary({ mediaType: 'photo' });
+    setFoodItemImage(photoResult.assets[0].uri);
+    updateFoodItemField(fieldKey, photoResult.assets[0].uri, foodItem.key, restaurantKey);
+  };
 
   const handleUpdateName = () => {
     const fieldKey = 'name';
@@ -39,6 +46,7 @@ const EditFoodPage = ({ navigation, route }) => {
           style={{
             marginTop: 10,
             marginLeft: 10,
+            marginBottom: 10,
             flexDirection: 'row',
             alignItems: 'center',
           }}>
@@ -89,22 +97,7 @@ const EditFoodPage = ({ navigation, route }) => {
         </View>
         <View style={{ paddingLeft: 20 }}>
           <View style={{ maxWidth: imageSize }}>
-            {foodItemImage ? (
-              <Image
-                width={imageSize}
-                height={imageSize}
-                source={{
-                  uri: foodItemImage,
-                }}
-                style={{
-                  marginTop: 10,
-                  borderRadius: radiusNumber,
-                }}
-                resizeMode='cover'
-              />
-            ) : (
-              <ImagePlaceholder />
-            )}
+            {foodItemImage ? <ItemImage imageURL={foodItemImage} /> : <ImagePlaceholder />}
             <TouchableOpacity
               onPress={() => {
                 uploadPhoto();
