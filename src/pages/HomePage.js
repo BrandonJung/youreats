@@ -57,7 +57,12 @@ const HomePage = ({ navigation }) => {
           columnWrapperStyle={{ columnGap: cardGap, marginHorizontal: cardGap }}
           renderItem={({ item, index }) => {
             return (
-              <RestaurantCard restaurant={item} navigation={navigation} cardWidth={cardWidth} />
+              <RestaurantCard
+                restaurant={item}
+                navigation={navigation}
+                cardWidth={cardWidth}
+                setShowOptions={setShowOptions}
+              />
             );
           }}
         />

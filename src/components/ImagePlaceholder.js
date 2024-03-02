@@ -4,7 +4,7 @@ import { SvgWithCssUri } from 'react-native-svg/css';
 
 const radiusNumber = 6;
 
-const acceptedPlaceholderTypes = ['fork'];
+const acceptedPlaceholderTypes = ['fork', 'restaurant'];
 
 const ImagePlaceholder = ({
   type = 'fork',
@@ -35,7 +35,7 @@ const ImagePlaceholder = ({
         uri={imageURL}
         width={imageWidth - 40}
         height={imageHeight - 40}
-        fill={'grey'}
+        fill={'#bebebe'}
       />
     </View>
   );

@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { Dimensions, FlatList, View } from 'react-native';
 import FoodCard from '../components/FoodCard';
 import { useRestaurant } from '../contexts/Restaurant';
 import { findRestaurant } from '../constants/const_functions';
 import SearchBar from '../components/SearchBar';
 import _ from 'lodash';
+
+const { width, height } = Dimensions.get('window');
+const cardWidth = 160;
+const cardGap = (width - 2 * cardWidth) / 3;
 
 const ViewFoodPage = ({ navigation, restaurantKey }) => {
   const { restaurantsData } = useRestaurant();
@@ -52,12 +56,16 @@ const ViewFoodPage = ({ navigation, restaurantKey }) => {
       <FlatList
         data={foodList}
         numColumns={2}
-        columnWrapperStyle={{
-          flex: 1,
-          justifyContent: 'space-evenly',
-        }}
+        columnWrapperStyle={{ columnGap: cardGap, marginHorizontal: cardGap }}
         renderItem={({ item }) => {
-          return <FoodCard navigation={navigation} foodItem={item} restaurantKey={restaurantKey} />;
+          return (
+            <FoodCard
+              navigation={navigation}
+              foodItem={item}
+              restaurantKey={restaurantKey}
+              cardWidth={cardWidth}
+            />
+          );
         }}
         keyExtractor={(item) => item.key}
       />

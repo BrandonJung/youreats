@@ -5,16 +5,17 @@ import ImagePlaceholder from './ImagePlaceholder';
 
 const radiusNumber = 6;
 
-const RestaurantCard = ({ restaurant, navigation, cardWidth }) => {
+const RestaurantCard = ({ restaurant, navigation, cardWidth, setShowOptions }) => {
   const { name, imageURL, key } = restaurant;
   return (
     <TouchableOpacity
-      onPress={() =>
+      onPress={() => {
+        setShowOptions(false);
         navigation.navigate('RestaurantPage', {
           restaurantKey: key,
           restaurantName: name,
-        })
-      }
+        });
+      }}
       style={{
         backgroundColor: '#FFFFFF',
         borderRadius: radiusNumber,
