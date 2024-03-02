@@ -30,7 +30,7 @@ const ViewFoodPage = ({ navigation, restaurantKey }) => {
       setFoodList(masterFoodList);
       return;
     }
-    const foodListClone = _.cloneDeep(foodList);
+    const foodListClone = _.cloneDeep(masterFoodList);
     const retFoodList = foodListClone.filter((f) =>
       f.name.toLowerCase().includes(passedSearchValue.toLowerCase()),
     );

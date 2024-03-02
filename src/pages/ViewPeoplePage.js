@@ -24,7 +24,7 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
       setPeopleArray(masterPeopleFoodList);
       return;
     }
-    const peopleArrayClone = _.cloneDeep(peopleArray);
+    const peopleArrayClone = _.cloneDeep(masterPeopleFoodList);
     const retPeopleArray = [];
     for (const person of peopleArrayClone) {
       if (person.eaterName.toLowerCase().includes(passedSearchValue.toLowerCase())) {
