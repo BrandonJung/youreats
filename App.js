@@ -9,6 +9,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import ViewPeoplePage from './src/pages/ViewPeoplePage';
 import AddFoodPage from './src/pages/AddFoodPage';
 import { RestaurantProvider } from './src/contexts/Restaurant';
+import EditFoodPage from './src/pages/EditFoodPage';
 
 const Stack = createNativeStackNavigator();
 const TopTabs = createMaterialTopTabNavigator();
@@ -49,17 +50,17 @@ const RestaurantTabs = ({ navigation, route }) => {
       // screenListeners={{ state: (e) => setTabIndex(e.data.state.index) }}
     >
       <TopTabs.Screen name='ViewFoodPage' options={({ navigation, route }) => ({ title: 'Food' })}>
-        {() => <ViewFoodPage navigation={navigation} restaurant={route.params?.restaurant} />}
+        {() => <ViewFoodPage navigation={navigation} restaurantKey={route.params?.restaurantKey} />}
       </TopTabs.Screen>
       <TopTabs.Screen
         name='ViewPeoplePage'
         options={({ navigation, route }) => ({ title: 'People' })}>
-        {() => <ViewPeoplePage restaurant={route.params?.restaurant} />}
+        {() => <ViewPeoplePage restaurantKey={route.params?.restaurantKey} />}
       </TopTabs.Screen>
       <TopTabs.Screen
         name='EditRestaurantPage'
         options={({ navigation, route }) => ({ title: 'Restaurant' })}>
-        {() => <EditRestaurantPage restaurant={route.params?.restaurant} />}
+        {() => <EditRestaurantPage restaurantKey={route.params?.restaurantKey} />}
       </TopTabs.Screen>
     </TopTabs.Navigator>
   );
@@ -87,7 +88,7 @@ const App = () => {
             component={RestaurantTabs}
             options={({ navigation, route }) => ({
               headerShown: true,
-              title: route.params.restaurant.name,
+              title: route.params.restaurantName,
             })}
           />
           <Stack.Screen
@@ -96,6 +97,15 @@ const App = () => {
             options={({ navigation, route }) => ({
               headerShown: true,
               headerTitle: 'Add New Food',
+            })}
+          />
+
+          <Stack.Screen
+            name='EditFoodPage'
+            component={EditFoodPage}
+            options={({ navigation, route }) => ({
+              headerShown: true,
+              headerTitle: 'Edit Food',
             })}
           />
         </Stack.Navigator>

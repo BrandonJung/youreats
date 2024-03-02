@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, Image, View } from 'react-native';
 import { SvgWithCssUri } from 'react-native-svg/css';
 import { calculateAverageRating } from '../constants/const_functions';
@@ -8,11 +8,16 @@ const imageSizeHeight = 120;
 const radiusNumber = 6;
 const starSize = 12;
 
-const FoodCard = ({ navigation, foodItem }) => {
+const FoodCard = ({ navigation, foodItem, restaurantKey }) => {
   const { name, eater, note, stars, imageURL } = foodItem;
+  const [foodName, setFoodName] = useState(name ?? null);
+
   const averageRating = calculateAverageRating(stars);
   return (
     <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('EditFoodPage', { foodItem, restaurantKey, foodName, setFoodName })
+      }
       style={{ backgroundColor: '#FFFFFF', borderRadius: radiusNumber, marginTop: 20 }}>
       {imageURL ? (
         <Image
@@ -48,7 +53,7 @@ const FoodCard = ({ navigation, foodItem }) => {
       )}
 
       <View style={{ padding: 6 }}>
-        <Text style={{ fontWeight: '600' }}>{name}</Text>
+        <Text style={{ fontWeight: '600' }}>{foodName}</Text>
         {averageRating ? (
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 6 }}>
             <SvgWithCssUri

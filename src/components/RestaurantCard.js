@@ -7,12 +7,13 @@ const imageSizeHeight = 120;
 const radiusNumber = 6;
 
 const RestaurantCard = ({ restaurant, navigation }) => {
-  const { name, imageURL } = restaurant;
+  const { name, imageURL, key } = restaurant;
   return (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate('RestaurantPage', {
-          restaurant: restaurant,
+          restaurantKey: key,
+          restaurantName: name,
         })
       }
       style={{

@@ -1,44 +1,34 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Text, TouchableOpacity, View, Image, TextInput, ScrollView } from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker';
-import { useRestaurant } from '../contexts/Restaurant';
+import React, { useRef, useState } from 'react';
+import { ScrollView, TouchableOpacity, View, Text, TextInput } from 'react-native';
 import { SvgWithCssUri } from 'react-native-svg/css';
-import { findRestaurant } from '../constants/const_functions';
+import ImagePlaceholder from '../components/ImagePlaceholder';
+import { useRestaurant } from '../contexts/Restaurant';
 
 const imageSize = 140;
 const radiusNumber = 6;
 const iconImageSize = 30;
 
-const EditRestaurantPage = ({ navigation, restaurantKey }) => {
-  const { restaurantsData } = useRestaurant();
-  const restaurant = findRestaurant(restaurantsData, restaurantKey);
-
-  const [restaurantName, setRestaurantName] = useState(restaurant.name ?? null);
-  const [newNameText, setNewNameText] = useState(restaurant.name ?? null);
-  const [restaurantImage, setRestaurantImage] = useState(restaurant.imageURL ?? null);
-
-  const { updateRestaurantField } = useRestaurant();
-
-  const [inputFocussed, setInputFocussed] = useState(false);
+const EditFoodPage = ({ navigation, route }) => {
+  const { foodItem, restaurantKey, foodName, setFoodName } = route.params;
   const inputRef = useRef();
+  const [inputFocussed, setInputFocussed] = useState(false);
+  const [newNameText, setNewNameText] = useState(foodItem.name ?? null);
+  const [foodItemImage, setFoodItemImage] = useState(foodItem.imageURL ?? null);
 
-  const uploadPhoto = async () => {
-    const fieldKey = 'imageURL';
-    const photoResult = await launchImageLibrary({ mediaType: 'photo' });
-    setRestaurantImage(photoResult.assets[0].uri);
-    updateRestaurantField(fieldKey, photoResult.assets[0].uri, restaurant.key);
-  };
+  const { updateFoodItemField } = useRestaurant();
+
+  const uploadPhoto = () => {};
 
   const handleUpdateName = () => {
     const fieldKey = 'name';
-    setRestaurantName(newNameText);
-    updateRestaurantField(fieldKey, newNameText, restaurant.key);
+    setFoodName(newNameText);
+    updateFoodItemField(fieldKey, newNameText, foodItem.key, restaurantKey);
     inputRef?.current?.blur();
   };
 
   const handleCancelEditName = () => {
     inputRef?.current?.blur();
-    setNewNameText(restaurantName);
+    setNewNameText(foodName);
   };
 
   return (
@@ -98,12 +88,12 @@ const EditRestaurantPage = ({ navigation, restaurantKey }) => {
         </View>
         <View style={{ paddingLeft: 20 }}>
           <View style={{ maxWidth: imageSize }}>
-            {restaurantImage ? (
+            {foodItemImage ? (
               <Image
                 width={imageSize}
                 height={imageSize}
                 source={{
-                  uri: restaurantImage,
+                  uri: foodItemImage,
                 }}
                 style={{
                   marginTop: 10,
@@ -111,14 +101,16 @@ const EditRestaurantPage = ({ navigation, restaurantKey }) => {
                 }}
                 resizeMode='cover'
               />
-            ) : null}
+            ) : (
+              <ImagePlaceholder />
+            )}
             <TouchableOpacity
               onPress={() => {
                 uploadPhoto();
               }}
               style={{ marginTop: 4 }}>
               <Text style={{ color: 'darkgray' }}>
-                {restaurantImage ? `Replace Photo` : `Upload Photo`}
+                {foodItemImage ? `Replace Photo` : `Upload Photo`}
               </Text>
             </TouchableOpacity>
           </View>
@@ -128,4 +120,4 @@ const EditRestaurantPage = ({ navigation, restaurantKey }) => {
   );
 };
 
-export default EditRestaurantPage;
+export default EditFoodPage;

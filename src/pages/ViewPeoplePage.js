@@ -1,12 +1,19 @@
 import React from 'react';
 import { FlatList, Text, View } from 'react-native';
-import { calculateAverageRating, transformFoodListToPeople } from '../constants/const_functions';
+import {
+  calculateAverageRating,
+  findRestaurant,
+  transformFoodListToPeople,
+} from '../constants/const_functions';
 import { SvgWithCssUri } from 'react-native-svg/css';
 import { Divider } from 'react-native-paper';
+import { useRestaurant } from '../contexts/Restaurant';
 
 const starSize = 12;
 
-const ViewPeoplePage = ({ navigation, restaurant }) => {
+const ViewPeoplePage = ({ navigation, restaurantKey }) => {
+  const { restaurantsData } = useRestaurant();
+  const restaurant = findRestaurant(restaurantsData, restaurantKey);
   const foodList = restaurant.foodList;
   const peopleArray = transformFoodListToPeople(foodList);
   return (

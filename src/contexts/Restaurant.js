@@ -26,10 +26,22 @@ const RestaurantProvider = ({ children }) => {
     }
   };
 
+  const updateFoodItemField = (fieldKey, fieldValue, foodItemKey, restaurantKey) => {
+    let restaurantsDataClone = _.cloneDeep(restaurantsData);
+    const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
+    const foodList = restaurantsDataClone[restaurantIndex].foodList;
+    const foodListIndex = _.findIndex(foodList, (foodItem) => foodItem.key === foodItemKey);
+    if (foodListIndex > -1) {
+      foodList[foodListIndex][`${fieldKey}`] = fieldValue;
+      restaurantsDataClone[restaurantIndex].foodList = foodList;
+      setRestaurantsData(restaurantsDataClone);
+    }
+  };
+
   const AddFoodItem = (foodName, eaterName, rating, note, restaurantKey) => {
-    let restaurantListClone = _.cloneDeep(restaurantsData);
-    const restaurantIndex = findRestaurantIndex(restaurantListClone, restaurantKey);
-    const restaurantFoodList = restaurantListClone[restaurantIndex].foodList;
+    let restaurantsDataClone = _.cloneDeep(restaurantsData);
+    const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
+    const restaurantFoodList = restaurantsDataClone[restaurantIndex].foodList;
     let foodListIndex = restaurantFoodList.length;
     // Check if already exiting food name
     const foodAlreadyExistsIndex = _.findIndex(
@@ -38,29 +50,29 @@ const RestaurantProvider = ({ children }) => {
     );
     if (foodAlreadyExistsIndex > -1) {
       foodListIndex = foodAlreadyExistsIndex;
-      const eaterArray = restaurantListClone[restaurantIndex].foodList[foodListIndex].eater;
-      const starsArray = restaurantListClone[restaurantIndex].foodList[foodListIndex].stars;
-      const notesArray = restaurantListClone[restaurantIndex].foodList[foodListIndex].note;
+      const eaterArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].eater;
+      const starsArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].stars;
+      const notesArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].note;
       if (eaterName && !eaterArray.includes(eaterName)) {
-        restaurantListClone[restaurantIndex].foodList[foodListIndex].eater.push(eaterName);
+        restaurantsDataClone[restaurantIndex].foodList[foodListIndex].eater.push(eaterName);
       }
       if (rating) {
         const ratingObject = eaterName ? { name: eaterName, rating } : { rating };
         if (starsArray) {
-          restaurantListClone[restaurantIndex].foodList[foodListIndex].stars.push(ratingObject);
+          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].stars.push(ratingObject);
         } else {
-          restaurantListClone[restaurantIndex].foodList[foodListIndex].stars = [ratingObject];
+          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].stars = [ratingObject];
         }
       }
       if (note) {
         const notesObject = eaterName ? { name: eaterName, note } : { note };
         if (notesArray) {
-          restaurantListClone[restaurantIndex].foodList[foodListIndex].note.push(notesObject);
+          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].note.push(notesObject);
         } else {
-          restaurantListClone[restaurantIndex].foodList[foodListIndex].note = [notesObject];
+          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].note = [notesObject];
         }
       }
-      setRestaurantsData(restaurantListClone);
+      setRestaurantsData(restaurantsDataClone);
     } else {
       let newFoodObject = {
         id: foodListIndex,
@@ -76,8 +88,8 @@ const RestaurantProvider = ({ children }) => {
         const notesObject = eaterName ? { name: eaterName, note } : { note };
         newFoodObject.note = [notesObject];
       }
-      restaurantListClone[restaurantIndex].foodList[foodListIndex] = newFoodObject;
-      setRestaurantsData(restaurantListClone);
+      restaurantsDataClone[restaurantIndex].foodList[foodListIndex] = newFoodObject;
+      setRestaurantsData(restaurantsDataClone);
     }
   };
 
@@ -97,6 +109,7 @@ const RestaurantProvider = ({ children }) => {
         setRestaurantsData,
         AddFoodItem,
         updateRestaurantField,
+        updateFoodItemField,
       }}>
       {children}
     </RestaurantContext.Provider>
