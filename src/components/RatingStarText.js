@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { SvgWithCssUri } from 'react-native-svg/css';
 
-const RatingStarText = ({ rating, starSize = 12 }) => {
+const RatingStarText = ({ rating, starSize = 12, fill = '#FFFFFF' }) => {
   return (
     <View
       style={{
@@ -12,7 +12,10 @@ const RatingStarText = ({ rating, starSize = 12 }) => {
       }}>
       <Text style={{ marginRight: 4 }}>{rating}</Text>
       <SvgWithCssUri
-        uri='https://youreats.s3.amazonaws.com/icons/star.svg'
+        uri='https://youreats.s3.amazonaws.com/icons/star-filled.svg'
+        fill={fill}
+        stroke={'black'}
+        strokeWidth={2}
         width={starSize}
         height={starSize}
       />

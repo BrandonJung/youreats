@@ -4,6 +4,7 @@ import { SvgWithCssUri } from 'react-native-svg/css';
 import { calculateAverageRating } from '../constants/const_functions';
 import ItemImage from './ItemImage';
 import ImagePlaceholder from './ImagePlaceholder';
+import RatingStarText from './RatingStarText';
 
 const radiusNumber = 6;
 const starSize = 12;
@@ -33,12 +34,7 @@ const FoodCard = ({ navigation, foodItem, restaurantKey }) => {
               flex: 1,
             }}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              <SvgWithCssUri
-                uri='https://youreats.s3.amazonaws.com/icons/star.svg'
-                width={starSize}
-                height={starSize}
-              />
-              <Text style={{ marginLeft: 4 }}>{averageRating}</Text>
+              <RatingStarText rating={averageRating} />
             </View>
           </View>
         ) : (

@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import React, { useState } from 'react';
 import HomePage from './src/pages/HomePage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -10,6 +10,7 @@ import ViewPeoplePage from './src/pages/ViewPeoplePage';
 import AddFoodPage from './src/pages/AddFoodPage';
 import { RestaurantProvider } from './src/contexts/Restaurant';
 import EditFoodPage from './src/pages/EditFoodPage';
+import { useColorScheme } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 const TopTabs = createMaterialTopTabNavigator();
@@ -67,9 +68,10 @@ const RestaurantTabs = ({ navigation, route }) => {
 };
 
 const App = () => {
+  const colorScheme = useColorScheme();
   return (
     <RestaurantProvider>
-      <NavigationContainer>
+      <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack.Navigator
           initialRouteName='HomeTabs'
           screenOptions={({ navigation, route }) => ({

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, FlatList, Text, View } from 'react-native';
+import { Alert, FlatList, Text, View, useColorScheme } from 'react-native';
 import RestaurantCard from '../components/RestaurantCard';
 import { RemoveFromStorage, StoreData } from '../constants/const_functions';
 import _ from 'lodash';

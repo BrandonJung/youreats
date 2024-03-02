@@ -26,7 +26,7 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
                 marginTop: 10,
                 marginHorizontal: 20,
               }}>
-              <Text style={{ fontWeight: '600', fontSize: 16, marginBottom: 4 }}>
+              <Text style={{ fontWeight: '600', fontSize: 16, marginBottom: 6 }}>
                 {item.eaterName}
               </Text>
               <View

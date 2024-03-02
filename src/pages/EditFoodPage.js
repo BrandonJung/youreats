@@ -120,7 +120,9 @@ const EditFoodPage = ({ navigation, route }) => {
             <View style={{ flex: 1, marginLeft: 10, flexDirection: 'row' }}>
               <Text style={{ fontWeight: '600' }}>Average Rating:</Text>
               <View style={{ marginLeft: 6 }}>
-                {!isNaN(averageRating) ? <RatingStarText rating={averageRating} /> : null}
+                {!isNaN(averageRating) ? (
+                  <RatingStarText rating={averageRating} fill={'#F6F6F6'} />
+                ) : null}
               </View>
             </View>
           </View>
