@@ -95,6 +95,7 @@ const App = () => {
             options={({ navigation, route }) => ({
               headerShown: true,
               title: route.params.restaurantName,
+              headerBackTitle: 'Home',
             })}
           />
           <Stack.Screen
@@ -112,6 +113,7 @@ const App = () => {
             options={({ navigation, route }) => ({
               headerShown: true,
               headerTitle: '',
+              headerBackTitle: 'Food',
             })}
           />
         </Stack.Navigator>
