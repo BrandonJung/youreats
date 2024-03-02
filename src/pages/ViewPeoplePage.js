@@ -1,5 +1,5 @@
-import React from 'react';
-import { FlatList, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import {
   calculateAverageRating,
   findRestaurant,
@@ -8,14 +8,78 @@ import {
 import { Divider } from 'react-native-paper';
 import { useRestaurant } from '../contexts/Restaurant';
 import RatingStarText from '../components/RatingStarText';
+import { SvgWithCssUri } from 'react-native-svg/css';
+import _ from 'lodash';
+
+const searchIconSize = 20;
 
 const ViewPeoplePage = ({ navigation, restaurantKey }) => {
   const { restaurantsData } = useRestaurant();
+  const [searchValue, setSearchValue] = useState('');
   const restaurant = findRestaurant(restaurantsData, restaurantKey);
   const foodList = restaurant.foodList;
-  const peopleArray = transformFoodListToPeople(foodList);
+  const masterPeopleFoodList = transformFoodListToPeople(foodList);
+  const [peopleArray, setPeopleArray] = useState(masterPeopleFoodList);
+
+  const handleSearch = (passedSearchValue) => {
+    if (passedSearchValue === null || passedSearchValue === '') {
+      setPeopleArray(masterPeopleFoodList);
+      return;
+    }
+    const peopleArrayClone = _.cloneDeep(peopleArray);
+    const retPeopleArray = [];
+    for (let person of peopleArrayClone) {
+      if (person.eaterName.toLowerCase().includes(passedSearchValue.toLowerCase())) {
+        retPeopleArray.push(person);
+        continue;
+      }
+      const eatenFoodsArray = person.eatenFoods;
+      for (let food of eatenFoodsArray) {
+        if (food.toLowerCase().includes(passedSearchValue.toLowerCase())) {
+          retPeopleArray.push(person);
+          break;
+        }
+      }
+    }
+    setPeopleArray(retPeopleArray);
+  };
+
+  useEffect(() => {
+    handleSearch(searchValue);
+  }, [searchValue]);
+
   return (
     <View style={{ height: '100%' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginTop: 20,
+          marginHorizontal: 20,
+        }}>
+        <TextInput
+          style={{
+            flex: 1,
+            backgroundColor: '#FFFFFF',
+            minHeight: 30,
+            borderColor: 'lightgray',
+            borderWidth: 1,
+            borderRadius: 6,
+            paddingLeft: 10,
+          }}
+          onChangeText={(t) => setSearchValue(t)}
+          placeholder='Search by name or food'
+        />
+        <TouchableOpacity onPress={() => handleSearch(searchValue)}>
+          <SvgWithCssUri
+            uri={`https://youreats.s3.amazonaws.com/icons/search.svg`}
+            width={searchIconSize}
+            height={searchIconSize}
+            fill={'darkgray'}
+            style={{ marginLeft: 10 }}
+          />
+        </TouchableOpacity>
+      </View>
       <FlatList
         data={peopleArray}
         style={{ flex: 1 }}

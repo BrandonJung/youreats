@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList } from 'react-native';
 import FoodCard from '../components/FoodCard';
 import { useRestaurant } from '../contexts/Restaurant';
 import { findRestaurant } from '../constants/const_functions';
