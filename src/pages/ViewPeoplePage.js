@@ -10,6 +10,7 @@ import { useRestaurant } from '../contexts/Restaurant';
 import RatingStarText from '../components/RatingStarText';
 import { SvgWithCssUri } from 'react-native-svg/css';
 import _ from 'lodash';
+import SearchBar from '../components/SearchBar';
 
 const searchIconSize = 20;
 
@@ -50,36 +51,12 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
 
   return (
     <View style={{ height: '100%' }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginTop: 20,
-          marginHorizontal: 20,
-        }}>
-        <TextInput
-          style={{
-            flex: 1,
-            backgroundColor: '#FFFFFF',
-            minHeight: 30,
-            borderColor: 'lightgray',
-            borderWidth: 1,
-            borderRadius: 6,
-            paddingLeft: 10,
-          }}
-          onChangeText={(t) => setSearchValue(t)}
-          placeholder='Search by name or food'
-        />
-        <TouchableOpacity onPress={() => handleSearch(searchValue)}>
-          <SvgWithCssUri
-            uri={`https://youreats.s3.amazonaws.com/icons/search.svg`}
-            width={searchIconSize}
-            height={searchIconSize}
-            fill={'darkgray'}
-            style={{ marginLeft: 10 }}
-          />
-        </TouchableOpacity>
-      </View>
+      <SearchBar
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        placeholderText={'Search by name or food'}
+        handleSearch={handleSearch}
+      />
       <FlatList
         data={peopleArray}
         style={{ flex: 1 }}
@@ -87,7 +64,7 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
           return (
             <View
               style={{
-                marginTop: 10,
+                marginBottom: 10,
                 marginHorizontal: 20,
               }}>
               <Text style={{ fontWeight: '600', fontSize: 16, marginBottom: 6 }}>
