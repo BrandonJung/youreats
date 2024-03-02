@@ -7,7 +7,7 @@ import _ from 'lodash';
 const RestaurantContext = createContext();
 
 const RestaurantProvider = ({ children }) => {
-  const [restaurantsData, setRestaurantsData] = useState(null);
+  const [restaurantsData, setRestaurantsData] = useState([]);
 
   useEffect(() => {
     retrieveData();
