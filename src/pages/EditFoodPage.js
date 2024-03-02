@@ -6,8 +6,10 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import ItemImage from '../components/ItemImage';
 import { Divider } from 'react-native-paper';
 import EditPenIcon from '../components/EditPenIcon';
+import { SvgWithCssUri } from 'react-native-svg/css';
 
 const imageSize = 140;
+const starSize = 12;
 
 const EditFoodPage = ({ navigation, route }) => {
   const { foodItem, restaurantKey } = route.params;
@@ -18,7 +20,7 @@ const EditFoodPage = ({ navigation, route }) => {
   const [foodItemImage, setFoodItemImage] = useState(foodItem.imageURL ?? null);
 
   const [foodNotes, setFoodNote] = useState(foodItem.notes ?? []);
-  const [newNotes, setNewNotes] = useState(foodItem.notes ?? []);
+  const [rating, setRating] = useState(foodItem.ratings ?? 0);
 
   const { updateFoodItemField, updateFoodListItemField } = useRestaurant();
 
@@ -118,9 +120,27 @@ const EditFoodPage = ({ navigation, route }) => {
           <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 10 }}>Notes</Text>
           <Divider style={{ marginTop: 10 }} />
           {foodNotes.map((note, index) => {
+            const averateRating = 0;
             return (
               <View key={`note_${index}`} style={{ marginTop: 10 }}>
-                <Text style={{ fontWeight: '600', fontSize: 16 }}>{note.name}</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Text style={{ fontWeight: '600', fontSize: 16 }}>{note.name}</Text>
+                  {!isNaN(averateRating) ? (
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <SvgWithCssUri
+                        uri='https://youreats.s3.amazonaws.com/icons/star.svg'
+                        width={starSize}
+                        height={starSize}
+                      />
+                      <Text style={{ marginLeft: 4 }}>{averateRating}</Text>
+                    </View>
+                  ) : null}
+                </View>
                 <Text style={{ marginTop: 4 }}>{`- ${note.note}`}</Text>
               </View>
             );

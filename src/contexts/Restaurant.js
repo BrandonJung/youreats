@@ -60,17 +60,17 @@ const RestaurantProvider = ({ children }) => {
     if (foodAlreadyExistsIndex > -1) {
       foodListIndex = foodAlreadyExistsIndex;
       const eaterArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].eater;
-      const starsArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].stars;
+      const ratingsArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].ratings;
       const notesArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].notes;
       if (eaterName && !eaterArray.includes(eaterName)) {
         restaurantsDataClone[restaurantIndex].foodList[foodListIndex].eater.push(eaterName);
       }
       if (rating) {
         const ratingObject = eaterName ? { name: eaterName, rating } : { rating };
-        if (starsArray) {
-          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].stars.push(ratingObject);
+        if (ratingsArray) {
+          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].ratings.push(ratingObject);
         } else {
-          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].stars = [ratingObject];
+          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].ratings = [ratingObject];
         }
       }
       if (note) {
@@ -91,7 +91,7 @@ const RestaurantProvider = ({ children }) => {
       };
       if (rating) {
         const ratingObject = eaterName ? { name: eaterName, rating } : { rating };
-        newFoodObject.stars = [ratingObject];
+        newFoodObject.ratings = [ratingObject];
       }
       if (note) {
         const notesObject = eaterName ? { name: eaterName, note } : { note };

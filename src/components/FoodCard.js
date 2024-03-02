@@ -9,9 +9,9 @@ const radiusNumber = 6;
 const starSize = 12;
 
 const FoodCard = ({ navigation, foodItem, restaurantKey }) => {
-  const { name, eater, notes, stars, imageURL } = foodItem;
+  const { name, eater, notes, rating, imageURL } = foodItem;
 
-  const averageRating = calculateAverageRating(stars);
+  const averageRating = calculateAverageRating(rating);
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('EditFoodPage', { foodItem, restaurantKey })}

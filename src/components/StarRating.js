@@ -7,8 +7,7 @@ const marginLeftAmount = 16;
 
 const StarRating = ({ rating, setRating }) => {
   return (
-    <View
-      style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8 }}>
       <TouchableOpacity onPress={() => setRating(1)}>
         <SvgWithCssUri
           uri='https://youreats.s3.amazonaws.com/icons/star.svg'

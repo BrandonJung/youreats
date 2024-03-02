@@ -34,10 +34,10 @@ export const GetFromStorage = async (key) => {
   }
 };
 
-export const calculateAverageRating = (starsArray) => {
-  if (starsArray) {
+export const calculateAverageRating = (ratingsArray) => {
+  if (ratingsArray) {
     const average =
-      starsArray.reduce((a, b) => a + (b.rating ? b.rating : b), 0) / (starsArray.length || 0);
+      ratingsArray.reduce((a, b) => a + (b.rating ? b.rating : b), 0) / (ratingsArray.length || 0);
     return average;
   } else {
     return false;
@@ -62,13 +62,13 @@ export const transformFoodListToPeople = (foodList) => {
   let peopleRes = {};
   for (let foodItem of foodList) {
     for (let name of foodItem.eater) {
-      let personStarsArray = [];
+      let personRatingsArray = [];
       let personNotesArray = [];
-      if (foodItem.stars) {
-        personStarsArray = foodItem.stars.filter(
+      if (foodItem.rating) {
+        personRatingsArray = foodItem.rating.filter(
           (rating) => rating.name?.toLowerCase() === name.toLowerCase(),
         );
-        personStarsArray.map((r) => (r.foodName = foodItem.name));
+        personRatingsArray.map((r) => (r.foodName = foodItem.name));
       }
       if (foodItem.notes) {
         personNotesArray = foodItem.notes.filter(
@@ -80,14 +80,14 @@ export const transformFoodListToPeople = (foodList) => {
         if (!peopleRes[name].eatenFoods.includes(foodItem.name)) {
           peopleRes[name].eatenFoods.push(foodItem.name);
         }
-        const newRatingsArray = peopleRes[name].ratings.concat(personStarsArray);
+        const newRatingsArray = peopleRes[name].ratings.concat(personRatingsArray);
         const newNotesArray = peopleRes[name].notes.concat(personNotesArray);
         peopleRes[name].ratings = newRatingsArray;
         peopleRes[name].notes = newNotesArray;
       } else {
         peopleRes[name] = {
           eatenFoods: [foodItem.name],
-          ratings: personStarsArray,
+          ratings: personRatingsArray,
           notes: personNotesArray,
         };
       }
