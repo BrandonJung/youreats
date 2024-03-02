@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { Alert, FlatList, Text, View, useColorScheme } from 'react-native';
+import { Alert, Dimensions, FlatList, Text, View } from 'react-native';
 import RestaurantCard from '../components/RestaurantCard';
 import { RemoveFromStorage, StoreData } from '../constants/const_functions';
 import _ from 'lodash';
 import OptionsPopup from '../components/OptionsPopup';
 import OptionsButton from '../components/OptionsButton';
 import { useRestaurant } from '../contexts/Restaurant';
+
+const { width, height } = Dimensions.get('window');
+const cardWidth = 160;
+const cardGap = (width - 2 * cardWidth) / 3;
 
 const HomePage = ({ navigation }) => {
   const [showOptions, setShowOptions] = useState(false);
@@ -50,12 +54,11 @@ const HomePage = ({ navigation }) => {
         <FlatList
           data={restaurantsData}
           numColumns={2}
-          columnWrapperStyle={{
-            flex: 1,
-            justifyContent: 'space-evenly',
-          }}
+          columnWrapperStyle={{ columnGap: cardGap, marginHorizontal: cardGap }}
           renderItem={({ item, index }) => {
-            return <RestaurantCard restaurant={item} navigation={navigation} />;
+            return (
+              <RestaurantCard restaurant={item} navigation={navigation} cardWidth={cardWidth} />
+            );
           }}
         />
       ) : (

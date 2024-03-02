@@ -5,7 +5,7 @@ import ImagePlaceholder from './ImagePlaceholder';
 
 const radiusNumber = 6;
 
-const RestaurantCard = ({ restaurant, navigation }) => {
+const RestaurantCard = ({ restaurant, navigation, cardWidth }) => {
   const { name, imageURL, key } = restaurant;
   return (
     <TouchableOpacity
@@ -21,11 +21,16 @@ const RestaurantCard = ({ restaurant, navigation }) => {
         marginTop: 20,
       }}>
       {imageURL ? (
-        <ItemImage imageURL={imageURL} imageHeight={120} imageWidth={160} onlyTopRounded={true} />
+        <ItemImage
+          imageURL={imageURL}
+          imageHeight={120}
+          imageWidth={cardWidth}
+          onlyTopRounded={true}
+        />
       ) : (
         <ImagePlaceholder
           type='restaurant'
-          imageWidth={160}
+          imageWidth={cardWidth}
           imageHeight={120}
           onlyTopRounded={true}
         />
