@@ -5,6 +5,7 @@ import { useRestaurant } from '../contexts/Restaurant';
 import { SvgWithCssUri } from 'react-native-svg/css';
 import { findRestaurant } from '../constants/const_functions';
 import ItemImage from '../components/ItemImage';
+import ImagePlaceholder from '../components/ImagePlaceholder';
 
 const imageSize = 140;
 const iconImageSize = 30;
@@ -99,7 +100,7 @@ const EditRestaurantPage = ({ navigation, restaurantKey }) => {
         </View>
         <View style={{ paddingLeft: 20 }}>
           <View style={{ maxWidth: imageSize }}>
-            {restaurantImage ? <ItemImage imageURL={restaurantImage} /> : null}
+            {restaurantImage ? <ItemImage imageURL={restaurantImage} /> : <ImagePlaceholder />}
             <TouchableOpacity
               onPress={() => {
                 uploadPhoto();
