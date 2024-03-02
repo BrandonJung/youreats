@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { SvgWithCssUri } from 'react-native-svg/css';
 
 const imageSizeWidth = 160;
 const imageSizeHeight = 120;

@@ -7,7 +7,7 @@ const FoodTextInput = ({
   passedStyle,
   passedValue,
   passedKeyboardType = 'default',
-  passedMultiLine = true,
+  passedMultiLine = false,
 }) => {
   return (
     <TextInput

@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import _ from 'lodash';
 
 export const StoreData = async (key, value) => {
   const convertedValue = JSON.stringify(value);
@@ -36,8 +37,7 @@ export const GetFromStorage = async (key) => {
 export const calculateAverageRating = (starsArray) => {
   if (starsArray) {
     const average =
-      starsArray.reduce((a, b) => a + (b.rating ? b.rating : b), 0) /
-      (starsArray.length || 0);
+      starsArray.reduce((a, b) => a + (b.rating ? b.rating : b), 0) / (starsArray.length || 0);
     return average;
   } else {
     return false;
@@ -95,4 +95,9 @@ export const transformFoodListToPeople = (foodList) => {
   }
   const retPeopleList = transformPeopleRes(peopleRes);
   return retPeopleList;
+};
+
+export const findRestaurantIndex = (restaurantList, searchKey) => {
+  const retIndex = _.findIndex(restaurantList, (r) => r.key === searchKey, 0);
+  return retIndex;
 };

@@ -148,6 +148,7 @@ const AddFoodPage = ({ navigation, route }) => {
             placeholderText={'Enter notes'}
             handleOnChange={setNote}
             passedValue={note}
+            passedMultiLine={true}
           />
           <FoodInputTitle title={'Rating'} />
           <StarRating rating={rating} setRating={setRating} />

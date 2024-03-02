@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { GetFromStorage, StoreData } from '../constants/const_functions';
+import { GetFromStorage, StoreData, findRestaurantIndex } from '../constants/const_functions';
 import _ from 'lodash';
 
 // Create the RestaurantContext with the data type specified
@@ -17,22 +17,19 @@ const RestaurantProvider = ({ children }) => {
     StoreData('restaurant-list', restaurantsData);
   }, [restaurantsData]);
 
-  const AddRestaurantPhoto = (passedPhotoURL, restaurantKey) => {
+  const updateRestaurantField = (fieldKey, fieldValue, restaurantKey) => {
     let restaurantsDataClone = _.cloneDeep(restaurantsData);
-    const restaurantIndex = _.findIndex(restaurantsDataClone, (r) => r.key === restaurantKey, 0);
+    const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
     if (restaurantIndex > -1) {
-      restaurantsDataClone[restaurantIndex].imageURL = passedPhotoURL;
+      restaurantsDataClone[restaurantIndex][`${fieldKey}`] = fieldValue;
       setRestaurantsData(restaurantsDataClone);
     }
   };
 
   const AddFoodItem = (foodName, eaterName, rating, note, restaurantKey) => {
     let restaurantListClone = _.cloneDeep(restaurantsData);
-    const restaurantFoodListIndex = _.findIndex(
-      restaurantListClone,
-      (r) => r.key === restaurantKey,
-    );
-    const restaurantFoodList = restaurantListClone[restaurantFoodListIndex].foodList;
+    const restaurantIndex = findRestaurantIndex(restaurantListClone, restaurantKey);
+    const restaurantFoodList = restaurantListClone[restaurantIndex].foodList;
     let foodListIndex = restaurantFoodList.length;
     // Check if already exiting food name
     const foodAlreadyExistsIndex = _.findIndex(
@@ -41,32 +38,26 @@ const RestaurantProvider = ({ children }) => {
     );
     if (foodAlreadyExistsIndex > -1) {
       foodListIndex = foodAlreadyExistsIndex;
-      const eaterArray = restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].eater;
-      const starsArray = restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].stars;
-      const notesArray = restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note;
+      const eaterArray = restaurantListClone[restaurantIndex].foodList[foodListIndex].eater;
+      const starsArray = restaurantListClone[restaurantIndex].foodList[foodListIndex].stars;
+      const notesArray = restaurantListClone[restaurantIndex].foodList[foodListIndex].note;
       if (eaterName && !eaterArray.includes(eaterName)) {
-        restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].eater.push(eaterName);
+        restaurantListClone[restaurantIndex].foodList[foodListIndex].eater.push(eaterName);
       }
       if (rating) {
         const ratingObject = eaterName ? { name: eaterName, rating } : { rating };
         if (starsArray) {
-          restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].stars.push(
-            ratingObject,
-          );
+          restaurantListClone[restaurantIndex].foodList[foodListIndex].stars.push(ratingObject);
         } else {
-          restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].stars = [
-            ratingObject,
-          ];
+          restaurantListClone[restaurantIndex].foodList[foodListIndex].stars = [ratingObject];
         }
       }
       if (note) {
         const notesObject = eaterName ? { name: eaterName, note } : { note };
         if (notesArray) {
-          restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note.push(
-            notesObject,
-          );
+          restaurantListClone[restaurantIndex].foodList[foodListIndex].note.push(notesObject);
         } else {
-          restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex].note = [notesObject];
+          restaurantListClone[restaurantIndex].foodList[foodListIndex].note = [notesObject];
         }
       }
       setRestaurantsData(restaurantListClone);
@@ -85,7 +76,7 @@ const RestaurantProvider = ({ children }) => {
         const notesObject = eaterName ? { name: eaterName, note } : { note };
         newFoodObject.note = [notesObject];
       }
-      restaurantListClone[restaurantFoodListIndex].foodList[foodListIndex] = newFoodObject;
+      restaurantListClone[restaurantIndex].foodList[foodListIndex] = newFoodObject;
       setRestaurantsData(restaurantListClone);
     }
   };
@@ -105,7 +96,7 @@ const RestaurantProvider = ({ children }) => {
         restaurantsData,
         setRestaurantsData,
         AddFoodItem,
-        AddRestaurantPhoto,
+        updateRestaurantField,
       }}>
       {children}
     </RestaurantContext.Provider>
