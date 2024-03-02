@@ -55,7 +55,7 @@ const RestaurantProvider = ({ children }) => {
     // Check if already exiting food name
     const foodAlreadyExistsIndex = _.findIndex(
       restaurantFoodList,
-      (foodItem) => foodItem.name === foodName,
+      (foodItem) => foodItem.name.toLowerCase() === foodName.toLowerCase(),
     );
     if (foodAlreadyExistsIndex > -1) {
       foodListIndex = foodAlreadyExistsIndex;
