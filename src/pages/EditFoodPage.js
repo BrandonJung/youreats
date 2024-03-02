@@ -22,8 +22,8 @@ const EditFoodPage = ({ navigation, route }) => {
   const uploadPhoto = async () => {
     const fieldKey = 'imageURL';
     const photoResult = await launchImageLibrary({ mediaType: 'photo' });
-    setFoodItemImage(photoResult.assets[0].uri);
-    updateFoodItemField(fieldKey, photoResult.assets[0].uri, foodItem.key, restaurantKey);
+    setFoodItemImage(photoResult?.assets[0].uri);
+    updateFoodItemField(fieldKey, photoResult?.assets[0].uri, foodItem.key, restaurantKey);
   };
 
   const handleUpdateName = () => {
