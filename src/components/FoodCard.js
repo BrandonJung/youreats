@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity, Image, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { SvgWithCssUri } from 'react-native-svg/css';
 import { calculateAverageRating } from '../constants/const_functions';
 import ItemImage from './ItemImage';

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Text, TouchableOpacity, View, Image, TextInput, ScrollView } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useRestaurant } from '../contexts/Restaurant';
@@ -7,7 +7,6 @@ import { findRestaurant } from '../constants/const_functions';
 import ItemImage from '../components/ItemImage';
 
 const imageSize = 140;
-const radiusNumber = 6;
 const iconImageSize = 30;
 
 const EditRestaurantPage = ({ navigation, restaurantKey }) => {
