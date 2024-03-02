@@ -52,7 +52,6 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
         searchValue={searchValue}
         setSearchValue={setSearchValue}
         placeholderText={'Search by name or food'}
-        handleSearch={handleSearch}
       />
       <FlatList
         data={peopleArray}

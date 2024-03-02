@@ -51,7 +51,6 @@ const ViewFoodPage = ({ navigation, restaurantKey }) => {
         searchValue={searchValue}
         setSearchValue={setSearchValue}
         placeholderText={'Search by food'}
-        handleSearch={handleSearch}
       />
       <FlatList
         data={foodList}

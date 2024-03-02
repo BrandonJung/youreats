@@ -4,12 +4,7 @@ import { SvgWithCssUri } from 'react-native-svg/css';
 
 const searchIconSize = 20;
 
-const SearchBar = ({
-  searchValue,
-  setSearchValue,
-  placeholderText = 'Search here',
-  handleSearch,
-}) => {
+const SearchBar = ({ searchValue, setSearchValue, placeholderText = 'Search here' }) => {
   return (
     <View
       style={{
@@ -29,10 +24,12 @@ const SearchBar = ({
           borderRadius: 6,
           paddingLeft: 10,
         }}
+        value={searchValue}
+        autoCapitalize='none'
         onChangeText={(t) => setSearchValue(t)}
         placeholder={placeholderText}
       />
-      <TouchableOpacity onPress={() => handleSearch(searchValue)}>
+      {/* <TouchableOpacity onPress={() => handleSearch(searchValue)}>
         <SvgWithCssUri
           uri={`https://youreats.s3.amazonaws.com/icons/search.svg`}
           width={searchIconSize}
@@ -40,7 +37,7 @@ const SearchBar = ({
           fill={'darkgray'}
           style={{ marginLeft: 10 }}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
