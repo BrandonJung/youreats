@@ -52,7 +52,7 @@ export const transformFoodListToPeople = (foodList) => {
         eaterName: key,
         eatenFoods: passedPeopleRes[key].eatenFoods,
         ratings: passedPeopleRes[key].ratings,
-        note: passedPeopleRes[key].note,
+        notes: passedPeopleRes[key].notes,
       };
       retArray.push(retObject);
     }
@@ -70,9 +70,9 @@ export const transformFoodListToPeople = (foodList) => {
         );
         personStarsArray.map((r) => (r.foodName = foodItem.name));
       }
-      if (foodItem.note) {
-        personNotesArray = foodItem.note.filter(
-          (note) => note.name?.toLowerCase() === name.toLowerCase(),
+      if (foodItem.notes) {
+        personNotesArray = foodItem.notes.filter(
+          (notes) => notes.name?.toLowerCase() === name.toLowerCase(),
         );
         personNotesArray.map((n) => (n.foodName = foodItem.name));
       }
@@ -81,14 +81,14 @@ export const transformFoodListToPeople = (foodList) => {
           peopleRes[name].eatenFoods.push(foodItem.name);
         }
         const newRatingsArray = peopleRes[name].ratings.concat(personStarsArray);
-        const newNotesArray = peopleRes[name].note.concat(personNotesArray);
+        const newNotesArray = peopleRes[name].notes.concat(personNotesArray);
         peopleRes[name].ratings = newRatingsArray;
-        peopleRes[name].note = newNotesArray;
+        peopleRes[name].notes = newNotesArray;
       } else {
         peopleRes[name] = {
           eatenFoods: [foodItem.name],
           ratings: personStarsArray,
-          note: personNotesArray,
+          notes: personNotesArray,
         };
       }
     }

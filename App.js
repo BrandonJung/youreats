@@ -105,7 +105,7 @@ const App = () => {
             component={EditFoodPage}
             options={({ navigation, route }) => ({
               headerShown: true,
-              headerTitle: 'Edit Food',
+              headerTitle: '',
             })}
           />
         </Stack.Navigator>

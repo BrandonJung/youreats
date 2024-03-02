@@ -1,23 +1,26 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, TouchableOpacity, View, Text, TextInput } from 'react-native';
-import { SvgWithCssUri } from 'react-native-svg/css';
 import ImagePlaceholder from '../components/ImagePlaceholder';
 import { useRestaurant } from '../contexts/Restaurant';
 import { launchImageLibrary } from 'react-native-image-picker';
 import ItemImage from '../components/ItemImage';
+import { Divider } from 'react-native-paper';
+import EditPenIcon from '../components/EditPenIcon';
 
 const imageSize = 140;
-const iconImageSize = 30;
 
 const EditFoodPage = ({ navigation, route }) => {
   const { foodItem, restaurantKey } = route.params;
-  const inputRef = useRef();
-  const [inputFocussed, setInputFocussed] = useState(false);
+  const titleInputRef = useRef();
+  const [titleInputFocussed, setTitleInputFocussed] = useState(false);
   const [foodName, setFoodName] = useState(foodItem.name ?? null);
   const [newNameText, setNewNameText] = useState(foodItem.name ?? null);
   const [foodItemImage, setFoodItemImage] = useState(foodItem.imageURL ?? null);
 
-  const { updateFoodItemField } = useRestaurant();
+  const [foodNotes, setFoodNote] = useState(foodItem.notes ?? []);
+  const [newNotes, setNewNotes] = useState(foodItem.notes ?? []);
+
+  const { updateFoodItemField, updateFoodListItemField } = useRestaurant();
 
   const uploadPhoto = async () => {
     const fieldKey = 'imageURL';
@@ -30,12 +33,37 @@ const EditFoodPage = ({ navigation, route }) => {
     const fieldKey = 'name';
     setFoodName(newNameText);
     updateFoodItemField(fieldKey, newNameText, foodItem.key, restaurantKey);
-    inputRef?.current?.blur();
+    titleInputRef?.current?.blur();
   };
 
   const handleCancelEditName = () => {
-    inputRef?.current?.blur();
+    titleInputRef?.current?.blur();
     setNewNameText(foodName);
+  };
+
+  const renderEditSaveCancel = (saveAction, cancelAction, editAction, focussed) => {
+    return (
+      <>
+        {focussed ? (
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              onPress={() => saveAction()}
+              style={{ marginLeft: 10, flexDirection: 'row' }}>
+              <Text style={{ color: 'darkgray', fontSize: 16 }}>Save</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => cancelAction()}
+              style={{ marginLeft: 10, flexDirection: 'row' }}>
+              <Text style={{ color: 'darkgray', fontSize: 16 }}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity onPress={() => editAction()}>
+            <EditPenIcon />
+          </TouchableOpacity>
+        )}
+      </>
+    );
   };
 
   return (
@@ -50,11 +78,11 @@ const EditFoodPage = ({ navigation, route }) => {
             alignItems: 'center',
           }}>
           <TextInput
-            ref={inputRef}
-            onFocus={() => setInputFocussed(true)}
-            onBlur={() => setInputFocussed(false)}
+            ref={titleInputRef}
+            onFocus={() => setTitleInputFocussed(true)}
+            onBlur={() => setTitleInputFocussed(false)}
             style={[
-              inputFocussed
+              titleInputFocussed
                 ? {
                     borderWidth: 1,
                     padding: 10,
@@ -67,34 +95,14 @@ const EditFoodPage = ({ navigation, route }) => {
             value={newNameText}
             onChangeText={(t) => setNewNameText(t)}
           />
-
-          {inputFocussed ? (
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity
-                onPress={() => handleUpdateName()}
-                style={{ marginLeft: 10, flexDirection: 'row' }}>
-                <Text style={{ color: 'darkgray', fontSize: 16 }}>Save</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => handleCancelEditName()}
-                style={{ marginLeft: 10, flexDirection: 'row' }}>
-                <Text style={{ color: 'darkgray', fontSize: 16 }}>Cancel</Text>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <TouchableOpacity onPress={() => inputRef?.current?.focus()}>
-              <SvgWithCssUri
-                uri='https://youreats.s3.amazonaws.com/icons/pen.svg'
-                width={iconImageSize}
-                height={iconImageSize}
-                fill={'darkgray'}
-                stroke={'gray'}
-                style={{ marginLeft: 10 }}
-              />
-            </TouchableOpacity>
+          {renderEditSaveCancel(
+            handleUpdateName,
+            handleCancelEditName,
+            () => titleInputRef?.current?.focus(),
+            titleInputFocussed,
           )}
         </View>
-        <View style={{ paddingLeft: 20 }}>
+        <View style={{ paddingHorizontal: 20 }}>
           <View style={{ maxWidth: imageSize }}>
             {foodItemImage ? <ItemImage imageURL={foodItemImage} /> : <ImagePlaceholder />}
             <TouchableOpacity
@@ -107,6 +115,16 @@ const EditFoodPage = ({ navigation, route }) => {
               </Text>
             </TouchableOpacity>
           </View>
+          <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 10 }}>Notes</Text>
+          <Divider style={{ marginTop: 10 }} />
+          {foodNotes.map((note, index) => {
+            return (
+              <View key={`note_${index}`} style={{ marginTop: 10 }}>
+                <Text style={{ fontWeight: '600', fontSize: 16 }}>{note.name}</Text>
+                <Text style={{ marginTop: 4 }}>{`- ${note.note}`}</Text>
+              </View>
+            );
+          })}
         </View>
       </View>
     </ScrollView>

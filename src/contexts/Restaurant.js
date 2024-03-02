@@ -17,6 +17,16 @@ const RestaurantProvider = ({ children }) => {
     StoreData('restaurant-list', restaurantsData);
   }, [restaurantsData]);
 
+  const updateFoodListItemField = (foodItemIndex, fieldKey, fieldValue, restaurantKey) => {
+    let restaurantsDataClone = _.cloneDeep(restaurantsData);
+    const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
+    if (restaurantIndex > -1) {
+      let foodItemList = restaurantsDataClone[restaurantIndex].foodList;
+      let foodItem = foodItemList[foodItemIndex];
+      console.log('asdf', foodItem);
+    }
+  };
+
   const updateRestaurantField = (fieldKey, fieldValue, restaurantKey) => {
     let restaurantsDataClone = _.cloneDeep(restaurantsData);
     const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
@@ -52,7 +62,7 @@ const RestaurantProvider = ({ children }) => {
       foodListIndex = foodAlreadyExistsIndex;
       const eaterArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].eater;
       const starsArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].stars;
-      const notesArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].note;
+      const notesArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].notes;
       if (eaterName && !eaterArray.includes(eaterName)) {
         restaurantsDataClone[restaurantIndex].foodList[foodListIndex].eater.push(eaterName);
       }
@@ -67,9 +77,9 @@ const RestaurantProvider = ({ children }) => {
       if (note) {
         const notesObject = eaterName ? { name: eaterName, note } : { note };
         if (notesArray) {
-          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].note.push(notesObject);
+          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].notes.push(notesObject);
         } else {
-          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].note = [notesObject];
+          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].notes = [notesObject];
         }
       }
       setRestaurantsData(restaurantsDataClone);
@@ -86,7 +96,7 @@ const RestaurantProvider = ({ children }) => {
       }
       if (note) {
         const notesObject = eaterName ? { name: eaterName, note } : { note };
-        newFoodObject.note = [notesObject];
+        newFoodObject.notes = [notesObject];
       }
       restaurantsDataClone[restaurantIndex].foodList[foodListIndex] = newFoodObject;
       setRestaurantsData(restaurantsDataClone);
@@ -110,6 +120,7 @@ const RestaurantProvider = ({ children }) => {
         AddFoodItem,
         updateRestaurantField,
         updateFoodItemField,
+        updateFoodListItemField,
       }}>
       {children}
     </RestaurantContext.Provider>

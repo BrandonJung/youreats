@@ -24,7 +24,7 @@ const AddFoodPage = ({ navigation, route }) => {
   const [foodName, setFoodName] = useState(null);
   const [eaterName, setEaterName] = useState(null);
   const [rating, setRating] = useState(0);
-  const [note, setNote] = useState('');
+  const [notes, setNotes] = useState('');
   const [restaurant, setRestaurant] = useState(null);
 
   const { restaurantsData, setRestaurantsData, AddFoodItem } = useRestaurant();
@@ -57,7 +57,7 @@ const AddFoodPage = ({ navigation, route }) => {
       Alert.alert('Missing restaurant');
       return;
     }
-    AddFoodItem(foodName, eaterName, rating, note, restaurant);
+    AddFoodItem(foodName, eaterName, rating, notes, restaurant);
     navigation.pop();
   };
 
@@ -146,8 +146,8 @@ const AddFoodPage = ({ navigation, route }) => {
           <FoodInputTitle title={'Notes'} />
           <FoodTextInput
             placeholderText={'Enter notes'}
-            handleOnChange={setNote}
-            passedValue={note}
+            handleOnChange={setNotes}
+            passedValue={notes}
             passedMultiLine={true}
           />
           <FoodInputTitle title={'Rating'} />

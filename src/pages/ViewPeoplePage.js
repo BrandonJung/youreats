@@ -60,10 +60,10 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
                           </View>
                         ) : null}
                       </View>
-                      {item.note?.length ? (
+                      {item.notes?.length ? (
                         <View style={{ marginTop: 10, marginLeft: 0 }}>
                           <Text style={{ marginBottom: 4 }}>Notes:</Text>
-                          {item.note.map((note) => {
+                          {item.notes.map((note) => {
                             if (note.foodName === foodItem) {
                               return (
                                 <Text

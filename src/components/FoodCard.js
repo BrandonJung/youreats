@@ -9,7 +9,7 @@ const radiusNumber = 6;
 const starSize = 12;
 
 const FoodCard = ({ navigation, foodItem, restaurantKey }) => {
-  const { name, eater, note, stars, imageURL } = foodItem;
+  const { name, eater, notes, stars, imageURL } = foodItem;
 
   const averageRating = calculateAverageRating(stars);
   return (
