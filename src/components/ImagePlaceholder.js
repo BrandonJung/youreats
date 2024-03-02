@@ -2,12 +2,16 @@ import React from 'react';
 import { View } from 'react-native';
 import { SvgWithCssUri } from 'react-native-svg/css';
 
-const imageSize = 140;
 const radiusNumber = 6;
 
 const acceptedPlaceholderTypes = ['fork'];
 
-const ImagePlaceholder = ({ type = 'fork' }) => {
+const ImagePlaceholder = ({
+  type = 'fork',
+  imageWidth = 140,
+  imageHeight = 140,
+  onlyTopRounded = false,
+}) => {
   let imageType = type;
   if (!acceptedPlaceholderTypes.includes(imageType)) {
     imageType = 'fork';
@@ -15,16 +19,24 @@ const ImagePlaceholder = ({ type = 'fork' }) => {
   const imageURL = `https://youreats.s3.amazonaws.com/icons/${imageType}.svg`;
   return (
     <View
-      style={{
-        marginTop: 10,
-        borderRadius: radiusNumber,
-        width: imageSize,
-        height: imageSize,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#E3E3E3',
-      }}>
-      <SvgWithCssUri uri={imageURL} width={imageSize - 40} height={imageSize - 40} fill={'grey'} />
+      style={[
+        {
+          width: imageWidth,
+          height: imageHeight,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#E3E3E3',
+        },
+        onlyTopRounded
+          ? { borderTopLeftRadius: radiusNumber, borderTopRightRadius: radiusNumber }
+          : { borderRadius: radiusNumber },
+      ]}>
+      <SvgWithCssUri
+        uri={imageURL}
+        width={imageWidth - 40}
+        height={imageHeight - 40}
+        fill={'grey'}
+      />
     </View>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { ScrollView, TouchableOpacity, View, Text, TextInput, Image } from 'react-native';
+import { ScrollView, TouchableOpacity, View, Text, TextInput } from 'react-native';
 import { SvgWithCssUri } from 'react-native-svg/css';
 import ImagePlaceholder from '../components/ImagePlaceholder';
 import { useRestaurant } from '../contexts/Restaurant';
@@ -7,7 +7,6 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import ItemImage from '../components/ItemImage';
 
 const imageSize = 140;
-const radiusNumber = 6;
 const iconImageSize = 30;
 
 const EditFoodPage = ({ navigation, route }) => {
