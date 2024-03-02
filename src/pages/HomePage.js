@@ -23,7 +23,7 @@ const HomePage = ({ navigation }) => {
       id: newIndex,
       key: `rest_${newIndex}`,
       name: restaurantName,
-      imageURL: 'https://youreats.s3.amazonaws.com/images/stock-resto.png',
+      imageURL: '',
       foodList: [],
     };
     restaurantListClone[newIndex] = newRestaurantObject;
@@ -41,6 +41,11 @@ const HomePage = ({ navigation }) => {
       {restaurantsData?.length > 0 ? (
         <FlatList
           data={restaurantsData}
+          numColumns={2}
+          columnWrapperStyle={{
+            flex: 1,
+            justifyContent: 'space-evenly',
+          }}
           renderItem={({ item, index }) => {
             return <RestaurantCard restaurant={item} navigation={navigation} />;
           }}

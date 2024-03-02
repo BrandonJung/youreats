@@ -21,7 +21,7 @@ const RestaurantProvider = ({ children }) => {
     let restaurantsDataClone = _.cloneDeep(restaurantsData);
     const restaurantIndex = _.findIndex(restaurantsDataClone, (r) => r.key === restaurantKey, 0);
     if (restaurantIndex > -1) {
-      restaurantsDataClone[restaurantIndex].photoURL = passedPhotoURL;
+      restaurantsDataClone[restaurantIndex].imageURL = passedPhotoURL;
       setRestaurantsData(restaurantsDataClone);
     }
   };

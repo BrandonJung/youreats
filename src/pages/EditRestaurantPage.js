@@ -7,7 +7,7 @@ const imageSize = 140;
 const radiusNumber = 6;
 
 const EditRestaurantPage = ({ navigation, restaurant }) => {
-  const [restaurantImage, setRestaurantImage] = useState(restaurant.photoURL ?? null);
+  const [restaurantImage, setRestaurantImage] = useState(restaurant.imageURL ?? null);
 
   const { AddRestaurantPhoto } = useRestaurant();
 
