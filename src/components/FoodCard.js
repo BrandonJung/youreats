@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, Image, View } from 'react-native';
 import { SvgWithCssUri } from 'react-native-svg/css';
 import { calculateAverageRating } from '../constants/const_functions';
+import ItemImage from './ItemImage';
 
 const imageSizeWidth = 160;
 const imageSizeHeight = 120;
@@ -17,18 +18,7 @@ const FoodCard = ({ navigation, foodItem, restaurantKey }) => {
       onPress={() => navigation.navigate('EditFoodPage', { foodItem, restaurantKey })}
       style={{ backgroundColor: '#FFFFFF', borderRadius: radiusNumber, marginTop: 20 }}>
       {imageURL ? (
-        <Image
-          width={imageSizeWidth}
-          height={imageSizeHeight}
-          source={{
-            uri: imageURL,
-          }}
-          style={{
-            borderTopLeftRadius: radiusNumber,
-            borderTopRightRadius: radiusNumber,
-          }}
-          resizeMode='cover'
-        />
+        <ItemImage imageURL={imageURL} imageHeight={120} imageWidth={160} onlyTopRounded={true} />
       ) : (
         <View
           style={{
