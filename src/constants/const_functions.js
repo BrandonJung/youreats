@@ -1,5 +1,31 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import _ from 'lodash';
+import axios from 'axios';
+
+export const apiCall = async (service, path, method, data) => {
+  const url = `http://localhost:3000/api/${service}/${path}`;
+  const m = method.toLowerCase();
+  const config = {
+    method: m,
+    url: url,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: { message: 'please work' },
+  };
+  if (m === 'get') {
+    config.params = data;
+  } else {
+    config.data = data;
+  }
+  try {
+    const retData = await axios.request(config);
+    console.log('api call ret data', retData);
+    return retData;
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 export const StoreData = async (key, value) => {
   const convertedValue = JSON.stringify(value);

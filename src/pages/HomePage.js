@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Dimensions, FlatList, Text, View } from 'react-native';
 import RestaurantCard from '../components/RestaurantCard';
-import { RemoveFromStorage, StoreData } from '../constants/const_functions';
+import { RemoveFromStorage, StoreData, apiCall } from '../constants/const_functions';
 import _ from 'lodash';
 import OptionsPopup from '../components/OptionsPopup';
 import OptionsButton from '../components/OptionsButton';
 import { useRestaurant } from '../contexts/Restaurant';
+import { apiService } from '../constants/const_api';
 
 const { width, height } = Dimensions.get('window');
 const cardWidth = 160;
@@ -47,6 +48,19 @@ const HomePage = ({ navigation }) => {
     const deleteRestaurants = await RemoveFromStorage('restaurant-list');
     setRestaurantsData([]);
   };
+
+  const retrieveData = async () => {
+    try {
+      const res = await apiCall(apiService.food, 'retrieveList', 'get', { userId: 'hello1' });
+      console.log('res: ', res);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    retrieveData();
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
