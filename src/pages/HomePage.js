@@ -51,8 +51,8 @@ const HomePage = ({ navigation }) => {
 
   const retrieveData = async () => {
     try {
-      const res = await apiCall(apiService.food, 'retrieveList', 'get', { userId: 'hello1' });
-      console.log('res: ', res);
+      const res = await apiCall(apiService.food, '', 'get', {});
+      console.log('res: ', res.data);
     } catch (e) {
       console.log(e);
     }
