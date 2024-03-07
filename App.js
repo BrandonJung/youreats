@@ -11,6 +11,7 @@ import AddFoodPage from './src/pages/AddFoodPage';
 import { RestaurantProvider } from './src/contexts/Restaurant';
 import EditFoodPage from './src/pages/EditFoodPage';
 import { useColorScheme } from 'react-native';
+import { UserProvider } from './src/contexts/User';
 
 const Stack = createNativeStackNavigator();
 const TopTabs = createMaterialTopTabNavigator();
@@ -74,51 +75,53 @@ const RestaurantTabs = ({ navigation, route }) => {
 const App = () => {
   const colorScheme = useColorScheme();
   return (
-    <RestaurantProvider>
-      <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack.Navigator
-          initialRouteName='HomeTabs'
-          screenOptions={({ navigation, route }) => ({
-            headerBackTitle: 'Back',
-          })}>
-          <Stack.Screen
-            name='Home'
-            component={HomePage}
-            options={({ navigation, route }) => ({
-              headerShown: true,
-              title: 'Good Morning',
-            })}
-          />
-          <Stack.Screen
-            name='RestaurantPage'
-            component={RestaurantTabs}
-            options={({ navigation, route }) => ({
-              headerShown: true,
-              title: route.params.restaurantName,
-              headerBackTitle: 'Home',
-            })}
-          />
-          <Stack.Screen
-            name='AddFoodPage'
-            component={AddFoodPage}
-            options={({ navigation, route }) => ({
-              headerShown: true,
-              headerTitle: 'Add New Food',
-            })}
-          />
+    <UserProvider>
+      <RestaurantProvider>
+        <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack.Navigator
+            initialRouteName='HomeTabs'
+            screenOptions={({ navigation, route }) => ({
+              headerBackTitle: 'Back',
+            })}>
+            <Stack.Screen
+              name='Home'
+              component={HomePage}
+              options={({ navigation, route }) => ({
+                headerShown: true,
+                title: 'Good Morning',
+              })}
+            />
+            <Stack.Screen
+              name='RestaurantPage'
+              component={RestaurantTabs}
+              options={({ navigation, route }) => ({
+                headerShown: true,
+                title: route.params.restaurantName,
+                headerBackTitle: 'Home',
+              })}
+            />
+            <Stack.Screen
+              name='AddFoodPage'
+              component={AddFoodPage}
+              options={({ navigation, route }) => ({
+                headerShown: true,
+                headerTitle: 'Add New Food',
+              })}
+            />
 
-          <Stack.Screen
-            name='EditFoodPage'
-            component={EditFoodPage}
-            options={({ navigation, route }) => ({
-              headerShown: true,
-              headerTitle: '',
-              headerBackTitle: 'Food',
-            })}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </RestaurantProvider>
+            <Stack.Screen
+              name='EditFoodPage'
+              component={EditFoodPage}
+              options={({ navigation, route }) => ({
+                headerShown: true,
+                headerTitle: '',
+                headerBackTitle: 'Food',
+              })}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </RestaurantProvider>
+    </UserProvider>
   );
 };
 

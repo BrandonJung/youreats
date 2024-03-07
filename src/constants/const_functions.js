@@ -3,8 +3,15 @@ import _ from 'lodash';
 import axios from 'axios';
 
 export const apiCall = async (service, path, method, data) => {
+  if (!service) {
+  }
+  if (!path) {
+  }
+  if (method) {
+  }
   const url = `http://localhost:3000/api/${service}/${path}`;
   const m = method.toLowerCase();
+  const dataObject = { ...data };
   const config = {
     method: m,
     url: url,
@@ -14,13 +21,12 @@ export const apiCall = async (service, path, method, data) => {
     body: { message: 'please work' },
   };
   if (m === 'get') {
-    config.params = data;
+    config.params = dataObject;
   } else {
-    config.data = data;
+    config.data = dataObject;
   }
   try {
     const retData = await axios.request(config);
-    console.log('api call ret data', retData);
     return retData;
   } catch (e) {
     console.log(e);

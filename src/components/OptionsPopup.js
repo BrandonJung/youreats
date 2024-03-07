@@ -5,7 +5,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 const OptionsPopup = ({
   showOptions,
   setShowOptions,
-  addNewRestaurant,
+  handleAddRestaurant,
   resetRestaurants,
   showAddFood,
   navigation,
@@ -25,7 +25,7 @@ const OptionsPopup = ({
               text: 'Submit',
               onPress: (t) => {
                 setShowOptions(!showOptions);
-                addNewRestaurant(t);
+                handleAddRestaurant(t);
               },
             },
           ]);

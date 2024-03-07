@@ -15,9 +15,9 @@ const cardGap = (width - 2 * cardWidth) / 3;
 const HomePage = ({ navigation }) => {
   const [showOptions, setShowOptions] = useState(false);
 
-  const { restaurantsData, setRestaurantsData } = useRestaurant();
+  const { restaurantsData, setRestaurantsData, addRestaurant } = useRestaurant();
 
-  const addNewRestaurant = (restaurantName) => {
+  const handleAddRestaurant = (restaurantName) => {
     if (!restaurantName) {
       Alert.alert('Missing restaurant name');
       return;
@@ -31,36 +31,13 @@ const HomePage = ({ navigation }) => {
         }
       }
     }
-    const newIndex = restaurantListClone.length;
-    const newRestaurantObject = {
-      id: newIndex,
-      key: `rest_${newIndex}`,
-      name: restaurantName,
-      imageURL: '',
-      foodList: [],
-    };
-    restaurantListClone[newIndex] = newRestaurantObject;
-    setRestaurantsData(restaurantListClone);
-    StoreData('restaurant-list', restaurantListClone);
+    addRestaurant(restaurantListClone, restaurantName);
   };
 
   const resetRestaurants = async () => {
     const deleteRestaurants = await RemoveFromStorage('restaurant-list');
     setRestaurantsData([]);
   };
-
-  const retrieveData = async () => {
-    try {
-      const res = await apiCall(apiService.food, '', 'get', {});
-      console.log('res: ', res.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    retrieveData();
-  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -88,7 +65,7 @@ const HomePage = ({ navigation }) => {
           <OptionsPopup
             showOptions={showOptions}
             setShowOptions={setShowOptions}
-            addNewRestaurant={addNewRestaurant}
+            handleAddRestaurant={handleAddRestaurant}
             resetRestaurants={resetRestaurants}
             showAddFood={restaurantsData?.length > 0}
             navigation={navigation}

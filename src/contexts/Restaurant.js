@@ -1,6 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { GetFromStorage, StoreData, findRestaurantIndex } from '../constants/const_functions';
+import {
+  GetFromStorage,
+  StoreData,
+  apiCall,
+  findRestaurantIndex,
+} from '../constants/const_functions';
 import _ from 'lodash';
+import { apiService } from '../constants/const_api';
+import { useUser } from './User';
 
 // Create the RestaurantContext with the data type specified
 // and a empty object
@@ -8,6 +15,8 @@ const RestaurantContext = createContext();
 
 const RestaurantProvider = ({ children }) => {
   const [restaurantsData, setRestaurantsData] = useState([]);
+
+  const { retrieveUserId } = useUser();
 
   useEffect(() => {
     retrieveData();
@@ -93,10 +102,41 @@ const RestaurantProvider = ({ children }) => {
     }
   };
 
+  const retrieveRestaurants = async () => {
+    try {
+      const retrieveRes = await apiCall(apiService.restaurant, 'retrieve', 'get', {});
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const addRestaurant = async (restaurantName) => {
+    try {
+      // const addRes = await apiCall(apiService.restaurant, 'add', 'post', { name: restaurantName });
+      // console.log('Add Restaurant res: ', res?.body);
+      // if (addRes?.body) {
+      //   retrieveRestaurants();
+      // } else {
+      //   // Add to local storage
+      // }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // const retrieveData = async () => {
+  //   const restaurantRes = await GetFromStorage('restaurant-list');
+  //   if (restaurantRes) {
+  //     setRestaurantsData(restaurantRes);
+  //   }
+  // };
+
   const retrieveData = async () => {
-    const restaurantRes = await GetFromStorage('restaurant-list');
-    if (restaurantRes) {
-      setRestaurantsData(restaurantRes);
+    try {
+      // const res = await apiCall(apiService.food, '', 'get', {});
+      // console.log('res: ', res.data);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -110,6 +150,7 @@ const RestaurantProvider = ({ children }) => {
         AddFoodItem,
         updateRestaurantField,
         updateFoodItemField,
+        addRestaurant,
       }}>
       {children}
     </RestaurantContext.Provider>

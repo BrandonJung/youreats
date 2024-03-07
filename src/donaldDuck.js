@@ -27,3 +27,11 @@ const restaurantData = [
     name: 'Elisas',
   },
 ];
+
+const user = {
+  firstName: 'Brandon',
+  lastName: 'Jung',
+  id: 'uuid',
+  email: 'brandonjung111@gmail.com',
+  mobile: '7788382328',
+};
