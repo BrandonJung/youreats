@@ -22,6 +22,7 @@ const UserProvider = ({ children }) => {
         email,
       });
       if (userRes?.data?.insertedId) {
+        console.log('User Res: ' + userRes.data.insertedId);
         const userId = userRes.data.insertedId;
         const retrieveUserRes = await retrieveUser(userId);
         if (retrieveUserRes) {
@@ -46,6 +47,7 @@ const UserProvider = ({ children }) => {
           userId,
         });
         if (res?.data) {
+          console.log('RetrieveRes: ', res.data);
           setUserData(res?.data);
           return res.data;
         } else {
