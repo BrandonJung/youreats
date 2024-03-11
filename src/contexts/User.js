@@ -10,36 +10,52 @@ const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    retrieveData();
+    retrieveUser();
   }, []);
 
-  const makeUser = async () => {};
+  const createUser = async (firstName, lastName, mobile, email) => {
+    try {
+      const userRes = await apiCall(apiService.user, 'createUser', 'post', {
+        firstName,
+        lastName,
+        mobile,
+        email,
+      });
+      if (userRes?.data?.insertedId) {
+        const userId = userRes.data.insertedId;
+        const retrieveUserRes = await retrieveUser(userId);
+        if (retrieveUserRes) {
+          return retrieveUserRes;
+        }
+      } else if (userRes.meessage) {
+        console.log(userRes.message);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  const retrieveData = async () => {
-    const userIdRes = await GetFromStorage('userId');
-    if (userIdRes) {
+  const retrieveUser = async (passedUserId = null) => {
+    let userId = passedUserId;
+    if (!passedUserId) {
+      userId = await GetFromStorage('userId');
+    }
+    if (userId) {
       try {
         const res = await apiCall(apiService.user, 'retrieveUserByUserId', 'get', {
-          userId: userIdRes,
+          userId,
         });
         if (res?.data) {
-          // Do something with data
+          setUserData(res?.data);
+          return res.data;
         } else {
           console.log(res.message);
         }
       } catch (e) {
         console.log(e);
       }
-    } else {
-      try {
-        // Make a new user
-      } catch (e) {
-        console.log(e);
-      }
     }
   };
-
-  const retrieveUserId = async () => {};
 
   return (
     // This component will be used to encapsulate the whole App,
@@ -48,6 +64,8 @@ const UserProvider = ({ children }) => {
       value={{
         userData,
         setUserData,
+        retrieveUser,
+        createUser,
       }}>
       {children}
     </UserContext.Provider>

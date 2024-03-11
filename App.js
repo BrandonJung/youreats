@@ -12,6 +12,7 @@ import { RestaurantProvider } from './src/contexts/Restaurant';
 import EditFoodPage from './src/pages/EditFoodPage';
 import { useColorScheme } from 'react-native';
 import { UserProvider } from './src/contexts/User';
+import AccountPage from './src/pages/AccountPage';
 
 const Stack = createNativeStackNavigator();
 const TopTabs = createMaterialTopTabNavigator();
@@ -33,12 +34,12 @@ const HomeTabs = () => {
         name='CameraPage'
         component={HomePage}
         options={({ navigation, route }) => ({ title: 'Camera' })}
-      />
+      /> */}
       <BottomTabs.Screen
         name='Account'
-        component={HomePage}
+        component={AccountPage}
         options={({ navigation, route }) => ({ title: 'Account' })}
-      /> */}
+      />
     </BottomTabs.Navigator>
   );
 };
@@ -85,7 +86,7 @@ const App = () => {
             })}>
             <Stack.Screen
               name='Home'
-              component={HomePage}
+              component={HomeTabs}
               options={({ navigation, route }) => ({
                 headerShown: true,
                 title: 'Good Morning',

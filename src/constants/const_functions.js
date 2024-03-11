@@ -4,10 +4,13 @@ import axios from 'axios';
 
 export const apiCall = async (service, path, method, data) => {
   if (!service) {
+    throw new Error('API CALL - Missing service');
   }
   if (!path) {
+    throw new Error('API CALL - Missing path');
   }
-  if (method) {
+  if (!method) {
+    throw new Error('API CALL - Missing method');
   }
   const url = `http://localhost:3000/api/${service}/${path}`;
   const m = method.toLowerCase();
@@ -18,7 +21,6 @@ export const apiCall = async (service, path, method, data) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: { message: 'please work' },
   };
   if (m === 'get') {
     config.params = dataObject;
