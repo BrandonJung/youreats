@@ -140,3 +140,9 @@ export const findRestaurant = (restaurantList, key) => {
   const restaurantIndex = _.findIndex(restaurantList, (r) => r.key === key);
   return restaurantList[restaurantIndex];
 };
+
+export const returnMessage = (message) => {
+  return {
+    message,
+  };
+};

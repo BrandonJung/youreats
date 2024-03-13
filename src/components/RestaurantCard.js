@@ -6,13 +6,13 @@ import ImagePlaceholder from './ImagePlaceholder';
 const radiusNumber = 6;
 
 const RestaurantCard = ({ restaurant, navigation, cardWidth, setShowOptions }) => {
-  const { name, imageURL, key } = restaurant;
+  const { name, imageURL, _id } = restaurant;
   return (
     <TouchableOpacity
       onPress={() => {
         setShowOptions(false);
         navigation.navigate('RestaurantPage', {
-          restaurantKey: key,
+          restaurantKey: _id,
           restaurantName: name,
         });
       }}

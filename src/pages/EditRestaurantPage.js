@@ -11,41 +11,41 @@ const imageSize = 140;
 const iconImageSize = 30;
 
 const EditRestaurantPage = ({ navigation, restaurantKey }) => {
-  const { restaurantsData } = useRestaurant();
-  const restaurant = findRestaurant(restaurantsData, restaurantKey);
+  // const { restaurantsData } = useRestaurant();
+  // const restaurant = findRestaurant(restaurantsData, restaurantKey);
 
-  const [restaurantName, setRestaurantName] = useState(restaurant.name ?? null);
-  const [newNameText, setNewNameText] = useState(restaurant.name ?? null);
-  const [restaurantImage, setRestaurantImage] = useState(restaurant.imageURL ?? null);
+  // const [restaurantName, setRestaurantName] = useState(restaurant.name ?? null);
+  // const [newNameText, setNewNameText] = useState(restaurant.name ?? null);
+  // const [restaurantImage, setRestaurantImage] = useState(restaurant.imageURL ?? null);
 
-  const { updateRestaurantField } = useRestaurant();
+  // const { updateRestaurantField } = useRestaurant();
 
-  const [inputFocussed, setInputFocussed] = useState(false);
-  const inputRef = useRef();
+  // const [inputFocussed, setInputFocussed] = useState(false);
+  // const inputRef = useRef();
 
-  const uploadPhoto = async () => {
-    const fieldKey = 'imageURL';
-    const photoResult = await launchImageLibrary({ mediaType: 'photo' });
-    setRestaurantImage(photoResult?.assets[0].uri);
-    updateRestaurantField(fieldKey, photoResult?.assets[0].uri, restaurant.key);
-  };
+  // const uploadPhoto = async () => {
+  //   const fieldKey = 'imageURL';
+  //   const photoResult = await launchImageLibrary({ mediaType: 'photo' });
+  //   setRestaurantImage(photoResult?.assets[0].uri);
+  //   updateRestaurantField(fieldKey, photoResult?.assets[0].uri, restaurant.key);
+  // };
 
-  const handleUpdateName = () => {
-    const fieldKey = 'name';
-    navigation.setOptions({ title: newNameText });
-    setRestaurantName(newNameText);
-    updateRestaurantField(fieldKey, newNameText, restaurant.key);
-    inputRef?.current?.blur();
-  };
+  // const handleUpdateName = () => {
+  //   const fieldKey = 'name';
+  //   navigation.setOptions({ title: newNameText });
+  //   setRestaurantName(newNameText);
+  //   updateRestaurantField(fieldKey, newNameText, restaurant.key);
+  //   inputRef?.current?.blur();
+  // };
 
-  const handleCancelEditName = () => {
-    inputRef?.current?.blur();
-    setNewNameText(restaurantName);
-  };
+  // const handleCancelEditName = () => {
+  //   inputRef?.current?.blur();
+  //   setNewNameText(restaurantName);
+  // };
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}>
-      <View>
+      {/* <View>
         <View
           style={{
             marginTop: 10,
@@ -114,7 +114,7 @@ const EditRestaurantPage = ({ navigation, restaurantKey }) => {
           </View>
           <View style={{ flex: 1, marginLeft: 10 }}></View>
         </View>
-      </View>
+      </View> */}
     </ScrollView>
   );
 };

@@ -4,6 +4,7 @@ import {
   StoreData,
   apiCall,
   findRestaurantIndex,
+  returnMessage,
 } from '../constants/const_functions';
 import _ from 'lodash';
 import { apiService } from '../constants/const_api';
@@ -18,6 +19,10 @@ const RestaurantProvider = ({ children }) => {
   const [retrievedData, setRetrievedData] = useState(false);
 
   const { userData } = useUser();
+
+  useEffect(() => {
+    console.log('restaurants data', restaurantsData);
+  }, [restaurantsData]);
 
   useEffect(() => {
     if (userData && !retrievedData) {
@@ -62,9 +67,45 @@ const RestaurantProvider = ({ children }) => {
   const deleteAllRestaurants = async () => {
     try {
       const deleteRes = await apiCall(apiService.restaurant, 'deleteAllRestaurants', 'delete', {});
-      console.log('Delete Restaurants Res: ', deleteRes?.data);
+      const deleteFoodRest = await apiCall(apiService.food, 'deleteAllFoods', 'delete', {});
+      console.log('Delete Restaurants Res: ', deleteRes?.data, deleteFoodRest?.data);
+      retrieveRestaurants();
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const addFoodItem = async (foodName, eaterName, rating, note, restaurantId) => {
+    try {
+      const foodRes = await apiCall(apiService.food, 'addFoodItem', 'post', {
+        foodName,
+        eaterName,
+        rating,
+        note,
+        restaurantId,
+      });
+      console.log('Add Food Res: ', foodRes.data);
+      if (foodRes.data) {
+        retrieveRestaurants();
+        return returnMessage('Success');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const retrieveFoodData = async (restaurantId) => {
+    const restaurantRes = restaurantsData.find((r) => r._id === restaurantId);
+    if (restaurantRes) {
+      const foodsListId = restaurantRes.foodListId;
+      const retrieveFoodRes = await apiCall(apiService.food, 'retrieveFoods', 'get', {
+        foodsListId,
+      });
+      if (retrieveFoodRes?.data) {
+        return retrieveFoodRes.data;
+      } else {
+        return [];
+      }
     }
   };
 
@@ -89,61 +130,6 @@ const RestaurantProvider = ({ children }) => {
     }
   };
 
-  const AddFoodItem = (foodName, eaterName, rating, note, restaurantKey) => {
-    const restaurantsDataClone = _.cloneDeep(restaurantsData);
-    const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
-    const restaurantFoodList = restaurantsDataClone[restaurantIndex].foodList;
-    let foodListIndex = restaurantFoodList.length;
-    // Check if already exiting food name
-    const foodAlreadyExistsIndex = _.findIndex(
-      restaurantFoodList,
-      (foodItem) => foodItem.name.toLowerCase() === foodName.toLowerCase(),
-    );
-    if (foodAlreadyExistsIndex > -1) {
-      foodListIndex = foodAlreadyExistsIndex;
-      const eaterArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].eater;
-      const ratingsArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].ratings;
-      const notesArray = restaurantsDataClone[restaurantIndex].foodList[foodListIndex].notes;
-      if (eaterName && !eaterArray.includes(eaterName)) {
-        restaurantsDataClone[restaurantIndex].foodList[foodListIndex].eater.push(eaterName);
-      }
-      if (rating) {
-        const ratingObject = eaterName ? { name: eaterName, rating } : { rating };
-        if (ratingsArray) {
-          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].ratings.push(ratingObject);
-        } else {
-          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].ratings = [ratingObject];
-        }
-      }
-      if (note) {
-        const notesObject = eaterName ? { name: eaterName, note } : { note };
-        if (notesArray) {
-          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].notes.push(notesObject);
-        } else {
-          restaurantsDataClone[restaurantIndex].foodList[foodListIndex].notes = [notesObject];
-        }
-      }
-      setRestaurantsData(restaurantsDataClone);
-    } else {
-      const newFoodObject = {
-        id: foodListIndex,
-        key: `food_${foodListIndex}`,
-        name: foodName,
-        eater: [eaterName],
-      };
-      if (rating) {
-        const ratingObject = eaterName ? { name: eaterName, rating } : { rating };
-        newFoodObject.ratings = [ratingObject];
-      }
-      if (note) {
-        const notesObject = eaterName ? { name: eaterName, note } : { note };
-        newFoodObject.notes = [notesObject];
-      }
-      restaurantsDataClone[restaurantIndex].foodList[foodListIndex] = newFoodObject;
-      setRestaurantsData(restaurantsDataClone);
-    }
-  };
-
   return (
     // This component will be used to encapsulate the whole App,
     // so all components will have access to the Context
@@ -151,11 +137,12 @@ const RestaurantProvider = ({ children }) => {
       value={{
         restaurantsData,
         setRestaurantsData,
-        AddFoodItem,
+        addFoodItem,
         updateRestaurantField,
         updateFoodItemField,
         addRestaurant,
         deleteAllRestaurants,
+        retrieveFoodData,
       }}>
       {children}
     </RestaurantContext.Provider>

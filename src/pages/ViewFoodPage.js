@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Dimensions, FlatList, View } from 'react-native';
 import FoodCard from '../components/FoodCard';
 import { useRestaurant } from '../contexts/Restaurant';
-import { findRestaurant } from '../constants/const_functions';
 import SearchBar from '../components/SearchBar';
 import _ from 'lodash';
 
@@ -11,23 +10,23 @@ const cardWidth = 160;
 const cardGap = (width - 2 * cardWidth) / 3;
 
 const ViewFoodPage = ({ navigation, restaurantKey }) => {
-  const { restaurantsData } = useRestaurant();
+  const [foodList, setFoodList] = useState(null);
   const [masterFoodList, setMasterFoodList] = useState(null);
-  const [foodList, setFoodList] = useState(masterFoodList);
   const [searchValue, setSearchValue] = useState('');
 
-  const retrieveData = (passedRestaurantData) => {
-    const restaurant = findRestaurant(passedRestaurantData, restaurantKey);
-    setMasterFoodList(restaurant.foodList);
+  const { retrieveFoodData } = useRestaurant();
+
+  const retrieveData = async () => {
+    console.log('asdf');
+    const foodDataRes = await retrieveFoodData(restaurantKey);
+    console.log('food data res', foodDataRes);
+    setFoodList(foodDataRes);
+    setMasterFoodList(foodDataRes);
   };
 
   useEffect(() => {
-    setFoodList(masterFoodList);
-  }, [masterFoodList]);
-
-  useEffect(() => {
-    retrieveData(restaurantsData);
-  }, [restaurantsData]);
+    retrieveData();
+  }, []);
 
   const handleSearch = (passedSearchValue) => {
     if (passedSearchValue === null || passedSearchValue === '') {

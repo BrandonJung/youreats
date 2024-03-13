@@ -25,16 +25,16 @@ const AddFoodPage = ({ navigation, route }) => {
   const [eaterName, setEaterName] = useState(null);
   const [rating, setRating] = useState(0);
   const [notes, setNotes] = useState('');
-  const [restaurant, setRestaurant] = useState(null);
+  const [restaurantId, setRestaurantId] = useState(null);
 
-  const { restaurantsData, setRestaurantsData, AddFoodItem } = useRestaurant();
+  const { restaurantsData, addFoodItem } = useRestaurant();
 
   const retrieveData = async () => {
     if (restaurantsData) {
       const transformedRestaurantList = restaurantsData.map((restaurant) => {
         return {
           label: restaurant.name,
-          value: restaurant.key,
+          value: restaurant._id,
         };
       });
       setRestaurantDropdownList(transformedRestaurantList);
@@ -53,11 +53,14 @@ const AddFoodPage = ({ navigation, route }) => {
       Alert.alert('Missing food name');
       return;
     }
-    if (!restaurant) {
+    if (!eaterName) {
+      Alert.alert('Missing eater name');
+    }
+    if (!restaurantId) {
       Alert.alert('Missing restaurant');
       return;
     }
-    AddFoodItem(foodName, eaterName, rating, notes, restaurant);
+    addFoodItem(foodName, eaterName, rating, notes, restaurantId);
     navigation.pop();
   };
 
@@ -106,8 +109,8 @@ const AddFoodPage = ({ navigation, route }) => {
   const Dropdown = () => {
     return (
       <RNPickerSelect
-        onValueChange={(value) => setRestaurant(value)}
-        value={restaurant}
+        onValueChange={(value) => setRestaurantId(value)}
+        value={restaurantId}
         items={restaurantDropdownList}
       />
     );

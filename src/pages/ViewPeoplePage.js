@@ -12,43 +12,43 @@ import _ from 'lodash';
 import SearchBar from '../components/SearchBar';
 
 const ViewPeoplePage = ({ navigation, restaurantKey }) => {
-  const { restaurantsData } = useRestaurant();
-  const [searchValue, setSearchValue] = useState('');
-  const restaurant = findRestaurant(restaurantsData, restaurantKey);
-  const foodList = restaurant.foodList;
-  const masterPeopleFoodList = transformFoodListToPeople(foodList);
-  const [peopleArray, setPeopleArray] = useState(masterPeopleFoodList);
+  // const { restaurantsData } = useRestaurant();
+  // const [searchValue, setSearchValue] = useState('');
+  // const restaurant = findRestaurant(restaurantsData, restaurantKey);
+  // const foodList = restaurant.foodList;
+  // const masterPeopleFoodList = transformFoodListToPeople(foodList);
+  // const [peopleArray, setPeopleArray] = useState(masterPeopleFoodList);
 
-  const handleSearch = (passedSearchValue) => {
-    if (passedSearchValue === null || passedSearchValue === '') {
-      setPeopleArray(masterPeopleFoodList);
-      return;
-    }
-    const peopleArrayClone = _.cloneDeep(masterPeopleFoodList);
-    const retPeopleArray = [];
-    for (const person of peopleArrayClone) {
-      if (person.eaterName.toLowerCase().includes(passedSearchValue.toLowerCase())) {
-        retPeopleArray.push(person);
-        continue;
-      }
-      const eatenFoodsArray = person.eatenFoods;
-      for (const food of eatenFoodsArray) {
-        if (food.toLowerCase().includes(passedSearchValue.toLowerCase())) {
-          retPeopleArray.push(person);
-          break;
-        }
-      }
-    }
-    setPeopleArray(retPeopleArray);
-  };
+  // const handleSearch = (passedSearchValue) => {
+  //   if (passedSearchValue === null || passedSearchValue === '') {
+  //     setPeopleArray(masterPeopleFoodList);
+  //     return;
+  //   }
+  //   const peopleArrayClone = _.cloneDeep(masterPeopleFoodList);
+  //   const retPeopleArray = [];
+  //   for (const person of peopleArrayClone) {
+  //     if (person.eaterName.toLowerCase().includes(passedSearchValue.toLowerCase())) {
+  //       retPeopleArray.push(person);
+  //       continue;
+  //     }
+  //     const eatenFoodsArray = person.eatenFoods;
+  //     for (const food of eatenFoodsArray) {
+  //       if (food.toLowerCase().includes(passedSearchValue.toLowerCase())) {
+  //         retPeopleArray.push(person);
+  //         break;
+  //       }
+  //     }
+  //   }
+  //   setPeopleArray(retPeopleArray);
+  // };
 
-  useEffect(() => {
-    handleSearch(searchValue);
-  }, [searchValue]);
+  // useEffect(() => {
+  //   handleSearch(searchValue);
+  // }, [searchValue]);
 
   return (
     <View style={{ height: '100%' }}>
-      <SearchBar
+      {/* <SearchBar
         searchValue={searchValue}
         setSearchValue={setSearchValue}
         placeholderText={'Search by name or food'}
@@ -111,7 +111,7 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
             </View>
           );
         }}
-      />
+      /> */}
     </View>
   );
 };
