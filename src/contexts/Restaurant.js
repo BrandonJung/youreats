@@ -15,8 +15,15 @@ const RestaurantContext = createContext();
 
 const RestaurantProvider = ({ children }) => {
   const [restaurantsData, setRestaurantsData] = useState([]);
+  const [retrievedData, setRetrievedData] = useState(false);
 
   const { userData } = useUser();
+
+  useEffect(() => {
+    if (userData && !retrievedData) {
+      retrieveRestaurants();
+    }
+  }, [userData]);
 
   useEffect(() => {
     StoreData('restaurant-list', restaurantsData);
@@ -29,6 +36,7 @@ const RestaurantProvider = ({ children }) => {
       });
       console.log('Retrieve Restaurant Res: ', retrieveRes.data);
       setRestaurantsData(retrieveRes?.data);
+      setRetrievedData(true);
     } catch (e) {
       console.log(e);
     }

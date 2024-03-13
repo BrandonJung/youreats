@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { GetFromStorage, apiCall } from '../constants/const_functions';
+import { GetFromStorage, StoreData, apiCall } from '../constants/const_functions';
 import { apiService } from '../constants/const_api';
 
 // Create the RestaurantContext with the data type specified
@@ -48,6 +48,7 @@ const UserProvider = ({ children }) => {
         });
         if (res?.data) {
           console.log('RetrieveRes: ', res.data);
+          StoreData('userId', res?.data?._id);
           setUserData(res?.data);
           return res.data;
         } else {

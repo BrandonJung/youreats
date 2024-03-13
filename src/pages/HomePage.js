@@ -5,6 +5,7 @@ import _ from 'lodash';
 import OptionsPopup from '../components/OptionsPopup';
 import OptionsButton from '../components/OptionsButton';
 import { useRestaurant } from '../contexts/Restaurant';
+import { useUser } from '../contexts/User';
 
 const { width, height } = Dimensions.get('window');
 const cardWidth = 160;
@@ -13,7 +14,8 @@ const cardGap = (width - 2 * cardWidth) / 3;
 const HomePage = ({ navigation }) => {
   const [showOptions, setShowOptions] = useState(false);
 
-  const { restaurantsData, setRestaurantsData, addRestaurant } = useRestaurant();
+  const { restaurantsData, addRestaurant } = useRestaurant();
+  const { userData } = useUser();
 
   const handleAddRestaurant = (restaurantName) => {
     if (!restaurantName) {
@@ -53,18 +55,20 @@ const HomePage = ({ navigation }) => {
       ) : (
         <Text style={{ flex: 1 }}>Add a restaurant to start!</Text>
       )}
-      <View>
-        {showOptions ? (
-          <OptionsPopup
-            showOptions={showOptions}
-            setShowOptions={setShowOptions}
-            handleAddRestaurant={handleAddRestaurant}
-            showAddFood={restaurantsData?.length > 0}
-            navigation={navigation}
-          />
-        ) : null}
-        <OptionsButton showOptions={showOptions} setShowOptions={setShowOptions} />
-      </View>
+      {userData ? (
+        <View>
+          {showOptions ? (
+            <OptionsPopup
+              showOptions={showOptions}
+              setShowOptions={setShowOptions}
+              handleAddRestaurant={handleAddRestaurant}
+              showAddFood={restaurantsData?.length > 0}
+              navigation={navigation}
+            />
+          ) : null}
+          <OptionsButton showOptions={showOptions} setShowOptions={setShowOptions} />
+        </View>
+      ) : null}
     </View>
   );
 };
