@@ -16,15 +16,49 @@ const RestaurantContext = createContext();
 const RestaurantProvider = ({ children }) => {
   const [restaurantsData, setRestaurantsData] = useState([]);
 
-  const { retrieveUserId } = useUser();
-
-  useEffect(() => {
-    retrieveData();
-  }, []);
+  const { userData } = useUser();
 
   useEffect(() => {
     StoreData('restaurant-list', restaurantsData);
   }, [restaurantsData]);
+
+  const retrieveRestaurants = async () => {
+    try {
+      const retrieveRes = await apiCall(apiService.restaurant, 'retrieveRestaurants', 'get', {
+        userId: userData._id,
+      });
+      console.log('Retrieve Restaurant Res: ', retrieveRes.data);
+      setRestaurantsData(retrieveRes?.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const addRestaurant = async (restaurantName) => {
+    try {
+      const addRes = await apiCall(apiService.restaurant, 'addRestaurant', 'post', {
+        name: restaurantName,
+        userId: userData._id,
+      });
+      console.log('Add Restaurant res: ', addRes?.data);
+      if (addRes?.data?.insertedId) {
+        retrieveRestaurants();
+      } else {
+        // Add to local storage
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const deleteAllRestaurants = async () => {
+    try {
+      const deleteRes = await apiCall(apiService.restaurant, 'deleteAllRestaurants', 'delete', {});
+      console.log('Delete Restaurants Res: ', deleteRes?.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const updateRestaurantField = (fieldKey, fieldValue, restaurantKey) => {
     const restaurantsDataClone = _.cloneDeep(restaurantsData);
@@ -102,44 +136,6 @@ const RestaurantProvider = ({ children }) => {
     }
   };
 
-  const retrieveRestaurants = async () => {
-    try {
-      const retrieveRes = await apiCall(apiService.restaurant, 'retrieve', 'get', {});
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const addRestaurant = async (restaurantName) => {
-    try {
-      // const addRes = await apiCall(apiService.restaurant, 'add', 'post', { name: restaurantName });
-      // console.log('Add Restaurant res: ', res?.body);
-      // if (addRes?.body) {
-      //   retrieveRestaurants();
-      // } else {
-      //   // Add to local storage
-      // }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  // const retrieveData = async () => {
-  //   const restaurantRes = await GetFromStorage('restaurant-list');
-  //   if (restaurantRes) {
-  //     setRestaurantsData(restaurantRes);
-  //   }
-  // };
-
-  const retrieveData = async () => {
-    try {
-      // const res = await apiCall(apiService.food, '', 'get', {});
-      // console.log('res: ', res.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   return (
     // This component will be used to encapsulate the whole App,
     // so all components will have access to the Context
@@ -151,6 +147,7 @@ const RestaurantProvider = ({ children }) => {
         updateRestaurantField,
         updateFoodItemField,
         addRestaurant,
+        deleteAllRestaurants,
       }}>
       {children}
     </RestaurantContext.Provider>

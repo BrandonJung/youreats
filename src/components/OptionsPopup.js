@@ -1,15 +1,16 @@
 import React from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { useRestaurant } from '../contexts/Restaurant';
 
 const OptionsPopup = ({
   showOptions,
   setShowOptions,
   handleAddRestaurant,
-  resetRestaurants,
   showAddFood,
   navigation,
 }) => {
+  const { deleteAllRestaurants } = useRestaurant();
   return (
     <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.addButtonOptionContainer}>
       <TouchableOpacity
@@ -42,7 +43,7 @@ const OptionsPopup = ({
           <Text>Add Food</Text>
         </TouchableOpacity>
       ) : null}
-      {/* <TouchableOpacity
+      <TouchableOpacity
         style={styles.addButtonOption}
         onPress={() => {
           Alert.alert('Are you sure you want to delete restaurants', '', [
@@ -54,14 +55,14 @@ const OptionsPopup = ({
             {
               text: 'Yes',
               onPress: () => {
-                resetRestaurants();
+                deleteAllRestaurants();
                 setShowOptions(!showOptions);
               },
             },
           ]);
         }}>
         <Text>Delete Restaurants</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </Animated.View>
   );
 };

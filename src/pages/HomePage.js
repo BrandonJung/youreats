@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Alert, Dimensions, FlatList, Text, View } from 'react-native';
 import RestaurantCard from '../components/RestaurantCard';
-import { RemoveFromStorage, StoreData, apiCall } from '../constants/const_functions';
 import _ from 'lodash';
 import OptionsPopup from '../components/OptionsPopup';
 import OptionsButton from '../components/OptionsButton';
 import { useRestaurant } from '../contexts/Restaurant';
-import { apiService } from '../constants/const_api';
 
 const { width, height } = Dimensions.get('window');
 const cardWidth = 160;
@@ -31,12 +29,7 @@ const HomePage = ({ navigation }) => {
         }
       }
     }
-    addRestaurant(restaurantListClone, restaurantName);
-  };
-
-  const resetRestaurants = async () => {
-    const deleteRestaurants = await RemoveFromStorage('restaurant-list');
-    setRestaurantsData([]);
+    addRestaurant(restaurantName);
   };
 
   return (
@@ -66,7 +59,6 @@ const HomePage = ({ navigation }) => {
             showOptions={showOptions}
             setShowOptions={setShowOptions}
             handleAddRestaurant={handleAddRestaurant}
-            resetRestaurants={resetRestaurants}
             showAddFood={restaurantsData?.length > 0}
             navigation={navigation}
           />

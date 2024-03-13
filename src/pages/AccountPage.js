@@ -22,7 +22,7 @@ const AccountPage = ({ navigation }) => {
     }
     const createUserRes = await createUser(newFirstName, newLastName, newEmail, newMobile);
     if (createUserRes) {
-      Alert.alert('New User successfully created');
+      navigation.navigate('HomePage');
     } else {
       Alert.alert('Error creating user');
     }
