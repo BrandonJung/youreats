@@ -21,10 +21,6 @@ const RestaurantProvider = ({ children }) => {
   const { userData } = useUser();
 
   useEffect(() => {
-    console.log('restaurants data', restaurantsData);
-  }, [restaurantsData]);
-
-  useEffect(() => {
     if (userData && !retrievedData) {
       retrieveRestaurants();
     }

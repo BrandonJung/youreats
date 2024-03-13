@@ -18,8 +18,8 @@ const ViewFoodPage = ({ navigation, restaurantKey }) => {
 
   const retrieveData = async () => {
     const foodDataRes = await retrieveFoodData(restaurantKey);
-    setFoodList(foodDataRes);
-    setMasterFoodList(foodDataRes);
+    setFoodList(foodDataRes.foods);
+    setMasterFoodList(foodDataRes.foods);
   };
 
   useEffect(() => {

@@ -69,13 +69,19 @@ export const GetFromStorage = async (key) => {
 };
 
 export const calculateAverageRating = (ratingsArray) => {
-  if (ratingsArray) {
+  if (ratingsArray?.length > 0) {
     const average =
       ratingsArray.reduce((a, b) => a + (b.rating ? b.rating : b), 0) / (ratingsArray.length || 0);
     return average.toFixed(1);
   } else {
     return false;
   }
+};
+
+export const returnMessage = (message) => {
+  return {
+    message,
+  };
 };
 
 export const transformFoodListToPeople = (foodList) => {
@@ -139,10 +145,4 @@ export const findRestaurantIndex = (restaurantList, searchKey) => {
 export const findRestaurant = (restaurantList, key) => {
   const restaurantIndex = _.findIndex(restaurantList, (r) => r.key === key);
   return restaurantList[restaurantIndex];
-};
-
-export const returnMessage = (message) => {
-  return {
-    message,
-  };
 };
