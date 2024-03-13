@@ -17,9 +17,7 @@ const ViewFoodPage = ({ navigation, restaurantKey }) => {
   const { retrieveFoodData } = useRestaurant();
 
   const retrieveData = async () => {
-    console.log('asdf');
     const foodDataRes = await retrieveFoodData(restaurantKey);
-    console.log('food data res', foodDataRes);
     setFoodList(foodDataRes);
     setMasterFoodList(foodDataRes);
   };
