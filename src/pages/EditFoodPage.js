@@ -117,14 +117,16 @@ const EditFoodPage = ({ navigation, route }) => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <View style={{ flex: 1, marginLeft: 10, flexDirection: 'row' }}>
-              <Text style={{ fontWeight: '600' }}>Average Rating:</Text>
-              <View style={{ marginLeft: 6 }}>
-                {!isNaN(averageRating) ? (
-                  <RatingStarText rating={averageRating} fill={'#F6F6F6'} />
-                ) : null}
+            {averageRating ? (
+              <View style={{ flex: 1, marginLeft: 10, flexDirection: 'row' }}>
+                <Text style={{ fontWeight: '600' }}>Average Rating:</Text>
+                <View style={{ marginLeft: 6 }}>
+                  {!isNaN(averageRating) ? (
+                    <RatingStarText rating={averageRating} fill={'#F6F6F6'} />
+                  ) : null}
+                </View>
               </View>
-            </View>
+            ) : null}
           </View>
           <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 10 }}>Notes</Text>
           <Divider style={{ marginTop: 10 }} />
