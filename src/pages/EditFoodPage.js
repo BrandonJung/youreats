@@ -1,45 +1,65 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, TouchableOpacity, View, Text, TextInput } from 'react-native';
 import ImagePlaceholder from '../components/ImagePlaceholder';
-import { useRestaurant } from '../contexts/Restaurant';
 import { launchImageLibrary } from 'react-native-image-picker';
 import ItemImage from '../components/ItemImage';
 import { Divider } from 'react-native-paper';
 import EditPenIcon from '../components/EditPenIcon';
-import { calculateAverageRating } from '../constants/const_functions';
+import { apiCall, calculateAverageRating } from '../constants/const_functions';
 import RatingStarText from '../components/RatingStarText';
+import { apiService } from '../constants/const_api';
+import { useRestaurant } from '../contexts/Restaurant';
 
 const EditFoodPage = ({ navigation, route }) => {
   const { foodItem, restaurantKey } = route.params;
   const titleInputRef = useRef();
   const [titleInputFocussed, setTitleInputFocussed] = useState(false);
-  const [foodName, setFoodName] = useState(foodItem.name ?? null);
-  const [newNameText, setNewNameText] = useState(foodItem.name ?? null);
-  const [foodItemImage, setFoodItemImage] = useState(foodItem.imageURL ?? null);
+  const [item, setItem] = useState(foodItem);
+  const [newNameText, setNewNameText] = useState(item.name ?? null);
+  const averageRating = calculateAverageRating(item.ratings);
 
-  const [foodNotes, setFoodNote] = useState(foodItem.notes ?? []);
-  const [ratings, setRatings] = useState(foodItem.ratings ?? 0);
-  const averageRating = calculateAverageRating(ratings);
+  const { retrieveFoodData } = useRestaurant();
 
-  const { updateFoodItemField } = useRestaurant();
+  const updateFoodItemField = async (fieldKey, fieldValue, foodKey, restaurantKey) => {
+    try {
+      const updateFoodRes = await apiCall(apiService.food, 'updateField', 'post', {
+        fieldKey,
+        fieldValue,
+        foodKey,
+        restaurantKey,
+      });
+      console.log('Update food res', updateFoodRes.data);
+      if (updateFoodRes?.data) {
+        setItem(updateFoodRes.data);
+        retrieveFoodData(restaurantKey);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const uploadPhoto = async () => {
     const fieldKey = 'imageURL';
     const photoResult = await launchImageLibrary({ mediaType: 'photo' });
-    setFoodItemImage(photoResult?.assets[0].uri);
-    updateFoodItemField(fieldKey, photoResult?.assets[0].uri, foodItem.key, restaurantKey);
+    const newFoodItem = updateFoodItemField(
+      fieldKey,
+      photoResult?.assets[0].uri,
+      foodItem._id,
+      restaurantKey,
+    );
   };
 
   const handleUpdateName = () => {
     const fieldKey = 'name';
-    setFoodName(newNameText);
-    updateFoodItemField(fieldKey, newNameText, foodItem.key, restaurantKey);
+    const newFoodItem = updateFoodItemField(fieldKey, newNameText, foodItem._id, restaurantKey);
     titleInputRef?.current?.blur();
   };
 
   const handleCancelEditName = () => {
     titleInputRef?.current?.blur();
-    setNewNameText(foodName);
+    setNewNameText(item.name);
   };
 
   const renderEditSaveCancel = (saveAction, cancelAction, editAction, focussed) => {
@@ -106,14 +126,14 @@ const EditFoodPage = ({ navigation, route }) => {
         <View style={{ paddingHorizontal: 20 }}>
           <View style={{ flexDirection: 'row' }}>
             <View>
-              {foodItemImage ? <ItemImage imageURL={foodItemImage} /> : <ImagePlaceholder />}
+              {item?.imageURL ? <ItemImage imageURL={item.imageURL} /> : <ImagePlaceholder />}
               <TouchableOpacity
                 onPress={() => {
                   uploadPhoto();
                 }}
                 style={{ marginTop: 4 }}>
                 <Text style={{ color: 'darkgray' }}>
-                  {foodItemImage ? `Replace Photo` : `Upload Photo`}
+                  {item?.imageURL ? `Replace Photo` : `Upload Photo`}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -130,10 +150,10 @@ const EditFoodPage = ({ navigation, route }) => {
           </View>
           <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 10 }}>Notes</Text>
           <Divider style={{ marginTop: 10 }} />
-          {foodNotes.map((note, index) => {
+          {item?.notes.map((note, index) => {
             return (
               <View key={`note_${index}`} style={{ marginTop: 10 }}>
-                <Text style={{ fontWeight: '600', fontSize: 16 }}>{note.name}</Text>
+                <Text style={{ fontWeight: '600', fontSize: 16 }}>{note.eater}</Text>
                 <Text style={{ marginTop: 4 }}>{`- ${note.note}`}</Text>
               </View>
             );

@@ -14,17 +14,18 @@ const ViewFoodPage = ({ navigation, restaurantKey }) => {
   const [masterFoodList, setMasterFoodList] = useState(null);
   const [searchValue, setSearchValue] = useState('');
 
-  const { retrieveFoodData } = useRestaurant();
-
-  const retrieveData = async () => {
-    const foodDataRes = await retrieveFoodData(restaurantKey);
-    setFoodList(foodDataRes.foods);
-    setMasterFoodList(foodDataRes.foods);
-  };
+  const { retrieveFoodData, selectedFoodsList } = useRestaurant();
 
   useEffect(() => {
-    retrieveData();
+    retrieveFoodData(restaurantKey);
   }, []);
+
+  useEffect(() => {
+    if (selectedFoodsList?.length > 0) {
+      setFoodList(selectedFoodsList);
+      setMasterFoodList(selectedFoodsList);
+    }
+  }, [selectedFoodsList]);
 
   const handleSearch = (passedSearchValue) => {
     if (passedSearchValue === null || passedSearchValue === '') {

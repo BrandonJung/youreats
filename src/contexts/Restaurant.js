@@ -1,11 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import {
-  GetFromStorage,
-  StoreData,
-  apiCall,
-  findRestaurantIndex,
-  returnMessage,
-} from '../constants/const_functions';
+import { GetFromStorage, StoreData, apiCall, returnMessage } from '../constants/const_functions';
 import _ from 'lodash';
 import { apiService } from '../constants/const_api';
 import { useUser } from './User';
@@ -17,6 +11,7 @@ const RestaurantContext = createContext();
 const RestaurantProvider = ({ children }) => {
   const [restaurantsData, setRestaurantsData] = useState([]);
   const [retrievedData, setRetrievedData] = useState(false);
+  const [selectedFoodsList, setSelectedFoodsList] = useState([]);
 
   const { userData } = useUser();
 
@@ -80,8 +75,8 @@ const RestaurantProvider = ({ children }) => {
         note,
         restaurantId,
       });
-      console.log('Add Food Res: ', foodRes.data);
-      if (foodRes.data) {
+      console.log('Add Food Res: ', foodRes?.data);
+      if (foodRes?.data) {
         retrieveRestaurants();
         return returnMessage('Success');
       }
@@ -93,38 +88,38 @@ const RestaurantProvider = ({ children }) => {
   const retrieveFoodData = async (restaurantId) => {
     const restaurantRes = restaurantsData.find((r) => r._id === restaurantId);
     if (restaurantRes) {
-      const foodsListId = restaurantRes.foodListId;
+      const foodsArray = restaurantRes.foods;
       const retrieveFoodRes = await apiCall(apiService.food, 'retrieveFoods', 'get', {
-        foodsListId,
+        foodsArray,
       });
       if (retrieveFoodRes?.data) {
-        return retrieveFoodRes.data;
+        setSelectedFoodsList(retrieveFoodRes.data);
       } else {
         return [];
       }
     }
   };
 
-  const updateRestaurantField = (fieldKey, fieldValue, restaurantKey) => {
-    const restaurantsDataClone = _.cloneDeep(restaurantsData);
-    const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
-    if (restaurantIndex > -1) {
-      restaurantsDataClone[restaurantIndex][`${fieldKey}`] = fieldValue;
-      setRestaurantsData(restaurantsDataClone);
-    }
-  };
+  // const updateRestaurantField = (fieldKey, fieldValue, restaurantKey) => {
+  //   const restaurantsDataClone = _.cloneDeep(restaurantsData);
+  //   const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
+  //   if (restaurantIndex > -1) {
+  //     restaurantsDataClone[restaurantIndex][`${fieldKey}`] = fieldValue;
+  //     setRestaurantsData(restaurantsDataClone);
+  //   }
+  // };
 
-  const updateFoodItemField = (fieldKey, fieldValue, foodItemKey, restaurantKey) => {
-    const restaurantsDataClone = _.cloneDeep(restaurantsData);
-    const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
-    const foodList = restaurantsDataClone[restaurantIndex].foodList;
-    const foodListIndex = _.findIndex(foodList, (foodItem) => foodItem.key === foodItemKey);
-    if (foodListIndex > -1) {
-      foodList[foodListIndex][`${fieldKey}`] = fieldValue;
-      restaurantsDataClone[restaurantIndex].foodList = foodList;
-      setRestaurantsData(restaurantsDataClone);
-    }
-  };
+  // const updateFoodItemField = (fieldKey, fieldValue, foodItemKey, restaurantKey) => {
+  //   const restaurantsDataClone = _.cloneDeep(restaurantsData);
+  //   const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
+  //   const foodList = restaurantsDataClone[restaurantIndex].foodList;
+  //   const foodListIndex = _.findIndex(foodList, (foodItem) => foodItem.key === foodItemKey);
+  //   if (foodListIndex > -1) {
+  //     foodList[foodListIndex][`${fieldKey}`] = fieldValue;
+  //     restaurantsDataClone[restaurantIndex].foodList = foodList;
+  //     setRestaurantsData(restaurantsDataClone);
+  //   }
+  // };
 
   return (
     // This component will be used to encapsulate the whole App,
@@ -134,11 +129,10 @@ const RestaurantProvider = ({ children }) => {
         restaurantsData,
         setRestaurantsData,
         addFoodItem,
-        updateRestaurantField,
-        updateFoodItemField,
         addRestaurant,
         deleteAllRestaurants,
         retrieveFoodData,
+        selectedFoodsList,
       }}>
       {children}
     </RestaurantContext.Provider>
