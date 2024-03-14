@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Text, View } from 'react-native';
-import {
-  calculateAverageRating,
-  findRestaurant,
-  transformFoodListToPeople,
-} from '../constants/const_functions';
+import { calculateAverageRating } from '../constants/const_functions';
 import { Divider } from 'react-native-paper';
 import { useRestaurant } from '../contexts/Restaurant';
 import RatingStarText from '../components/RatingStarText';
 import _ from 'lodash';
 import SearchBar from '../components/SearchBar';
 
-const ViewPeoplePage = ({ navigation, restaurantKey }) => {
+const ViewPeoplePage = ({ navigation }) => {
   const { selectedPeopleList } = useRestaurant();
   const [searchValue, setSearchValue] = useState('');
   const masterPeopleFoodList = selectedPeopleList;

@@ -83,13 +83,3 @@ export const returnMessage = (message) => {
     message,
   };
 };
-
-export const findRestaurantIndex = (restaurantList, searchKey) => {
-  const retIndex = _.findIndex(restaurantList, (r) => r.key === searchKey, 0);
-  return retIndex;
-};
-
-export const findRestaurant = (restaurantList, key) => {
-  const restaurantIndex = _.findIndex(restaurantList, (r) => r.key === key);
-  return restaurantList[restaurantIndex];
-};
