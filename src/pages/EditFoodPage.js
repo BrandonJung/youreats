@@ -5,9 +5,8 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import ItemImage from '../components/ItemImage';
 import { Divider } from 'react-native-paper';
 import EditPenIcon from '../components/EditPenIcon';
-import { apiCall, calculateAverageRating } from '../constants/const_functions';
+import { calculateAverageRating } from '../constants/const_functions';
 import RatingStarText from '../components/RatingStarText';
-import { apiService } from '../constants/const_api';
 import { useRestaurant } from '../contexts/Restaurant';
 
 const EditFoodPage = ({ navigation, route }) => {
@@ -18,42 +17,29 @@ const EditFoodPage = ({ navigation, route }) => {
   const [newNameText, setNewNameText] = useState(item.name ?? null);
   const averageRating = calculateAverageRating(item.ratings);
 
-  const { retrieveFoodData } = useRestaurant();
-
-  const updateFoodItemField = async (fieldKey, fieldValue, foodKey, restaurantKey) => {
-    try {
-      const updateFoodRes = await apiCall(apiService.food, 'updateField', 'post', {
-        fieldKey,
-        fieldValue,
-        foodKey,
-        restaurantKey,
-      });
-      console.log('Update food res', updateFoodRes.data);
-      if (updateFoodRes?.data) {
-        setItem(updateFoodRes.data);
-        retrieveFoodData(restaurantKey);
-      } else {
-        return null;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const { updateFoodItemField } = useRestaurant();
 
   const uploadPhoto = async () => {
     const fieldKey = 'imageURL';
     const photoResult = await launchImageLibrary({ mediaType: 'photo' });
-    const newFoodItem = updateFoodItemField(
+    const newFoodItem = await updateFoodItemField(
       fieldKey,
       photoResult?.assets[0].uri,
       foodItem._id,
       restaurantKey,
     );
+    setItem(newFoodItem);
   };
 
-  const handleUpdateName = () => {
+  const handleUpdateName = async () => {
     const fieldKey = 'name';
-    const newFoodItem = updateFoodItemField(fieldKey, newNameText, foodItem._id, restaurantKey);
+    const newFoodItem = await updateFoodItemField(
+      fieldKey,
+      newNameText,
+      foodItem._id,
+      restaurantKey,
+    );
+    setItem(newFoodItem);
     titleInputRef?.current?.blur();
   };
 

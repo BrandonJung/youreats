@@ -39,6 +39,19 @@ const RestaurantProvider = ({ children }) => {
     }
   };
 
+  const retrieveRestaurantById = async (restaurantId) => {
+    try {
+      const retrieveRes = await apiCall(apiService.restaurant, 'retrieveRestaurantById', 'get', {
+        restaurantId,
+      });
+      console.log('Retrieve restaurant by id', retrieveRes.data);
+      retrieveRestaurants();
+      return retrieveRes.data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const addRestaurant = async (restaurantName) => {
     try {
       const addRes = await apiCall(apiService.restaurant, 'addRestaurant', 'post', {
@@ -136,26 +149,44 @@ const RestaurantProvider = ({ children }) => {
     setSelectedPeopleList(retArray);
   };
 
-  // const updateRestaurantField = (fieldKey, fieldValue, restaurantKey) => {
-  //   const restaurantsDataClone = _.cloneDeep(restaurantsData);
-  //   const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
-  //   if (restaurantIndex > -1) {
-  //     restaurantsDataClone[restaurantIndex][`${fieldKey}`] = fieldValue;
-  //     setRestaurantsData(restaurantsDataClone);
-  //   }
-  // };
+  const updateFoodItemField = async (fieldKey, fieldValue, foodKey, restaurantKey) => {
+    try {
+      const updateFoodRes = await apiCall(apiService.food, 'updateField', 'post', {
+        fieldKey,
+        fieldValue,
+        foodKey,
+        restaurantKey,
+      });
+      console.log('Update food res', updateFoodRes.data);
+      if (updateFoodRes?.data) {
+        retrieveFoodData(restaurantKey);
+        return updateFoodRes.data;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  // const updateFoodItemField = (fieldKey, fieldValue, foodItemKey, restaurantKey) => {
-  //   const restaurantsDataClone = _.cloneDeep(restaurantsData);
-  //   const restaurantIndex = findRestaurantIndex(restaurantsDataClone, restaurantKey);
-  //   const foodList = restaurantsDataClone[restaurantIndex].foodList;
-  //   const foodListIndex = _.findIndex(foodList, (foodItem) => foodItem.key === foodItemKey);
-  //   if (foodListIndex > -1) {
-  //     foodList[foodListIndex][`${fieldKey}`] = fieldValue;
-  //     restaurantsDataClone[restaurantIndex].foodList = foodList;
-  //     setRestaurantsData(restaurantsDataClone);
-  //   }
-  // };
+  const updateRestaurantField = async (fieldKey, fieldValue, restaurantKey) => {
+    try {
+      const updateRestaurantRes = await apiCall(apiService.restaurant, 'updateField', 'post', {
+        fieldKey,
+        fieldValue,
+        restaurantKey,
+      });
+      console.log('Update resturant res', updateRestaurantRes.data);
+      if (updateRestaurantRes?.data) {
+        retrieveRestaurants();
+        return updateRestaurantRes.data;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     // This component will be used to encapsulate the whole App,
@@ -170,6 +201,9 @@ const RestaurantProvider = ({ children }) => {
         retrieveFoodData,
         selectedFoodsList,
         selectedPeopleList,
+        updateFoodItemField,
+        retrieveRestaurantById,
+        updateRestaurantField,
       }}>
       {children}
     </RestaurantContext.Provider>

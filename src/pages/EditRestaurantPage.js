@@ -1,51 +1,59 @@
-import React, { useRef, useState } from 'react';
-import { Text, TouchableOpacity, View, Image, TextInput, ScrollView } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Text, TouchableOpacity, View, TextInput, ScrollView } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useRestaurant } from '../contexts/Restaurant';
 import { SvgWithCssUri } from 'react-native-svg/css';
-import { findRestaurant } from '../constants/const_functions';
 import ItemImage from '../components/ItemImage';
 import ImagePlaceholder from '../components/ImagePlaceholder';
 
-const imageSize = 140;
 const iconImageSize = 30;
 
 const EditRestaurantPage = ({ navigation, restaurantKey }) => {
-  // const { restaurantsData } = useRestaurant();
-  // const restaurant = findRestaurant(restaurantsData, restaurantKey);
+  const { retrieveRestaurantById, updateRestaurantField } = useRestaurant();
+  const [restaurant, setRestaurant] = useState(null);
 
-  // const [restaurantName, setRestaurantName] = useState(restaurant.name ?? null);
-  // const [newNameText, setNewNameText] = useState(restaurant.name ?? null);
-  // const [restaurantImage, setRestaurantImage] = useState(restaurant.imageURL ?? null);
+  const [newNameText, setNewNameText] = useState(restaurant?.name ?? null);
 
-  // const { updateRestaurantField } = useRestaurant();
+  const [inputFocussed, setInputFocussed] = useState(false);
+  const inputRef = useRef();
 
-  // const [inputFocussed, setInputFocussed] = useState(false);
-  // const inputRef = useRef();
+  const retrieveData = async () => {
+    const restaurantRes = await retrieveRestaurantById(restaurantKey);
+    setNewNameText(restaurantRes.name);
+    setRestaurant(restaurantRes);
+  };
 
-  // const uploadPhoto = async () => {
-  //   const fieldKey = 'imageURL';
-  //   const photoResult = await launchImageLibrary({ mediaType: 'photo' });
-  //   setRestaurantImage(photoResult?.assets[0].uri);
-  //   updateRestaurantField(fieldKey, photoResult?.assets[0].uri, restaurant.key);
-  // };
+  useEffect(() => {
+    retrieveData();
+  }, []);
 
-  // const handleUpdateName = () => {
-  //   const fieldKey = 'name';
-  //   navigation.setOptions({ title: newNameText });
-  //   setRestaurantName(newNameText);
-  //   updateRestaurantField(fieldKey, newNameText, restaurant.key);
-  //   inputRef?.current?.blur();
-  // };
+  const uploadPhoto = async () => {
+    const fieldKey = 'imageURL';
+    const photoResult = await launchImageLibrary({ mediaType: 'photo' });
+    const newRestaurantObj = await updateRestaurantField(
+      fieldKey,
+      photoResult?.assets[0].uri,
+      restaurantKey,
+    );
+    setRestaurant(newRestaurantObj);
+  };
 
-  // const handleCancelEditName = () => {
-  //   inputRef?.current?.blur();
-  //   setNewNameText(restaurantName);
-  // };
+  const handleUpdateName = async () => {
+    const fieldKey = 'name';
+    const newRestaurantObj = await updateRestaurantField(fieldKey, newNameText, restaurantKey);
+    setRestaurant(newRestaurantObj);
+    navigation.setOptions({ title: newRestaurantObj.name });
+    inputRef?.current?.blur();
+  };
+
+  const handleCancelEditName = () => {
+    inputRef?.current?.blur();
+    setNewNameText(restaurant.name);
+  };
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}>
-      {/* <View>
+      <View>
         <View
           style={{
             marginTop: 10,
@@ -101,20 +109,24 @@ const EditRestaurantPage = ({ navigation, restaurantKey }) => {
         </View>
         <View style={{ paddingLeft: 20, flexDirection: 'row' }}>
           <View>
-            {restaurantImage ? <ItemImage imageURL={restaurantImage} /> : <ImagePlaceholder />}
+            {restaurant?.imageURL ? (
+              <ItemImage imageURL={restaurant.imageURL} />
+            ) : (
+              <ImagePlaceholder type='restaurant' />
+            )}
             <TouchableOpacity
               onPress={() => {
                 uploadPhoto();
               }}
               style={{ marginTop: 4 }}>
               <Text style={{ color: 'darkgray' }}>
-                {restaurantImage ? `Replace Photo` : `Upload Photo`}
+                {restaurant?.imageURL ? `Replace Photo` : `Upload Photo`}
               </Text>
             </TouchableOpacity>
           </View>
           <View style={{ flex: 1, marginLeft: 10 }}></View>
         </View>
-      </View> */}
+      </View>
     </ScrollView>
   );
 };
