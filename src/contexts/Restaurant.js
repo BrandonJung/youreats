@@ -151,7 +151,7 @@ const RestaurantProvider = ({ children }) => {
 
   const updateFoodItemField = async (fieldKey, fieldValue, foodKey, restaurantKey) => {
     try {
-      const updateFoodRes = await apiCall(apiService.food, 'updateField', 'post', {
+      const updateFoodRes = await apiCall(apiService.food, 'updateFoodField', 'post', {
         fieldKey,
         fieldValue,
         foodKey,
@@ -171,11 +171,16 @@ const RestaurantProvider = ({ children }) => {
 
   const updateRestaurantField = async (fieldKey, fieldValue, restaurantKey) => {
     try {
-      const updateRestaurantRes = await apiCall(apiService.restaurant, 'updateField', 'post', {
-        fieldKey,
-        fieldValue,
-        restaurantKey,
-      });
+      const updateRestaurantRes = await apiCall(
+        apiService.restaurant,
+        'updateRestaurantField',
+        'post',
+        {
+          fieldKey,
+          fieldValue,
+          restaurantKey,
+        },
+      );
       console.log('Update resturant res', updateRestaurantRes.data);
       if (updateRestaurantRes?.data) {
         retrieveRestaurants();
