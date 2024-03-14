@@ -15,7 +15,7 @@ const FoodCard = ({ navigation, foodItem, restaurantKey, cardWidth }) => {
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('EditFoodPage', { foodItem, restaurantKey })}
-      style={{ backgroundColor: '#FFFFFF', borderRadius: radiusNumber }}>
+      style={{ backgroundColor: '#FFFFFF', borderRadius: radiusNumber, marginBottom: 20 }}>
       {imageURL ? (
         <ItemImage
           imageURL={imageURL}

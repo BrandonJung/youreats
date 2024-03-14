@@ -14,11 +14,7 @@ const ViewFoodPage = ({ navigation, restaurantKey }) => {
   const [masterFoodList, setMasterFoodList] = useState(null);
   const [searchValue, setSearchValue] = useState('');
 
-  const { retrieveFoodData, selectedFoodsList } = useRestaurant();
-
-  useEffect(() => {
-    retrieveFoodData(restaurantKey);
-  }, []);
+  const { selectedFoodsList } = useRestaurant();
 
   useEffect(() => {
     if (selectedFoodsList?.length > 0) {

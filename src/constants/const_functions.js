@@ -84,59 +84,6 @@ export const returnMessage = (message) => {
   };
 };
 
-export const transformFoodListToPeople = (foodList) => {
-  const transformPeopleRes = (passedPeopleRes) => {
-    const retArray = [];
-    for (const key in passedPeopleRes) {
-      const retObject = {
-        eaterName: key,
-        eatenFoods: passedPeopleRes[key].eatenFoods,
-        ratings: passedPeopleRes[key].ratings,
-        notes: passedPeopleRes[key].notes,
-      };
-      retArray.push(retObject);
-    }
-    return retArray;
-  };
-  if (!foodList) return null;
-  const peopleRes = {};
-  for (const foodItem of foodList) {
-    for (const name of foodItem.eater) {
-      let personRatingsArray = [];
-      let personNotesArray = [];
-      if (foodItem.ratings) {
-        personRatingsArray = foodItem.ratings.filter(
-          (rating) => rating.name?.toLowerCase() === name.toLowerCase(),
-        );
-        personRatingsArray.map((r) => (r.foodName = foodItem.name));
-      }
-      if (foodItem.notes) {
-        personNotesArray = foodItem.notes.filter(
-          (notes) => notes.name?.toLowerCase() === name.toLowerCase(),
-        );
-        personNotesArray.map((n) => (n.foodName = foodItem.name));
-      }
-      if (peopleRes[name]) {
-        if (!peopleRes[name].eatenFoods.includes(foodItem.name)) {
-          peopleRes[name].eatenFoods.push(foodItem.name);
-        }
-        const newRatingsArray = peopleRes[name].ratings.concat(personRatingsArray);
-        const newNotesArray = peopleRes[name].notes.concat(personNotesArray);
-        peopleRes[name].ratings = newRatingsArray;
-        peopleRes[name].notes = newNotesArray;
-      } else {
-        peopleRes[name] = {
-          eatenFoods: [foodItem.name],
-          ratings: personRatingsArray,
-          notes: personNotesArray,
-        };
-      }
-    }
-  }
-  const retPeopleList = transformPeopleRes(peopleRes);
-  return retPeopleList;
-};
-
 export const findRestaurantIndex = (restaurantList, searchKey) => {
   const retIndex = _.findIndex(restaurantList, (r) => r.key === searchKey, 0);
   return retIndex;

@@ -12,60 +12,57 @@ import _ from 'lodash';
 import SearchBar from '../components/SearchBar';
 
 const ViewPeoplePage = ({ navigation, restaurantKey }) => {
-  // const { restaurantsData } = useRestaurant();
-  // const [searchValue, setSearchValue] = useState('');
-  // const restaurant = findRestaurant(restaurantsData, restaurantKey);
-  // const foodList = restaurant.foodList;
-  // const masterPeopleFoodList = transformFoodListToPeople(foodList);
-  // const [peopleArray, setPeopleArray] = useState(masterPeopleFoodList);
+  const { selectedPeopleList } = useRestaurant();
+  const [searchValue, setSearchValue] = useState('');
+  const masterPeopleFoodList = selectedPeopleList;
+  const [peopleFoodList, setPeopleFoodList] = useState(selectedPeopleList);
 
-  // const handleSearch = (passedSearchValue) => {
-  //   if (passedSearchValue === null || passedSearchValue === '') {
-  //     setPeopleArray(masterPeopleFoodList);
-  //     return;
-  //   }
-  //   const peopleArrayClone = _.cloneDeep(masterPeopleFoodList);
-  //   const retPeopleArray = [];
-  //   for (const person of peopleArrayClone) {
-  //     if (person.eaterName.toLowerCase().includes(passedSearchValue.toLowerCase())) {
-  //       retPeopleArray.push(person);
-  //       continue;
-  //     }
-  //     const eatenFoodsArray = person.eatenFoods;
-  //     for (const food of eatenFoodsArray) {
-  //       if (food.toLowerCase().includes(passedSearchValue.toLowerCase())) {
-  //         retPeopleArray.push(person);
-  //         break;
-  //       }
-  //     }
-  //   }
-  //   setPeopleArray(retPeopleArray);
-  // };
+  const handleSearch = (passedSearchValue) => {
+    if (passedSearchValue === null || passedSearchValue === '') {
+      setPeopleFoodList(masterPeopleFoodList);
+      return;
+    }
+    const lowerSearchValue = passedSearchValue.toLowerCase();
+    const peopleArrayClone = _.cloneDeep(masterPeopleFoodList);
+    const retPeopleFoodArray = [];
+    for (const personObj of peopleArrayClone) {
+      if (personObj.eater.toLowerCase().includes(lowerSearchValue)) {
+        retPeopleFoodArray.push(personObj);
+        continue;
+      }
+      const foodsArray = personObj.foods;
+      for (const food of foodsArray) {
+        if (food.name.toLowerCase().includes(lowerSearchValue)) {
+          retPeopleFoodArray.push(personObj);
+          break;
+        }
+      }
+    }
+    setPeopleFoodList(retPeopleFoodArray);
+  };
 
-  // useEffect(() => {
-  //   handleSearch(searchValue);
-  // }, [searchValue]);
+  useEffect(() => {
+    handleSearch(searchValue);
+  }, [searchValue]);
 
   return (
     <View style={{ height: '100%' }}>
-      {/* <SearchBar
+      <SearchBar
         searchValue={searchValue}
         setSearchValue={setSearchValue}
         placeholderText={'Search by name or food'}
       />
       <FlatList
-        data={peopleArray}
+        data={peopleFoodList}
         style={{ flex: 1 }}
         renderItem={({ item }) => {
           return (
             <View
               style={{
-                marginBottom: 10,
+                marginBottom: 20,
                 marginHorizontal: 20,
               }}>
-              <Text style={{ fontWeight: '600', fontSize: 16, marginBottom: 6 }}>
-                {item.eaterName}
-              </Text>
+              <Text style={{ fontWeight: '600', fontSize: 16, marginBottom: 6 }}>{item.eater}</Text>
               <View
                 style={{
                   backgroundColor: '#FFFFFF',
@@ -73,20 +70,18 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
                   paddingHorizontal: 10,
                   paddingTop: 10,
                 }}>
-                {item.eatenFoods.map((foodItem, index) => {
-                  const filteredRatingArray = item.ratings?.filter((r) => r.foodName === foodItem);
-                  const averageRating = calculateAverageRating(filteredRatingArray);
-                  const notesArray = item.notes?.filter((note) => note.foodName === foodItem);
+                {item.foods.map((food, index) => {
+                  const averageRating = calculateAverageRating(food.ratings);
                   return (
-                    <View key={`${foodItem}_${index}`} style={{ marginBottom: 10 }}>
+                    <View key={`${item.eater}_${food._id}`} style={{ marginBottom: 10 }}>
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text style={{ fontWeight: '600' }}>{foodItem}</Text>
+                        <Text style={{ fontWeight: '600' }}>{food.name}</Text>
                         {!isNaN(averageRating) ? <RatingStarText rating={averageRating} /> : null}
                       </View>
-                      {notesArray?.length > 0 ? (
+                      {food.notes?.length > 0 ? (
                         <View style={{ marginTop: 10 }}>
                           <Text style={{ marginBottom: 4 }}>Notes:</Text>
-                          {notesArray.map((note, index) => {
+                          {food.notes.map((note, index) => {
                             return (
                               <Text
                                 key={`${note.name}_${index}`}
@@ -101,8 +96,8 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
                           })}
                         </View>
                       ) : null}
-                      {index !== item.eatenFoods.length - 1 ? (
-                        <Divider style={{ marginTop: 14 }} />
+                      {index !== item.foods.length - 1 && item.foods.length > 1 ? (
+                        <Divider style={{ marginTop: 10 }} />
                       ) : null}
                     </View>
                   );
@@ -111,7 +106,7 @@ const ViewPeoplePage = ({ navigation, restaurantKey }) => {
             </View>
           );
         }}
-      /> */}
+      />
     </View>
   );
 };

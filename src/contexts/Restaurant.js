@@ -12,6 +12,7 @@ const RestaurantProvider = ({ children }) => {
   const [restaurantsData, setRestaurantsData] = useState([]);
   const [retrievedData, setRetrievedData] = useState(false);
   const [selectedFoodsList, setSelectedFoodsList] = useState([]);
+  const [selectedPeopleList, setSelectedPeopleList] = useState([]);
 
   const { userData } = useUser();
 
@@ -94,10 +95,45 @@ const RestaurantProvider = ({ children }) => {
       });
       if (retrieveFoodRes?.data) {
         setSelectedFoodsList(retrieveFoodRes.data);
+        retrievePeopleList(retrieveFoodRes.data);
       } else {
         return [];
       }
     }
+  };
+
+  const retrievePeopleList = (foodArray) => {
+    let retObj = {};
+    let retArray = [];
+    for (const foodItem of foodArray) {
+      for (const eater of foodItem.eaters) {
+        const foodItemRatingsArray = foodItem.ratings.filter((r) => r.eater === eater);
+        const foodItemNotesArray = foodItem.notes.filter((n) => n.eater === eater);
+        if (retObj[eater]) {
+          retObj[eater].foods.push({
+            name: foodItem.name,
+            ratings: foodItemRatingsArray,
+            notes: foodItemNotesArray,
+          });
+        } else {
+          retObj[eater] = {
+            eater,
+            foods: [
+              {
+                _id: foodItem._id,
+                name: foodItem.name,
+                ratings: foodItemRatingsArray,
+                notes: foodItemNotesArray,
+              },
+            ],
+          };
+        }
+      }
+    }
+    for (const key in retObj) {
+      retArray.push(retObj[key]);
+    }
+    setSelectedPeopleList(retArray);
   };
 
   // const updateRestaurantField = (fieldKey, fieldValue, restaurantKey) => {
@@ -133,6 +169,7 @@ const RestaurantProvider = ({ children }) => {
         deleteAllRestaurants,
         retrieveFoodData,
         selectedFoodsList,
+        selectedPeopleList,
       }}>
       {children}
     </RestaurantContext.Provider>
