@@ -100,7 +100,7 @@ const EditFoodPage = ({ navigation, route }) => {
 
   const addTag = () => {
     const buttonSubmitAction = async (tagText) => {
-      const updatedFoodItem = await addFoodTag(item._id, tagText);
+      const updatedFoodItem = await addFoodTag(item._id, tagText, restaurantKey);
       console.log('Add Tag', updatedFoodItem);
       if (updatedFoodItem?.data) {
         setItem(updatedFoodItem.data);
@@ -219,7 +219,15 @@ const EditFoodPage = ({ navigation, route }) => {
           <Divider style={{ marginTop: 10 }} />
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 6 }}>
             {item?.tags?.map((tag, index) => {
-              return <Tag tag={tag} index={index} foodId={item._id} setItem={setItem} />;
+              return (
+                <Tag
+                  tag={tag}
+                  index={index}
+                  foodId={item._id}
+                  setItem={setItem}
+                  restaurantKey={restaurantKey}
+                />
+              );
             })}
           </View>
         </View>

@@ -193,24 +193,26 @@ const RestaurantProvider = ({ children }) => {
     }
   };
 
-  const addFoodTag = async (foodId, foodTag) => {
+  const addFoodTag = async (foodId, foodTag, restaurantKey) => {
     try {
       const addFoodTagRes = await apiCall(apiService.food, 'addFoodTag', 'post', {
         foodId,
         foodTag,
       });
+      retrieveFoodData(restaurantKey);
       return addFoodTagRes;
     } catch (e) {
       console.log(e);
     }
   };
 
-  const removeFoodTag = async (foodId, foodTagIndex) => {
+  const removeFoodTag = async (foodId, foodTagIndex, restaurantKey) => {
     try {
       const removeFoodTagRes = await apiCall(apiService.food, 'removeFoodTag', 'post', {
         foodId,
         foodTagIndex,
       });
+      retrieveFoodData(restaurantKey);
       return removeFoodTagRes;
     } catch (e) {
       console.log(e);

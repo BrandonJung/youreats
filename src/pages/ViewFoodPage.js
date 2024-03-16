@@ -28,11 +28,24 @@ const ViewFoodPage = ({ navigation, restaurantKey }) => {
       setFoodList(masterFoodList);
       return;
     }
+    const lowerSearchValue = passedSearchValue.toLowerCase();
     const foodListClone = _.cloneDeep(masterFoodList);
-    const retFoodList = foodListClone.filter((f) =>
-      f.name.toLowerCase().includes(passedSearchValue.toLowerCase()),
-    );
-    setFoodList(retFoodList);
+    const retFoodArray = [];
+    for (const foodObj of foodListClone) {
+      if (foodObj.name.toLowerCase().includes(lowerSearchValue)) {
+        retFoodArray.push(foodObj);
+        continue;
+      }
+      const tagArray = foodObj.tags;
+      for (const tag of tagArray) {
+        if (tag.toLowerCase().includes(lowerSearchValue));
+        {
+          retFoodArray.push(foodObj);
+          break;
+        }
+      }
+    }
+    setFoodList(retFoodArray);
   };
 
   useEffect(() => {
@@ -44,7 +57,7 @@ const ViewFoodPage = ({ navigation, restaurantKey }) => {
       <SearchBar
         searchValue={searchValue}
         setSearchValue={setSearchValue}
-        placeholderText={'Search by food'}
+        placeholderText={'Search by food name or tag'}
       />
       <FlatList
         data={foodList}

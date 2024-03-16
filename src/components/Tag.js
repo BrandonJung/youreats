@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useRestaurant } from '../contexts/Restaurant';
 
-const Tag = ({ tag, index, foodId, setItem }) => {
+const Tag = ({ tag, index, foodId, setItem, restaurantKey }) => {
   const [isFocussed, setIsFocussed] = useState(false);
 
   const { removeFoodTag } = useRestaurant();
 
   const handleOnClick = async () => {
-    const removeFoodTagRes = await removeFoodTag(foodId, index);
+    const removeFoodTagRes = await removeFoodTag(foodId, index, restaurantKey);
     console.log('Remove Tag', removeFoodTagRes?.data);
     if (removeFoodTagRes?.data) {
       setItem(removeFoodTagRes.data);
