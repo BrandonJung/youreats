@@ -193,6 +193,30 @@ const RestaurantProvider = ({ children }) => {
     }
   };
 
+  const addFoodTag = async (foodId, foodTag) => {
+    try {
+      const addFoodTagRes = await apiCall(apiService.food, 'addFoodTag', 'post', {
+        foodId,
+        foodTag,
+      });
+      return addFoodTagRes;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const removeFoodTag = async (foodId, foodTagIndex) => {
+    try {
+      const removeFoodTagRes = await apiCall(apiService.food, 'removeFoodTag', 'post', {
+        foodId,
+        foodTagIndex,
+      });
+      return removeFoodTagRes;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     // This component will be used to encapsulate the whole App,
     // so all components will have access to the Context
@@ -209,6 +233,8 @@ const RestaurantProvider = ({ children }) => {
         updateFoodItemField,
         retrieveRestaurantById,
         updateRestaurantField,
+        addFoodTag,
+        removeFoodTag,
       }}>
       {children}
     </RestaurantContext.Provider>

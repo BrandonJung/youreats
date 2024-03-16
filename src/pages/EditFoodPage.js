@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { ScrollView, TouchableOpacity, View, Text, TextInput } from 'react-native';
+import { ScrollView, TouchableOpacity, View, Text, TextInput, Alert } from 'react-native';
 import ImagePlaceholder from '../components/ImagePlaceholder';
 import { launchImageLibrary } from 'react-native-image-picker';
 import ItemImage from '../components/ItemImage';
@@ -8,6 +8,7 @@ import EditPenIcon from '../components/EditPenIcon';
 import { calculateAverageRating } from '../constants/const_functions';
 import RatingStarText from '../components/RatingStarText';
 import { useRestaurant } from '../contexts/Restaurant';
+import Tag from '../components/Tag';
 
 const EditFoodPage = ({ navigation, route }) => {
   const { foodItem, restaurantKey } = route.params;
@@ -17,7 +18,7 @@ const EditFoodPage = ({ navigation, route }) => {
   const [newNameText, setNewNameText] = useState(item.name ?? null);
   const averageRating = calculateAverageRating(item.ratings);
 
-  const { updateFoodItemField } = useRestaurant();
+  const { updateFoodItemField, addFoodTag } = useRestaurant();
 
   const uploadPhoto = async () => {
     const fieldKey = 'imageURL';
@@ -71,6 +72,55 @@ const EditFoodPage = ({ navigation, route }) => {
         )}
       </>
     );
+  };
+
+  const AlertPrompt = (
+    title,
+    subtitle,
+    buttonCancelText,
+    buttonCancelAction,
+    buttonSubmitText,
+    buttonSubmitAction,
+  ) => {
+    return Alert.prompt(title, subtitle, [
+      {
+        text: buttonCancelText,
+        onPress: () => buttonCancelAction,
+        style: 'cancel',
+      },
+      {
+        text: buttonSubmitText,
+        onPress: (t) => {
+          buttonSubmitAction(t);
+          setAddFoodStep(addFoodStep + 1);
+        },
+      },
+    ]);
+  };
+
+  const addTag = () => {
+    const buttonSubmitAction = async (tagText) => {
+      const updatedFoodItem = await addFoodTag(item._id, tagText);
+      console.log('Add Tag', updatedFoodItem);
+      if (updatedFoodItem?.data) {
+        setItem(updatedFoodItem.data);
+      } else {
+        Alert.alert('Error adding tag', 'Please try again later');
+      }
+    };
+    Alert.prompt('Enter Tag', '', [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: 'Submit',
+        onPress: (t) => {
+          buttonSubmitAction(t);
+        },
+      },
+    ]);
   };
 
   return (
@@ -134,16 +184,44 @@ const EditFoodPage = ({ navigation, route }) => {
               </View>
             ) : null}
           </View>
-          <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 10 }}>Notes</Text>
+
+          {item?.notes?.length > 0 ? (
+            <View style={{ marginTop: 20 }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 10 }}>Notes</Text>
+              <Divider style={{ marginTop: 10 }} />
+              {item?.notes.map((note, index) => {
+                return (
+                  <View key={`note_${index}`} style={{ marginTop: 10 }}>
+                    <Text style={{ fontWeight: '600', fontSize: 15 }}>{note.eater}</Text>
+                    <Text style={{ marginTop: 4, marginLeft: 0 }}>{`- ${note.note}`}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          ) : null}
+        </View>
+
+        <View style={{ paddingHorizontal: 20, marginTop: 30 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: 18,
+              }}>
+              Tags
+            </Text>
+            <TouchableOpacity
+              onPress={() => addTag()}
+              style={{ justifyContent: 'center', alignItems: 'center', marginLeft: 6 }}>
+              <Text>+</Text>
+            </TouchableOpacity>
+          </View>
           <Divider style={{ marginTop: 10 }} />
-          {item?.notes.map((note, index) => {
-            return (
-              <View key={`note_${index}`} style={{ marginTop: 10 }}>
-                <Text style={{ fontWeight: '600', fontSize: 16 }}>{note.eater}</Text>
-                <Text style={{ marginTop: 4 }}>{`- ${note.note}`}</Text>
-              </View>
-            );
-          })}
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 6 }}>
+            {item?.tags?.map((tag, index) => {
+              return <Tag tag={tag} index={index} foodId={item._id} setItem={setItem} />;
+            })}
+          </View>
         </View>
       </View>
     </ScrollView>
