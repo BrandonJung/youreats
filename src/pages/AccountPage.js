@@ -1,106 +1,41 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useUser } from '../contexts/User';
-import { Alert, Text, TextInput, View } from 'react-native';
-import { Button } from 'react-native-paper';
-import { apiCall } from '../constants/const_functions';
-import { apiService } from '../constants/const_api';
+import { ScrollView, Text, View } from 'react-native';
+import AccountOption from '../components/AccountOption';
+import SocialIcon from '../components/SocialIcon';
 
 const AccountPage = ({ navigation }) => {
-  const { userData, createUser, retrieveUser } = useUser();
-  const [newFirstName, setNewFirstName] = useState(null);
-  const [newLastName, setNewLastName] = useState(null);
-  const [newEmail, setNewEmail] = useState(null);
-  const [newMobile, setNewMobile] = useState(null);
-  const [retrieveId, setRetrieveId] = useState(null);
-
-  const handleCreateUser = async () => {
-    if (!newFirstName) {
-      Alert.alert('Missing first name');
-    }
-    if (!newEmail) {
-      Alert.alert('Missing email');
-    }
-    const createUserRes = await createUser(newFirstName, newLastName, newEmail, newMobile);
-    if (createUserRes) {
-      navigation.navigate('HomePage');
-    } else {
-      Alert.alert('Error creating user');
-    }
-  };
-
-  const deleteAllUsers = async () => {
-    try {
-      const deleteAllUsersRes = await apiCall(apiService.user, 'deleteAllUsers', 'delete', {});
-      if (deleteAllUsersRes?.data?.deletedCount) {
-        Alert.alert('Deleted Count: ' + deleteAllUsersRes.data.deletedCount);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const { userData } = useUser();
 
   return (
-    <View>
-      {!userData ? (
-        <View style={{ padding: 20 }}>
-          <Text>First Name*</Text>
-          <TextInput
-            onChangeText={(t) => setNewFirstName(t)}
-            style={{
-              backgroundColor: '#FFFFFF',
-              height: 30,
-              borderColor: 'black',
-              borderWidth: 1,
-            }}
-          />
-          <Text>Last Name</Text>
-          <TextInput
-            onChangeText={(t) => setNewLastName(t)}
-            style={{
-              backgroundColor: '#FFFFFF',
-              height: 30,
-              borderColor: 'black',
-              borderWidth: 1,
-            }}
-          />
-
-          <Text>Email*</Text>
-          <TextInput
-            onChangeText={(t) => setNewEmail(t)}
-            style={{
-              backgroundColor: '#FFFFFF',
-              height: 30,
-              borderColor: 'black',
-              borderWidth: 1,
-            }}
-          />
-
-          <Text>Phone Number</Text>
-          <TextInput
-            onChangeText={(t) => setNewMobile(t)}
-            style={{
-              backgroundColor: '#FFFFFF',
-              height: 30,
-              borderColor: 'black',
-              borderWidth: 1,
-            }}
-          />
-          <Button onPress={() => handleCreateUser()}>Create User</Button>
-          <Button>Log Out</Button>
-          <TextInput
-            onChangeText={(t) => setRetrieveId(t)}
-            style={{
-              backgroundColor: '#FFFFFF',
-              height: 30,
-              borderColor: 'black',
-              borderWidth: 1,
-            }}
-          />
-          <Button>Search by ID</Button>
-          <Button onPress={() => deleteAllUsers()}>Delete all users</Button>
+    <ScrollView>
+      <View style={{ backgroundColor: 'black', width: '100%', height: 220 }}></View>
+      <View>
+        <AccountOption
+          title={userData ? 'My Account' : 'Log In'}
+          navigation={navigation}
+          navPage={userData ? 'AccountPage' : 'LoginPage'}
+        />
+        <AccountOption title={'Manage My Lists'} navigation={navigation} />
+        <AccountOption title={'Refer a Friend'} navigation={navigation} />
+        <AccountOption title={'Support'} navigation={navigation} />
+        {!userData ? <AccountOption title={'Log Out'} titleColor={'red'} noDivider /> : null}
+      </View>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>Follow for News & Updates</Text>
+        <View
+          style={{
+            marginTop: 14,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            width: '80%',
+          }}>
+          <SocialIcon />
+          <SocialIcon />
+          <SocialIcon />
         </View>
-      ) : null}
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 

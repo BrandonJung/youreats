@@ -13,6 +13,8 @@ import EditFoodPage from './src/pages/EditFoodPage';
 import { useColorScheme } from 'react-native';
 import { UserProvider } from './src/contexts/User';
 import AccountPage from './src/pages/AccountPage';
+import LoginPage from './src/pages/LoginPage';
+import SignupPage from './src/pages/SignupPage';
 
 const Stack = createNativeStackNavigator();
 const TopTabs = createMaterialTopTabNavigator();
@@ -109,7 +111,6 @@ const App = () => {
                 headerTitle: 'Add New Food',
               })}
             />
-
             <Stack.Screen
               name='EditFoodPage'
               component={EditFoodPage}
@@ -117,6 +118,24 @@ const App = () => {
                 headerShown: true,
                 headerTitle: '',
                 headerBackTitle: 'Food',
+              })}
+            />
+            <Stack.Screen
+              name='LoginPage'
+              component={LoginPage}
+              options={({ navigation, route }) => ({
+                headerShown: true,
+                headerTitle: 'Log In',
+                headerBackTitle: 'Account',
+              })}
+            />
+            <Stack.Screen
+              name='SignupPage'
+              component={SignupPage}
+              options={({ navigation, route }) => ({
+                headerShown: true,
+                headerTitle: 'Sign Up',
+                headerBackTitle: 'Login',
               })}
             />
           </Stack.Navigator>
