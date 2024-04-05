@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     // With bottom nav
     // bottom: 16,
     // right: 16,
-    bottom: 45,
+    bottom: 25,
     right: 30,
     backgroundColor: 'lightblue',
     width: 50,
