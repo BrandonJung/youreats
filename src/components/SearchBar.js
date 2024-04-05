@@ -4,14 +4,19 @@ import { SvgWithCssUri } from 'react-native-svg/css';
 
 const searchIconSize = 20;
 
-const SearchBar = ({ searchValue, setSearchValue, placeholderText = 'Search here' }) => {
+const SearchBar = ({
+  searchValue,
+  setSearchValue,
+  placeholderText = 'Search here',
+  bottomMargin = 20,
+}) => {
   return (
     <View
       style={{
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 20,
-        marginBottom: 20,
+        marginBottom: bottomMargin,
         marginHorizontal: 20,
       }}>
       <TextInput

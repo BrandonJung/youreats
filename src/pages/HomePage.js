@@ -73,10 +73,9 @@ const HomePage = ({ navigation }) => {
       <View
         style={{
           flexDirection: 'row',
-          // justifyContent: 'flex-end',
           alignItems: 'center',
-          marginTop: 20,
           marginRight: 20,
+          marginBottom: -20,
         }}>
         <View style={{ flex: 1 }}>
           <SearchBar
