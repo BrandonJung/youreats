@@ -124,6 +124,7 @@ const RestaurantProvider = ({ children }) => {
         const foodItemNotesArray = foodItem.notes.filter((n) => n.eater === eater);
         if (retObj[eater]) {
           retObj[eater].foods.push({
+            _id: foodItem._id,
             name: foodItem.name,
             ratings: foodItemRatingsArray,
             notes: foodItemNotesArray,

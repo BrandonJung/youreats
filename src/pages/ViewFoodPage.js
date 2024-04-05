@@ -73,7 +73,7 @@ const ViewFoodPage = ({ navigation, restaurantKey }) => {
             />
           );
         }}
-        keyExtractor={(item) => item.key}
+        keyExtractor={(item) => item._id}
       />
     </View>
   );

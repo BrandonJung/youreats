@@ -10,8 +10,13 @@ import SearchBar from '../components/SearchBar';
 const ViewPeoplePage = ({ navigation }) => {
   const { selectedPeopleList } = useRestaurant();
   const [searchValue, setSearchValue] = useState('');
-  const masterPeopleFoodList = selectedPeopleList;
   const [peopleFoodList, setPeopleFoodList] = useState(selectedPeopleList);
+  const [masterPeopleFoodList, setMasterPeopleList] = useState(selectedPeopleList);
+
+  useEffect(() => {
+    setPeopleFoodList(selectedPeopleList);
+    setMasterPeopleList(selectedPeopleList);
+  }, [selectedPeopleList]);
 
   const handleSearch = (passedSearchValue) => {
     if (passedSearchValue === null || passedSearchValue === '') {
@@ -69,7 +74,7 @@ const ViewPeoplePage = ({ navigation }) => {
                 {item.foods.map((food, index) => {
                   const averageRating = calculateAverageRating(food.ratings);
                   return (
-                    <View key={`${item.eater}_${food._id}`} style={{ marginBottom: 10 }}>
+                    <View key={food._id} style={{ marginBottom: 10 }}>
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{ fontWeight: '600' }}>{food.name}</Text>
                         {!isNaN(averageRating) ? <RatingStarText rating={averageRating} /> : null}
