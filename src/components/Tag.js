@@ -17,6 +17,7 @@ const Tag = ({ tag, index, foodId, setItem, restaurantKey }) => {
 
   return (
     <View
+      id={index}
       style={{
         marginRight: 8,
         borderColor: 'grey',
