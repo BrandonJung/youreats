@@ -12,7 +12,7 @@ const OptionsButton = ({ setShowOptions, showOptions }) => {
 const styles = StyleSheet.create({
   addButton: {
     position: 'absolute',
-    // With bottom nav
+    // Without bottom nav
     // bottom: 16,
     // right: 16,
     bottom: 25,
