@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "634531188294",
+    "project_id": "youreats-7de23",
+    "storage_bucket": "youreats-7de23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634531188294:android:2518a18635a90170c50447",
+        "android_client_info": {
+          "package_name": "com.youreats"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4CFFIhOod82Imno4ugyhvzXD80nzowR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
