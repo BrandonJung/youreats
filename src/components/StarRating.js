@@ -15,7 +15,7 @@ const StarRating = ({ rating, setRating }) => {
           uri={filledStarURL}
           width={starRatingSize}
           height={starRatingSize}
-          fill={rating >= passedRating ? 'yellow' : '#F6F6F6'}
+          fill={rating >= passedRating ? '#FFe16F' : '#F6F6F6'}
           stroke={'black'}
           strokeWidth={2}
           style={{ marginLeft: marginLeftAmount }}
