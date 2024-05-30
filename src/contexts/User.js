@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { GetFromStorage, StoreData, apiCall } from '../constants/const_functions';
+import {
+  GetFromStorage,
+  RemoveFromStorage,
+  StoreData,
+  apiCall,
+} from '../constants/const_functions';
 import { apiService } from '../constants/const_api';
 
 // Create the RestaurantContext with the data type specified
@@ -13,7 +18,7 @@ const UserProvider = ({ children }) => {
     retrieveUser();
   }, []);
 
-  const createUser = async (firstName, lastName, mobile, email) => {
+  const createUser = async (firstName, lastName, email, mobile) => {
     try {
       const userRes = await apiCall(apiService.user, 'createUser', 'post', {
         firstName,
@@ -36,11 +41,8 @@ const UserProvider = ({ children }) => {
     }
   };
 
-  const retrieveUser = async (passedUserId = null) => {
+  const retrieveUser = async (passedUserId) => {
     let userId = passedUserId;
-    if (!passedUserId) {
-      userId = await GetFromStorage('userId');
-    }
     if (userId) {
       try {
         const res = await apiCall(apiService.user, 'retrieveUserByUserId', 'get', {
@@ -48,7 +50,6 @@ const UserProvider = ({ children }) => {
         });
         if (res?.data) {
           console.log('RetrieveRes: ', res.data);
-          StoreData('userId', res?.data?._id);
           setUserData(res?.data);
           return res.data;
         } else {
@@ -57,6 +58,36 @@ const UserProvider = ({ children }) => {
       } catch (e) {
         console.log(e);
       }
+    }
+  };
+
+  const loginUser = async (passedUserName) => {
+    let userName = passedUserName;
+    if (userName) {
+      try {
+        const res = await apiCall(apiService.user, 'loginUserByUsername', 'get', {
+          userName,
+        });
+        if (res?.data) {
+          console.log('LoginRes:', res.data);
+          setUserData(res?.data);
+          return { ...res.data, success: true };
+        } else {
+          return { success: false, message: 'No user found' };
+          console.log(res.message);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
+  const logoutUser = async () => {
+    try {
+      setUserData(null);
+      const deleteLocalUser = await RemoveFromStorage('userName');
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -69,6 +100,8 @@ const UserProvider = ({ children }) => {
         setUserData,
         retrieveUser,
         createUser,
+        logoutUser,
+        loginUser,
       }}>
       {children}
     </UserContext.Provider>

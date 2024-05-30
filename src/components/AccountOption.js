@@ -1,13 +1,17 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Divider } from 'react-native-paper';
+import { useUser } from '../contexts/User';
 
 const AccountOption = ({ title, titleColor = 'black', navPage, noDivider = false, navigation }) => {
+  const { logoutUser } = useUser();
   return (
     <View>
       <TouchableOpacity
         onPress={() => {
-          if (navPage) {
+          if (title === 'Log Out') {
+            logoutUser();
+          } else if (navPage) {
             navigation.navigate(navPage);
           }
         }}

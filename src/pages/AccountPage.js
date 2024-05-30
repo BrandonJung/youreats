@@ -19,7 +19,7 @@ const AccountPage = ({ navigation }) => {
         <AccountOption title={'Manage My Lists'} navigation={navigation} />
         <AccountOption title={'Refer a Friend'} navigation={navigation} />
         <AccountOption title={'Support'} navigation={navigation} />
-        {!userData ? <AccountOption title={'Log Out'} titleColor={'red'} noDivider /> : null}
+        {userData ? <AccountOption title={'Log Out'} titleColor={'red'} noDivider /> : null}
       </View>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
         <Text style={{ fontWeight: 'bold', fontSize: 16 }}>Follow for News & Updates</Text>

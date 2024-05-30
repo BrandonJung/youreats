@@ -6,7 +6,7 @@ import { useUser } from '../contexts/User';
 import AccountTextInput from '../components/AccountTextInput';
 
 const SignupPage = ({ navigation }) => {
-  const { userData, createUser, retrieveUser } = useUser();
+  const { userData, createUser } = useUser();
 
   const [newFirstName, setNewFirstName] = useState(null);
   const [newLastName, setNewLastName] = useState(null);
