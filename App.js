@@ -1,5 +1,5 @@
-import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import React, { useState } from 'react';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import React from 'react';
 import HomePage from './src/pages/HomePage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ViewFoodPage from './src/pages/ViewFoodPage';
@@ -10,27 +10,38 @@ import ViewPeoplePage from './src/pages/ViewPeoplePage';
 import AddFoodPage from './src/pages/AddFoodPage';
 import { RestaurantProvider } from './src/contexts/Restaurant';
 import EditFoodPage from './src/pages/EditFoodPage';
-import { useColorScheme } from 'react-native';
 import { UserProvider } from './src/contexts/User';
 import AccountPage from './src/pages/AccountPage';
 import LoginPage from './src/pages/LoginPage';
 import SignupPage from './src/pages/SignupPage';
+import { SvgWithCssUri } from 'react-native-svg/css';
+import { Text } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 const TopTabs = createMaterialTopTabNavigator();
 const BottomTabs = createMaterialBottomTabNavigator();
+
+const HomeIcon = 'https://youreats.s3.amazonaws.com/icons/home.svg';
+const AccountIcon = 'https://youreats.s3.amazonaws.com/icons/account.svg';
+const tabIconSize = 26;
+const backgroundColor = '#d6ce9b';
 
 const HomeTabs = () => {
   return (
     <BottomTabs.Navigator
       initialRouteName='HomePage'
       shifting={false}
-      barStyle={{ backgroundColor: '#FFFFFF' }}
+      barStyle={{ backgroundColor: backgroundColor, borderTopColor: 'red', borderTopWidth: 1 }}
       screenOptions={{ headerShown: true }}>
       <BottomTabs.Screen
         name='HomePage'
         component={HomePage}
-        options={({ navigation, route }) => ({ title: 'Home' })}
+        options={({ navigation, route }) => ({
+          title: <Text>{'Home'}</Text>,
+          tabBarIcon: ({ focused, color, size }) => (
+            <SvgWithCssUri uri={HomeIcon} width={tabIconSize} height={tabIconSize} />
+          ),
+        })}
       />
       {/* <BottomTabs.Screen
         name='CameraPage'
@@ -40,7 +51,12 @@ const HomeTabs = () => {
       <BottomTabs.Screen
         name='Account'
         component={AccountPage}
-        options={({ navigation, route }) => ({ title: 'Account' })}
+        options={({ navigation, route }) => ({
+          title: <Text>{'Account'}</Text>,
+          tabBarIcon: ({ focused, color, size }) => (
+            <SvgWithCssUri uri={AccountIcon} width={tabIconSize} height={tabIconSize} />
+          ),
+        })}
       />
     </BottomTabs.Navigator>
   );
@@ -76,11 +92,19 @@ const RestaurantTabs = ({ navigation, route }) => {
 };
 
 const App = () => {
-  const colorScheme = useColorScheme();
+  const theme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: backgroundColor,
+      secondaryContainer: 'red',
+      // secondaryContainer: 'transparent', // Use transparent to disable the little highlighting oval
+    },
+  };
   return (
     <UserProvider>
       <RestaurantProvider>
-        <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <NavigationContainer theme={theme}>
           <Stack.Navigator
             initialRouteName='HomeTabs'
             screenOptions={({ navigation, route }) => ({
