@@ -16,6 +16,7 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     retrieveUser();
+    loginUser();
   }, []);
 
   const createUser = async (firstName, lastName, email, mobile) => {
@@ -63,6 +64,10 @@ const UserProvider = ({ children }) => {
 
   const loginUser = async (passedUserName) => {
     let userName = passedUserName;
+    const storedUserName = await GetFromStorage('userName');
+    if (!userName && storedUserName) {
+      userName = storedUserName;
+    }
     if (userName) {
       try {
         const res = await apiCall(apiService.user, 'loginUserByUsername', 'get', {
@@ -71,6 +76,7 @@ const UserProvider = ({ children }) => {
         if (res?.data) {
           console.log('LoginRes:', res.data);
           setUserData(res?.data);
+          StoreData('userName', userName);
           return { ...res.data, success: true };
         } else {
           return { success: false, message: 'No user found' };
