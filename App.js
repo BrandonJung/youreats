@@ -24,14 +24,18 @@ const BottomTabs = createMaterialBottomTabNavigator();
 const HomeIcon = 'https://youreats.s3.amazonaws.com/icons/home.svg';
 const AccountIcon = 'https://youreats.s3.amazonaws.com/icons/account.svg';
 const tabIconSize = 26;
-const backgroundColor = '#d6ce9b';
+const backgroundColor = '#EFEFEF';
 
 const HomeTabs = () => {
   return (
     <BottomTabs.Navigator
       initialRouteName='HomePage'
       shifting={false}
-      barStyle={{ backgroundColor: backgroundColor, borderTopColor: 'red', borderTopWidth: 1 }}
+      barStyle={{
+        backgroundColor: backgroundColor,
+        borderTopColor: 'lightgrey',
+        borderTopWidth: 1,
+      }}
       screenOptions={{ headerShown: true }}>
       <BottomTabs.Screen
         name='HomePage'
@@ -97,7 +101,6 @@ const App = () => {
     colors: {
       ...DefaultTheme.colors,
       background: backgroundColor,
-      secondaryContainer: 'red',
       // secondaryContainer: 'transparent', // Use transparent to disable the little highlighting oval
     },
   };
