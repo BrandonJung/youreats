@@ -20,6 +20,10 @@ const RestaurantProvider = ({ children }) => {
     if (userData && !retrievedData) {
       retrieveRestaurants();
     }
+    if (!userData) {
+      setRestaurantsData([]);
+      setRetrievedData(false);
+    }
   }, [userData]);
 
   useEffect(() => {
